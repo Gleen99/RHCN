@@ -1,0 +1,59 @@
+{
+    environment: "production",
+    mainPort: 41104,
+    debug: false,
+
+    database: {
+        mongo: {
+            host: "127.0.0.1",
+            database: "repo",
+            port: 27017,
+            user: "",
+            password: "",
+            mongoOptions: {
+                directConnection: true,
+                serverSelectionTimeoutMS: 2000
+            }
+        },
+    },
+    modes: {
+        api: {
+            activated: true
+        },
+        queue: {
+            activated: false
+        }
+    },
+    email: {
+        passthrough: null,
+        forceTo: false,
+        defaultSender: "repo <contact@repo.com>",
+        adminRecipients: [
+            "contact@repo.com"
+        ],
+        extraData: {
+            _apiUrl: "https://api.repo.com",
+            _cdnUrl: "https://api.repo.com/static",
+            _frontUrl: "https://app.repo.com",
+            _boUrl: "https://bo.repo.com"
+        },
+        server: {
+            host: "smtp-relay.brevo.com",
+            port: 465,  // 587,
+            secure: true,
+            auth: {
+                user: "",
+                pass: ""
+            }
+        },
+        apiKey: ""
+    },
+    notificationDB: {
+        extraData: {
+            _apiUrl: "https://api.repo.com",
+            _cdnUrl: "https://api.repo.com/static",
+            _frontUrl: "https://app.repo.com",
+            _boUrl: "https://bo.repo.com"
+        }
+    }
+}

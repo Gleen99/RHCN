@@ -1,0 +1,41 @@
+{
+  "environment": "staging",
+  "debug": true,
+  "dbLogger": true,
+  "logLevel": "info",
+  "logAsToken": "LOGASTOKENSTAGING",
+  "authSecret": "AUTH_SECRET_STAGING",
+  "server": {
+    "port": 41101,
+    "api": {
+      "version": "1.0",
+      "autoDiscoveryPath": "%api%/dist/back/api/src/controllers"
+    },
+    "CORS_ALLOW_ORIGIN": "https://staging.repo.com",
+    "JSON_SIZE_LIMIT": "50mb",
+    "uploads": {
+      "environment": ["development", "staging", "production"],
+      "path": "%project%/uploads",
+      "temp": "temp"
+    }
+  },
+  "database": {
+    "mongo": {
+      "host": "mongodb-staging.repo.com",
+      "database": "repo_staging",
+      "port": 27017,
+      "user": "repo_staging_user",
+      "password": "staging_password",
+      "mongoOptions": {
+        "directConnection": true,
+        "serverSelectionTimeoutMS": 2000
+      }
+    }
+  },
+  "services": {
+    "front": "https://staging.repo.com",
+    "api": "https://api-staging.repo.com/1.0",
+    "bo": "https://bo-staging.repo.com",
+    "notifier": "https://notifier-staging.repo.com"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "environment": "production",
+  "debug": false,
+  "dbLogger": false,
+  "logLevel": "error",
+  "logAsToken": "LOGASTOKENPRODUCTION",
+  "authSecret": "AUTH_SECRET_PROD",
+  "server": {
+    "port": 41101,
+    "api": {
+      "version": "1.0",
+      "autoDiscoveryPath": "%api%/dist/back/api/src/controllers"
+    },
+    "CORS_ALLOW_ORIGIN": "https://www.repo.com",
+    "JSON_SIZE_LIMIT": "50mb",
+    "uploads": {
+      "environment": ["development", "staging", "production"],
+      "path": "%project%/uploads",
+      "temp": "temp"
+    }
+  },
+  "database": {
+    "mongo": {
+      "host": "mongodb-production.repo.com",
+      "database": "repo_prod",
+      "port": 27017,
+      "user": "repo_prod_user",
+      "password": "prod_password",
+      "mongoOptions": {
+        "directConnection": true,
+        "serverSelectionTimeoutMS": 2000
+      }
+    }
+  },
+  "services": {
+    "front": "https://www.repo.com",
+    "api": "https://api.repo.com/1.0",
+    "bo": "https://bo.repo.com",
+    "notifier": "https://notifier.repo.com"
+  }
+}

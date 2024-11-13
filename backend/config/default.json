@@ -1,0 +1,41 @@
+{
+  "environment": "development",
+  "debug": true,
+  "dbLogger": true,
+  "logLevel": "debug",
+  "logAsToken": "LOGASTOKENLOCAL",
+  "authSecret": "AUTH_SECRET_DEV",
+  "server": {
+    "port": 41101,
+    "api": {
+      "version": "1.0",
+      "autoDiscoveryPath": "%api%/dist/back/api/src/controllers"
+    },
+    "CORS_ALLOW_ORIGIN": "*",
+    "JSON_SIZE_LIMIT": "50mb",
+    "uploads": {
+      "environment": ["development", "staging", "production"],
+      "path": "%project%/uploads",
+      "temp": "temp"
+    }
+  },
+  "database": {
+    "mongo": {
+      "host": "mongodb://localhost:27017/",
+      "database": "rhcn_dev",
+      "port": 27017,
+      "user": "",
+      "password": "",
+      "mongoOptions": {
+        "directConnection": true,
+        "serverSelectionTimeoutMS": 2000
+      }
+    }
+  },
+  "services": {
+    "front": "http://localhost:41101",
+    "api": "http://localhost:41101/1.0",
+    "bo": "http://localhost:41102",
+    "notifier": "http://localhost:41103"
+  }
+}
