@@ -64,3 +64,6 @@ export enum SortOrder {
 	random = "random",
 	none = "none"
 }
+export enum NotificationType{
+	firstRecipeCreated= "firstRecipeCreated"
+}

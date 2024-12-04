@@ -9,13 +9,13 @@
     "port": 41101,
     "api": {
       "version": "1.0",
-      "autoDiscoveryPath": "%api%/dist/back/api/src/controllers"
+      "autoDiscoveryPath": "dist/backend/src/controllers"
     },
     "CORS_ALLOW_ORIGIN": "*",
-    "JSON_SIZE_LIMIT": "50mb",
+    "JSON_SIZE_LIMIT": "200mb",
     "uploads": {
       "environment": ["development", "staging", "production"],
-      "path": "%project%/uploads",
+      "path": "uploads",
       "temp": "temp"
     }
   },
@@ -33,8 +33,8 @@
     }
   },
   "services": {
-    "front": "http://localhost:41101",
-    "api": "http://localhost:41101/1.0",
+    "front": "http://localhost:41100",
+    "api": "http://localhost:41101",
     "bo": "http://localhost:41102",
     "notifier": "http://localhost:41103"
   }

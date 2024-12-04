@@ -2,7 +2,8 @@ import type {objectId, timestamp} from "./baseTypes";
 import {NotificationType, SortOrder} from "./enums";
 
 export * from "./baseTypes";
-export * from "./crudTypes";
+export * from "./modelTypes";
+export * from "./baseTypes";
 
 // ----------------------------------------------------------------------------
 // Notifications

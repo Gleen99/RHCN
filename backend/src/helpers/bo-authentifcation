@@ -1,0 +1,5 @@
+// Fonction pour valider le nouveau mot de passe
+export const validatePassword = (password: string): boolean => {
+  const regex = /^(?=.*[A-Z].*[A-Z])(?=.*\d.*\d)(?=.*[\W_].*[\W_]).{8,}$/;
+  return regex.test(password);
+};

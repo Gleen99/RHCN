@@ -16,12 +16,13 @@ export interface IContact {
 	lastname: string
 	message: string
 	email?: string
-	phone?: string
 	type: ContactType
 	data?: any
 }
 export interface IContactDB extends IContact, DB {}
-
+export interface IUser {
+}
+export interface IUserDB extends IUser, DB {}
 export interface LegalImage {
 	path: string
 	size?: number
@@ -71,6 +72,7 @@ export interface Picture {
 export interface IUser extends Person {
 	email: string
 	password?: string
+	currentAccountId?: objectId
 	picture?: Picture
 	termsAccepted: boolean
 	marketingAccepted: boolean
@@ -81,10 +83,18 @@ export interface IUser extends Person {
 }
 export interface IUserDB extends IUser, DB {}
 
-export interface IFaq {
-	title: string
-	text: string
-	rank: number
-	highlighted?: boolean
+export interface NotificationItem {
+	userId?: objectId
 }
-export interface IFaqDB extends IFaq, DB {}
+export interface INotification {
+	text?: string
+	title?: string
+	link?: string
+	type: NotificationType
+	// items?: NotificationItem
+	data: any
+	level: NotificationLevel
+	status: NotificationStatus
+	terminationTimestamp?: timestamp
+}
+export interface INotificationDB extends INotification, DB {}
