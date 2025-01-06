@@ -15,10 +15,7 @@
   "@shared/*": ["../../..shared/*"],
 }
   },
-  "include": [
-    "src/**/*",
-    "scripts/**/*"
-  ],
+  
   "exclude": [
     "migrations",
     "node_modules",

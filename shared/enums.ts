@@ -36,6 +36,13 @@ export enum NotificationStatus {
 	terminated = 'terminated',
 	archived = "archived"
 }
+export enum InvitationStatus {
+    PENDING = "pending", 
+    ACCEPTED = "accepted", 
+    EXPIRED = "expired", 
+    CANCELLED = "cancelled", 
+}
+
 
 export enum NotificationType {
 	userForgotPassword = "userForgotPassword",

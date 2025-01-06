@@ -11,24 +11,13 @@ export interface IBouser {
 }
 export interface IBouserDB extends IBouser, DB {}
 
-export interface Picture {
-	path: string
-	mimetype?: string
-	thumbnail?: string
-}
 
 export interface IUser {
 	email: string
-	password?: string
+	password: string
 	firstname: string
+	role: string
 	lastname: string
-	picture?: Picture
-	termsAccepted: boolean
-	marketingAccepted: boolean
-	token?: string
-	tokenExpire?: timestamp
-	resetToken?: string
-	resetTokenExpire?: timestamp
 }
 export interface IUserDB extends IUser, DB {}
 

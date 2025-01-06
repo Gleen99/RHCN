@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import bcrypt from "bcryptjs";
 
 const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
@@ -15,3 +16,7 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
 };
 
 export default authMiddleware;
+export function comparePassword(password: string, data: any, propertyPassword: string): boolean {
+    let savedPassword = data[propertyPassword];
+    return bcrypt.compareSync(password, savedPassword);
+}

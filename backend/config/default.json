@@ -4,7 +4,8 @@
   "dbLogger": true,
   "logLevel": "debug",
   "logAsToken": "LOGASTOKENLOCAL",
-  "authSecret": "AUTH_SECRET_DEV",
+  "JWT_SECRET": "",
+  
   "server": {
     "port": 41101,
     "api": {
@@ -17,8 +18,15 @@
       "environment": ["development", "staging", "production"],
       "path": "uploads",
       "temp": "temp"
+    },
+    "auth": {
+      "secret": "%ASSO%.RNCH%µ!2024?µ!",
+      "logAsToken": "LOGASTOKENLOCAL"
     }
   },
+ 
+
+  
   "database": {
     "mongo": {
       "host": "mongodb://localhost:27017/",
@@ -32,6 +40,33 @@
       }
     }
   },
+  
+  "email": {
+    "passthrough": ".*?@((gmail\\.com)|(rnch\\.fr))",
+    "forceTo": false,
+    "defaultSender": "rnch <gleencpro@gmail.com>",
+    "defaultName": "rnch",
+    "adminRecipients": [
+      "tech@rnch.fr"
+    ],
+    "extraData": {
+      "_frontUrl": "http://localhost:41100",
+      "_apiUrl": "http://localhost:41101",
+      "_cdnUrl": "http://localhost:41101/static",
+      "_boUrl": "http://localhost:41102",
+      "contactEmail": "contact@rnch.fr"
+    },
+    "server": {
+      "host": "in-v3.mailjet.com",
+      "port": 465,
+      "secure": true,
+      "auth": {
+        "MJ_APIKEY_PUBLIC": "77c65e6761b77d567436d7633c37cb45",
+        "MJ_APIKEY_PRIVATE": "4a1c96c655727d4f8e655c81138f49bd"
+      }
+    }
+  },
+  
   "services": {
     "front": "http://localhost:41100",
     "api": "http://localhost:41101",

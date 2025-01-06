@@ -1,8 +1,8 @@
 import { Controller, HttpMethod } from "../../helpers/controller";
 import { Request, Response } from "express";
-import bcrypt from "bcryptjs";
 import { db } from "../../helpers/IDatabase";
 import {v4 as uuid} from "uuid";
+import { comparePassword } from "../../../src/helpers/authMiddleware";
 
 export default class Login extends Controller {
     public method = HttpMethod.post; 
@@ -51,10 +51,4 @@ export default class Login extends Controller {
         }
     }
 };
-
-// Helper function to compare passwords
-function comparePassword(password: string, data: any, propertyPassword: string): boolean {
-    let savedPassword = data[propertyPassword];
-    return bcrypt.compareSync(password, savedPassword);
-}
 

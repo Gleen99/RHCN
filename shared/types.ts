@@ -1,8 +1,8 @@
 import type {objectId, timestamp} from "./baseTypes";
+import { IUserDB } from "./crudTypes";
 import {NotificationType, SortOrder} from "./enums";
 
 export * from "./baseTypes";
-export * from "./modelTypes";
 export * from "./baseTypes";
 
 // ----------------------------------------------------------------------------
@@ -49,3 +49,9 @@ export type PaginationOption = {
     offset?: number
     limit?: number
 }
+
+export interface GetAllUsersResponse {
+    success: boolean;
+    users: IUserDB[];
+  }
+  

@@ -1,7 +1,7 @@
 // noinspection JSUnusedGlobalSymbols
 
 import type {timestamp, objectId, DB, price} from "./baseTypes"
-import {ContactType, LegalType, NotificationType, NotificationLevel, NotificationStatus} from "./enums";
+import {ContactType, LegalType, NotificationType, NotificationLevel, NotificationStatus, InvitationStatus} from "./enums";
 
 export interface IBouser {
 	username: string
@@ -20,9 +20,123 @@ export interface IContact {
 	data?: any
 }
 export interface IContactDB extends IContact, DB {}
+
 export interface IUser {
+	email: string
+	password?: string
+	firstname: string
+	role: string
+	lastname: string
+	InvitationId?: objectId
+	stripeId?: string
+	customerStripeId?: string
+	paymentConfigurationCompleted?: boolean
+	token?: string
+	tokenExpire?: timestamp
+	resetToken?: string
+	resetTokenExpire?: timestamp
+	firstRecipeCreated?: boolean
 }
 export interface IUserDB extends IUser, DB {}
+
+export interface IInvitation{
+	firstname: string
+	role: string
+	lastname: string
+	email: string
+	invitationToken: string,
+	invitationExpire: Date,
+	status: InvitationStatus,
+}
+export interface IInvitationDB extends IInvitation, DB {}
+
+export interface  IFaqContent {
+    question: string;
+    answer: string;
+}
+export interface  IFaq {
+	en: IFaqContent;
+	fr:IFaqContent;
+}
+
+export interface IFaqDB extends IFaq, DB {}
+
+export interface Picture {
+	path: string
+	thumbnail?: string
+	mimetype?: string
+}
+
+export interface  IMember {
+	firstname: string;
+	lastname:string;
+	titre: string; 
+	picture: Picture
+}
+
+export interface IMemberDB extends IMember, DB {}
+export interface ArticleContent {
+    blockName: string;
+    text?: string;
+    image?: Picture & { position?: "left" | "right" | "center" };
+    link?: { url: string; openInNewTab: boolean };
+    isList?: boolean;
+    listItems?: string[];
+    size?: "small" | "medium" | "large";
+    structuration?: string;
+}
+
+export interface IArticle{
+	title: string
+	slug: string
+	mainPicture?: Picture
+	author?: string
+	categories: ICategoryContent[]
+	published: boolean
+	content: ArticleContent[]
+}
+export interface  IArticleDB extends IArticle, DB {}
+interface IEvent {
+	title: string;
+	date: timestamp
+	time: timestamp
+	address: string;
+	description: string;
+	price: string;
+	categories: ICategoryContent[]
+	mainPicture?: Picture
+}
+export interface  IEventDB extends IEvent, DB {}
+export interface ICategoryContent{
+	category : string[];
+}
+export interface ICategorie{
+	type: string | string[];
+	en: ICategoryContent;
+	fr:ICategoryContent;
+}
+export interface  ICategorieDB extends ICategorie, DB {}
+export interface IListImage{
+	title: string
+	date: timestamp
+	mainPicture: Picture
+	author?: string
+	categories: string
+	published: boolean
+}
+export interface IListImageDB extends IListImage, DB {}
+
+
+export interface IContact {
+	name: string
+	message: string
+	email?: string
+	phone?: string
+	type: ContactType
+	data?: any
+}
+export interface IContactDB extends IContact, DB {}
+
 export interface LegalImage {
 	path: string
 	size?: number
@@ -58,30 +172,12 @@ export interface INotification {
 }
 export interface INotificationDB extends INotification, DB {}
 
-export interface Person {
-	firstname: string
-	lastname: string
-}
 
 export interface Picture {
 	path: string
 	thumbnail?: string
 	mimetype?: string
 }
-
-export interface IUser extends Person {
-	email: string
-	password?: string
-	currentAccountId?: objectId
-	picture?: Picture
-	termsAccepted: boolean
-	marketingAccepted: boolean
-	token?: string
-	tokenExpire?: timestamp
-	resetToken?: string
-	resetTokenExpire?: timestamp
-}
-export interface IUserDB extends IUser, DB {}
 
 export interface NotificationItem {
 	userId?: objectId
@@ -91,7 +187,6 @@ export interface INotification {
 	title?: string
 	link?: string
 	type: NotificationType
-	// items?: NotificationItem
 	data: any
 	level: NotificationLevel
 	status: NotificationStatus

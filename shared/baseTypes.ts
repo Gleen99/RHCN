@@ -1,3 +1,4 @@
+import { IUserDB } from "./crudTypes";
 import {AnalyticsType, DBState} from "./enums";
 
 export type timestamp = number;
@@ -32,3 +33,8 @@ export interface AnalyticsData {
     action: string
     data?: any
 }
+export interface GetAllUsersResponse {
+    success: boolean;
+    users: IUserDB[];
+  }
+  
