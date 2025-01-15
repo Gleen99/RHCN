@@ -6,7 +6,7 @@ import path from "path";
 import fs from "fs/promises";
 import { mkdirp } from "mkdirp";
 import authMiddleware from "./authMiddleware";
-import { apiPath, backPath, projectPath } from "./commons";
+import {apiPath, backPath, projectPath} from "./commons";
 
 
 export function expressInit(): Application {

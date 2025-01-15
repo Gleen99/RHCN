@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "51101:41101"
+    volumes:
+      - ./backend:/usr/src/app
+      - ../shared:/usr/src/shared
+    environment:
+      NODE_ENV: staging
+      JWT_SECRET: AUTH_SECRET_STAGING
+      DB_HOST: mongodb-staging.rhcn.com
+      DB_PORT: 27017
+      DB_NAME: repo_staging
+    depends_on:
+      - mongodb
+    env_file:
+      - .env.staging
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80" # Le port 80 est exposé pour accéder via https://staging.rhcn.com
+    volumes:
+      - ./frontend:/usr/src/app
+      - ../shared:/usr/src/shared
+    environment:
+      - VITE_API_URL=${VITE_API_URL}
+      - VITE_FRONT_URL=${VITE_FRONT_URL}
+      - VITE_API_STATIC_URL=${VITE_API_STATIC_URL}
+    env_file:
+      - .env.staging
+
+  mongodb:
+    image: mongo:5
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:

@@ -32,8 +32,8 @@ async function addEmailToMailjetContactList(email: string, contactListId: string
     try {
         const mailjet = new Client({
 
-            apiKey: config.get("email.server.auth.user") ,
-            apiSecret: config.get("email.server.auth.pass")
+            apiKey: config.get("email.server.auth.MJ_APIKEY_PUBLIC") ,
+            apiSecret: config.get("email.server.auth.MJ_APIKEY_PRIVATE")
         });
 
         let contactId: number;

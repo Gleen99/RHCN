@@ -1,0 +1,130 @@
+@use 'sass:math';
+// --- Fonts
+
+$Roboto: 'Finlandica', sans-serif;
+$Arial: 'Sitka Display', sans-serif;
+
+
+$fthin: 100;
+$fextralight: 200;
+$flight: 300;
+$fregular: 400;
+$fmedium: 500;
+$fsemibold: 600;
+$fbold: 700;
+$fextrabold: 800;
+$fblack: 900;
+
+// Font Size
+$fsbig: 60px;
+$fslarge: 25px;
+$fsmedium: 18px;
+$fsregular: 13px;
+$fssmall: 11px;
+
+// responsive
+$breakpoint-mobile : 0px;
+$breakpoint-tablet : 768px;
+$breakpoint-desktop : 1023px;
+$breakpoint-wide : 1350px;
+
+// --- Colors
+// main
+$cblack: #000000;
+$cwhite: #FFFFFF;
+
+$cmainBackground: #FFFFFF;
+$cmainColor: #000000;
+$cdimColor: #808080;
+$ctitleColor: #000000;
+
+// buttons
+$cmainButtonBackground: #000000;
+$cmainButtonText: #FFFFFF;
+$cmainButtonHoverBackground: #505050;
+$cmainButtonHoverText: #FFFFFF;
+
+// global
+$cerror: #b91414;
+$csuccess: #66c21a;
+$cborder: #A8A8A8;
+
+// modal
+$cmodalOverlay: rgba(0, 0, 0, 0.85);
+$cmodalBorder: #FFFFFF;
+$cmodalBackground: #FFFFFF;
+$cmodalClose: #000000;
+$cmodalTitle: #000000;
+
+// box
+$cboxBackground: #FFFFFF;
+$cboxBorder: $cborder;
+$cboxTitle: #000000;
+$cboxHover: $cborder;
+$cboxLightBackground: #FFFFFF;
+
+// forms
+$cformLabel: #000000;
+$cformMandatory: #ef471e;
+$cformExtra: #A8A8A8;
+$cformText: black;
+$cformPlaceholder: #A8A8A8;
+$fsform: $fsregular;
+$cformPictureDragging: $csuccess;
+
+// --- Effects
+$shadow: 0px 5px 10px 10px rgba(0, 0, 0, 0.1);
+
+// --- Dimensions
+$gap: 30px;
+$gap2: 15px;
+$gap3: 10px;
+$padding: 10px;
+$hafPadding: 5px;
+$doublePadding: 20px;
+$triplePadding: 30px;
+$mediumBlue: #3761ED;
+$almost-white-blue: #F5F6FD;
+$mediumlightGray: #586786;
+$cgray: #000;
+$lightGray: #F5F6FD;
+$lightGrayes: #2E416866;
+$lightskyBlue: #DBE3FF;
+$transparentGreenGray : #2E416833;
+$transparentLightGreenGray : #2E4168;
+$lightBlueGray: #DCDCE3;
+$fondMarronFonce: #5C4F37;
+$radius: 50px;
+
+$publicMenuHeight: 100px;
+$publicFooterHeight: 183px;
+$appMenuHeight: 100px;
+$appFooterHeight: 43px;
+//admin
+$background-color: #f5f5f5;
+$container-background: white;
+$text-color: #333;
+$text-secondary-color: #555;
+$input-border-color: #ccc;
+$input-focus-border-color: #007bff;
+$button-background: #007bff;
+$button-hover-background: #0056b3;
+$box-shadow-color: rgba(0, 0, 0, 0.1);
+$box-shadow: 0px 3px 6px #00000029;
+//Site
+$cdark-gray: #334155; 
+$cteal-dark: #00353D; 
+$cblack-gray: #212020; 
+$clight-gray: #D7DFE7; 
+$cextra-light-gray: #F2F4F7; 
+$cyellow: #FFB400; 
+$cwhite: #FFFFFF; 
+$clight-green: #A8D8B9; 
+$cmedium-gray: #707070; 
+$cdark-blue-gray: #374D60; 
+$cdeep-blue: #001742; 
+$cblack: #000000; 
+$cgray-dark: #363636; 
+$clight-gray2: #F7F7F7; 
+$csoft-light-gray: #CBCECD;
+$cDark-steel-Blue: #7996B0;

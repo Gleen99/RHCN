@@ -1,7 +1,15 @@
 // noinspection JSUnusedGlobalSymbols
 
-import type {timestamp, objectId, DB, price} from "./baseTypes"
-import {ContactType, LegalType, NotificationType, NotificationLevel, NotificationStatus, InvitationStatus} from "./enums";
+import type {timestamp, objectId, DB} from "./baseTypes"
+import {
+	ContactType,
+	LegalType,
+	NotificationType,
+	NotificationLevel,
+	NotificationStatus,
+	InvitationStatus,
+	confirmationPaiementsStatus
+} from "./enums";
 
 export interface IBouser {
 	username: string
@@ -96,7 +104,8 @@ export interface IArticle{
 	content: ArticleContent[]
 }
 export interface  IArticleDB extends IArticle, DB {}
-interface IEvent {
+
+export interface IEvent {
 	title: string;
 	date: timestamp
 	time: timestamp
@@ -107,6 +116,7 @@ interface IEvent {
 	mainPicture?: Picture
 }
 export interface  IEventDB extends IEvent, DB {}
+
 export interface ICategoryContent{
 	category : string[];
 }
@@ -178,6 +188,18 @@ export interface Picture {
 	thumbnail?: string
 	mimetype?: string
 }
+export interface IMembersPartner {
+	firstName: string,
+	lastName: string,
+	address: string,
+	email: string,
+	phone: string,
+	birthday: string,
+	age:number,
+	message:string,
+	confirmationPaiements: confirmationPaiementsStatus,
+}
+export  interface  IMembersPartnerDB extends IMembersPartner , DB {}
 
 export interface NotificationItem {
 	userId?: objectId
@@ -193,3 +215,13 @@ export interface INotification {
 	terminationTimestamp?: timestamp
 }
 export interface INotificationDB extends INotification, DB {}
+
+export interface INewsletter {
+	email: string;
+	dateSubscribed: timestamp;
+	preferences?: string[];
+	isConfirmed: boolean;
+	source?: string;
+}
+
+export interface INewsletterDB extends INewsletter, DB {}

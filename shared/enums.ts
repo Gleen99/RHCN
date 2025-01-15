@@ -21,26 +21,19 @@ export enum ContactType {
 export enum NotificationMode {
 	email = "email",
 	push = "push",
-	database = "database"
 }
 
 export enum NotificationLevel {
 	info = 'info',
-	warning = 'warning',
-	alert = 'alert'
 }
 
 export enum NotificationStatus {
-	unread = 'unread',
 	read = 'read',
-	terminated = 'terminated',
-	archived = "archived"
 }
 export enum InvitationStatus {
     PENDING = "pending", 
     ACCEPTED = "accepted", 
-    EXPIRED = "expired", 
-    CANCELLED = "cancelled", 
+    CANCELLED = "cancelled",
 }
 
 
@@ -55,6 +48,10 @@ export enum LegalType {
 	privacyPolicy = "privacyPolicy",
 	legalTerms = "legalTerms",
 	cookies = "cookies"
+}
+export enum confirmationPaiementsStatus {
+	accepted = "accepted",
+	rejected = "rejected",
 }
 
 export enum DBCollection {

@@ -1,12 +1,11 @@
 import mongoose from 'mongoose';
 import config from 'config';
-import express from 'express';;
+import express from 'express';
 import {Application} from "express";
 import { expressInit, expressInitApi, expressInitErrorManagement, expressInitUploadsDir, expressListen } from './express';
 import moment from 'moment-timezone'
 import { db } from './IDatabase';
 
-const app = express();
 const port = config.get<number>('server.port');
 console.log("le serveur est lancé sur le port", port)
 

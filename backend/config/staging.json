@@ -5,18 +5,23 @@
   "logLevel": "info",
   "logAsToken": "LOGASTOKENSTAGING",
   "authSecret": "AUTH_SECRET_STAGING",
+
   "server": {
     "port": 41101,
     "api": {
       "version": "1.0",
-      "autoDiscoveryPath": "%api%/dist/back/api/src/controllers"
+      "autoDiscoveryPath": "dist/backend/src/controllers"
     },
     "CORS_ALLOW_ORIGIN": "https://staging.repo.com",
-    "JSON_SIZE_LIMIT": "50mb",
+    "JSON_SIZE_LIMIT": "200mb",
     "uploads": {
       "environment": ["development", "staging", "production"],
-      "path": "%project%/uploads",
+      "path": "uploads",
       "temp": "temp"
+    },
+    "auth": {
+      "secret": "%ASSO%.RNCH%µ!2024?µ!",
+      "logAsToken": "LOGASTOKENLOCAL"
     }
   },
   "database": {
@@ -24,18 +29,40 @@
       "host": "mongodb-staging.repo.com",
       "database": "repo_staging",
       "port": 27017,
-      "user": "repo_staging_user",
-      "password": "staging_password",
+      "user": "",
+      "password": "",
       "mongoOptions": {
         "directConnection": true,
         "serverSelectionTimeoutMS": 2000
       }
     }
   },
+  "email": {
+    "passthrough": ".*?@((gmail\\.com)|(rnch\\.fr))",
+    "forceTo": false,
+    "defaultSender": "rnch <gleencpro@gmail.com>",
+    "defaultName": "rnch",
+    "adminRecipients": [
+      "tech@rnch.fr"
+    ],
+    "extraData": {
+      "_frontUrl": "https://staging.rhcn.com",
+      "_apiUrl": "https://api-staging.rhcn.com/1.0",
+      "_cdnUrl": "https://api-staging.rhcn.com/static",
+      "contactEmail": "contact@rnch.fr"
+    },
+    "server": {
+      "host": "in-v3.mailjet.com",
+      "port": 465,
+      "secure": true,
+      "auth": {
+        "MJ_APIKEY_PUBLIC": "77c65e6761b77d567436d7633c37cb45",
+        "MJ_APIKEY_PRIVATE": "4a1c96c655727d4f8e655c81138f49bd"
+      }
+    }
+  },
   "services": {
     "front": "https://staging.repo.com",
-    "api": "https://api-staging.repo.com/1.0",
-    "bo": "https://bo-staging.repo.com",
-    "notifier": "https://notifier-staging.repo.com"
+    "api": "https://api-staging.repo.com/1.0"
   }
 }
