@@ -1,0 +1,79 @@
+@use 'sass:math';
+
+@import "reset";
+@import "fonts";
+@import "variables";
+@import "mixins";
+
+:root {
+    --safeAreaInsetTop: env(safe-area-inset-top);
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: $cmainBackground;
+    color: $cmainColor;
+
+    font-family: $Arial;
+    font-size: $fsregular;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+#app {
+    font-family: $Arial;
+    font-size: $fsregular;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #212020;
+
+    height: 100%;
+}
+
+
+// -----------------------------------------------------------------------------
+
+.error {
+    color: $cerror;
+    font-size: $fsregular;
+    font-weight: $fmedium;
+    padding: 10px;
+}
+
+// ------------
+// Title
+h1 {
+    font-size: $fslarge;
+    font-weight: $fbold;
+    margin-bottom: $gap;
+}
+
+// ------------
+// Toast
+.ToastError {
+    background-color: $cwhite;
+    border: $cerror solid 3px;
+    border-radius: $radius;
+    color: $cerror;
+    line-height: 1.3em;
+}
+
+.ToastSuccess {
+    background-color: $cwhite;
+    border: $csuccess solid 3px;
+    border-radius: 20px;
+    color: $csuccess;
+    line-height: 1.3em;
+}
