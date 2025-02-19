@@ -4,8 +4,7 @@ import { db } from "../../helpers/IDatabase";
 import { v4 as uuid } from "uuid";
 import { sendNotificationEmail } from "../../services/mailjet";
 import config from "config";
-import { InvitationStatus } from "../../../../shared/enums";
-
+import {InvitationStatus} from "../../../shared/enums";
 export default class CreateInvitation extends Controller {
     public method = HttpMethod.post;
     public route = "/bo/invitation";

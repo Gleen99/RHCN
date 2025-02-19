@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import { db } from "../../helpers/IDatabase";
 import config from "config";
 import { v4 as uuid } from "uuid";
-import { InvitationStatus } from "../../../../shared/enums";
+import {InvitationStatus} from "../../../shared/enums";
 
 const authConfiguration = {
     secret: config.get<string>("server.auth.secret"),
