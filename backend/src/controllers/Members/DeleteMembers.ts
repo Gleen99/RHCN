@@ -3,6 +3,7 @@ import { AuthMode, Controller, HttpMethod } from "../../helpers/controller";
 import { Request, Response } from "express";
 import { db } from "../../helpers/IDatabase";
 
+
 export default class DeleteMembers extends Controller {
     public method = HttpMethod.delete;
     public route = "/bo/member/:id";

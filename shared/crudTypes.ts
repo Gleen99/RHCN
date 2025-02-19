@@ -200,6 +200,29 @@ export interface IMembersPartner {
 	confirmationPaiements: confirmationPaiementsStatus,
 }
 export  interface  IMembersPartnerDB extends IMembersPartner , DB {}
+export interface loader {
+	name: string,
+	content:  string,
+	mimetype?: string
+	uploaderName: string,
+}
+export interface IBecomePartner {
+	name: string,
+	reference: string,
+	typeOfPartnership: string,
+	apport: string,
+	expentation: string,
+	documentUploader:loader[]
+}
+export interface IBecomePartnerDB extends IBecomePartner, DB {}
+
+export interface IPartnerIcon {
+	title: string;
+	mainPicture?: Picture
+}
+
+export interface IPartnerIconDB extends IPartnerIcon, DB {}
+
 
 export interface NotificationItem {
 	userId?: objectId
@@ -225,3 +248,4 @@ export interface INewsletter {
 }
 
 export interface INewsletterDB extends INewsletter, DB {}
+

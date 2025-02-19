@@ -10,14 +10,15 @@ export default class AddUserToNewsletter extends Controller {
     public method = HttpMethod.post;
     public route = "/create-payment-intent";
 
-    public async handler(req: Request, res: Response): Promise<any> {
+    public async handler(req: Request, res: Response): Promise<void> {
         try {
             // ✅ 1. Récupération des données du front-end
             const { amount, donorEmail, message } = req.body;
 
             // ✅ 2. Vérification du montant (Minimum 1 CAD)
             if (!amount || isNaN(amount) || amount < 100) {
-                return res.status(400).json({ error: "Le don doit être d'au moins 1 CAD (100 centimes)." });
+                res.status(400).send({ error: "Le don doit être d'au moins 1 CAD (100 centimes)." });
+                return;
             }
 
             // ✅ 3. Création du Payment Intent avec Stripe
@@ -32,10 +33,10 @@ export default class AddUserToNewsletter extends Controller {
             });
 
             // ✅ 4. Retourne le `client_secret` au frontend
-            return res.json({ clientSecret: paymentIntent.client_secret });
+            res.status(200).send({ clientSecret: paymentIntent.client_secret });
         } catch (error) {
-            console.error("Erreur lors de la création du Payment Intent :", error);
-            return res.status(500).json({ error: "Erreur interne du serveur." });
+            console.error("🚨 Erreur lors de la création du Payment Intent :", error);
+            res.status(500).send({ error: "Erreur interne du serveur." });
         }
     }
 }
