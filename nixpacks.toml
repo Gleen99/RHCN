@@ -8,4 +8,4 @@ cmds = [
 ]
 
 [start]
-cmd = "sh -c 'node backend/dist/server.js & exec caddy run --config /assets/Caddyfile --adapter caddyfile 2>&1'"
+cmd = "sh -c 'node dist/backend/src/server.js  & exec caddy run --config /assets/Caddyfile --adapter caddyfile 2>&1'"
