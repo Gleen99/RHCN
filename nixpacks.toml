@@ -1,14 +1,11 @@
 [phases.setup]
 nixPkgs = ["nodejs_22", "npm", "git", "caddy"]
 
-
 [phases.build]
 cmds = [
     "cd backend && npm install && npm run build",
     "cd frontend && npm install && npm run build"
 ]
 
-[phases.start]
-cmds = [
-    "sh -c 'node backend/dist/server.js & exec caddy run --config /assets/Caddyfile --adapter caddyfile 2>&1'"
-]
+[start]
+cmd = "sh -c 'node backend/dist/server.js & exec caddy run --config /assets/Caddyfile --adapter caddyfile 2>&1'"
