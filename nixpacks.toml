@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["nodejs_22", "npm", "git", "caddy"]
+nixPkgs = ["nodejs", "git", "caddy"]
 
 [phases.build]
 cmds = [
