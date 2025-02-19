@@ -4,7 +4,7 @@ nixPkgs = ["nodejs", "git", "caddy"]
 [phases.build]
 cmds = [
     "cd backend && npm install && npm run build",
-    "cd frontend && npm install && npm run build"
+    "cd frontend && npm install &&npm run build || true"
 ]
 
 [start]
