@@ -8,4 +8,4 @@ cmds = [
 ]
 
 [start]
-cmd = "sh -c 'node dist/src/server.js "
+cmd = "sh -c 'node dist/src/server.js' "
