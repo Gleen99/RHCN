@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["nodejs", "git", "caddy"]
+nixPkgs = ["nodejs"]
 
 [phases.build]
 cmds = [
@@ -8,4 +8,4 @@ cmds = [
 ]
 
 [start]
-cmd = "sh -c 'node dist/src/server.js  & exec caddy run --config /assets/Caddyfile --adapter caddyfile 2>&1'"
+cmd = "sh -c 'node dist/src/server.js "
