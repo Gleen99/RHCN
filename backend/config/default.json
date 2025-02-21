@@ -24,22 +24,20 @@
       "logAsToken": "LOGASTOKENLOCAL"
     }
   },
- 
 
-  
+
+
   "database": {
     "mongo": {
-      "host": "mongodb://localhost:27017/",
+      "host": "${MONGODB_URI}",
       "database": "rhcn_dev",
-      "port": 27017,
-      "user": "",
-      "password": "",
       "mongoOptions": {
-        "directConnection": true,
-        "serverSelectionTimeoutMS": 2000
+        "useNewUrlParser": true,
+        "useUnifiedTopology": true
       }
     }
   },
+
   
   "email": {
     "passthrough": ".*?@((gmail\\.com)|(rhcn\\.fr))",
