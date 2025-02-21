@@ -25,6 +25,7 @@
     "jsonwebtoken": "^9.0.2",
     "mkdirp": "^3.0.1",
     "moment-timezone": "^0.5.46",
+    "mongodb": "^6.13.1",
     "mongoose": "^8.7.3",
     "node-mailjet": "^6.0.6",
     "router": "^2.0.0",
