@@ -40,7 +40,8 @@
     "@types/mkdirp": "^1.0.2",
     "@types/node": "^22.8.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "@types/mongoose": "^5.11.97"
   },
   "description": ""
 }
