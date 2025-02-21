@@ -29,15 +29,17 @@
 
   "database": {
     "mongo": {
-      "host": "${MONGODB_URI}",
+      "host": "mongodb://localhost:27017/",
       "database": "rhcn_dev",
+      "port": 27017,
+      "user": "",
+      "password": "",
       "mongoOptions": {
-        "useNewUrlParser": true,
-        "useUnifiedTopology": true
+        "directConnection": true,
+        "serverSelectionTimeoutMS": 2000
       }
     }
   },
-
   
   "email": {
     "passthrough": ".*?@((gmail\\.com)|(rhcn\\.fr))",
