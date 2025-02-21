@@ -33,15 +33,12 @@ export default class PostBecomePartners extends Controller {
 
             // Création de l'objet partenaire
             const newPartner = {
-                _id: new ObjectId(),
                 name,
                 reference,
                 typeOfPartnership,
                 apport,
                 expentation,
                 documentUploader,
-                createdAt: new Date(),
-                updatedAt: new Date(),
             };
 
             // Enregistrement dans la base de données

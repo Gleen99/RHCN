@@ -35,7 +35,6 @@ export default class PostMembersPartners extends Controller {
 
             // Création de l'objet membre
             const newMember = {
-                _id: new ObjectId(),
                 firstName,
                 lastName,
                 address,
@@ -45,8 +44,6 @@ export default class PostMembersPartners extends Controller {
                 age,
                 message,
                 confirmationPaiements,
-                createdAt: new Date(),
-                updatedAt: new Date(),
             };
 
             // Enregistrement dans la base de données
