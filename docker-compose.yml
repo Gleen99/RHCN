@@ -11,6 +11,7 @@ services:
       - ./backend:/usr/src/app
       - ../shared:/usr/src/shared
     environment:
+      NODE_ENV: staging
       JWT_SECRET: AUTH_SECRET_STAGING
       DB_HOST: mongodb-staging.rhcn.com
       DB_PORT: 27017
