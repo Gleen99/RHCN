@@ -53,10 +53,10 @@ export default class PutUser extends Controller {
             return res.status(200).json({
                 success: true,
                 message: "Utilisateur mis à jour avec succès",
-                firstname: updatedUser.firstname,
-                lastname: updatedUser.lastname,
-                email: updatedUser.email,
-                role: updatedUser.role,
+                firstname: firstname,
+                lastname: lastname,
+                email: email,
+                role: role,
 
             });
             
