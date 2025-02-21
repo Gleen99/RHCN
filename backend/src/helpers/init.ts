@@ -6,6 +6,10 @@ import { expressInit, expressInitApi, expressInitErrorManagement, expressInitUpl
 import moment from 'moment-timezone'
 import { db } from './IDatabase';
 
+console.log('Current directory:', process.cwd());
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('Config files:', require('config').util.getConfigSources());
+
 const port = config.get<number>('server.port');
 console.log("le serveur est lancé sur le port", port)
 
@@ -25,15 +29,15 @@ interface MongoOptions {
       const host = config.get<string>('database.mongo.host');
       const dbName = config.get<string>('database.mongo.database');
       const mongoOptions = config.get<MongoOptions>('database.mongo.mongoOptions');
-  
+
       const connectionString = `${host}${dbName}`;
       console.log('Tentative de connexion à:', connectionString);
-  
+
       await mongoose.connect(connectionString, {
         ...mongoOptions,
         dbName: dbName
       });
-  
+
       if (db.name !== dbName) {
         console.warn(`Attention : Le nom de la base de données (${db.name}) ne correspond pas à celui configuré (${dbName})`);
       }
