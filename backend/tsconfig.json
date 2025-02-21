@@ -12,7 +12,6 @@
     "outDir": "dist",
     "baseUrl": ".",
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
     "paths": {
   "@shared/*": ["../../..shared/*"],
 }
