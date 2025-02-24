@@ -1,10 +1,9 @@
-import { AuthMode, Controller, HttpMethod } from "../../helpers/controller";
+import {  Controller, HttpMethod } from "../../helpers/controller";
 import { Request, Response } from "express";
 import { db } from "../../helpers/IDatabase";
 import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
-import {InvitationStatus} from "../../../shared/enums";
-
+import { InvitationStatus } from "../../../../shared/enums";
 
 export default class AcceptInvitation extends Controller {
     public method = HttpMethod.post;
