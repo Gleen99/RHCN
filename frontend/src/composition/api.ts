@@ -6,12 +6,22 @@ import {event, pageview} from "vue-gtag";
 
 import {PaginatedList} from "@/front-types";
 import {
-    IArticleDB, IBouserDB, ICategorieDB, IEventDB, IFaqDB, IInvitationDB, IListImageDB, IMemberDB, IUserDB
+    IArticleDB,
+    IBouserDB,
+    ICategorieDB,
+    IEventDB,
+    IFaqDB,
+    IInvitationDB,
+    IListImageDB,
+    IMemberDB,
+    IMembersPartnerDB, IPartnerIcon, IPartnerIconDB,
+    IUserDB
 } from "@shared/crudTypes";
 
 export type UseApiResult = {
 
-
+    // --- newsletter
+    addUserToNewsletter: (email: string) => Promise<boolean>
     // --- user
     loadUserByToken: () => Promise<IUserDB>
     updateCurrentUser: (data: any) => Promise<IUserDB>
@@ -86,6 +96,20 @@ export type UseApiResult = {
     DeleteListImage: (listImageId: ObjectId) => Promise<IListImageDB>
     UpdateListImage: (data: any, listImageId: ObjectId) => Promise<IListImageDB>
 
+    //IPartnerIcon
+    GetPartnerIcon: () => Promise<IPartnerIconDB>
+    CreatePartnerIcon: (data: any) => Promise<IPartnerIconDB>
+    DeletePartnerIcon: (PartnerIconId: ObjectId) => Promise<IPartnerIconDB>
+    UpdatePartnerIcon: (data: any, PartnerIconId: ObjectId) => Promise<IPartnerIconDB>
+
+    // MembersPartners
+    PostMembersPartners: (data: any) => Promise<IMembersPartnerDB>
+    GetMembersPartners: () => Promise<IMembersPartnerDB>
+
+    // MembersPartners
+    PostBecomePartners: (data: any) => Promise<IMembersPartnerDB>
+    GetBecomePartners: () => Promise<IMembersPartnerDB>
+
     // --- analytics
     sendAnalytics: (data: AnalyticsData) => Promise<void>
 
@@ -105,10 +129,15 @@ export type UseApiResult = {
         projection?: string[],
         population?: string[]
     }) => Promise<T[] | PaginatedList<T>>
+
+    // --- payments
+    createPayments: (amount: number) => Promise<{ secret: string, key: string }>
 }
 
 export function useApi(): UseApiResult {
     return {
+        // --- newsletter
+        addUserToNewsletter,
         // --- user
         loadUserByToken,
         updateCurrentUser,
@@ -178,11 +207,30 @@ export function useApi(): UseApiResult {
         getEvent,
         deleteEvent,
         updateEvent,
+
+        //PartnerIcon
+        GetPartnerIcon,
+        CreatePartnerIcon,
+        DeletePartnerIcon,
+        UpdatePartnerIcon,
+
+        // MembersPartners
+        PostMembersPartners,
+        GetMembersPartners,
+
+        // MembersPartners
+        GetBecomePartners,
+        PostBecomePartners,
+
         // --- analytics
         sendAnalytics,
 
         // --- site
         registerToNewsletter,
+
+        // --- payments
+        createPayments,
+
 
         // --- legals
 
@@ -192,6 +240,14 @@ export function useApi(): UseApiResult {
         // --- crud
         crudList,
     }
+}
+// -----------------------------------------------------------------------------------
+// NEWSLETTER
+
+
+async function addUserToNewsletter(email: string): Promise<boolean> {
+    const result = await axios.post(buildUrl("/newsletter"), {email});
+    return result.data.success;
 }
 
 // -----------------------------------------------------------------------------------
@@ -481,8 +537,56 @@ async function DeleteListImage(listImageId: ObjectId): Promise<IListImageDB> {
     return response.data;
 }
 // -----------------------------------------------------------------------------------
+//IPartnerIcon
+
+async function GetPartnerIcon(): Promise<IPartnerIconDB> {
+    const response = await axios.get(buildUrl("/bo/PartnerIcon"));
+    return response.data;
+}
+
+async function CreatePartnerIcon(data: IPartnerIcon): Promise<IPartnerIconDB> {
+    const response = await axios.post(buildUrl("/bo/PartnerIcon"), data);
+    return response.data;
+}
+
+async function UpdatePartnerIcon(data: any, PartnerIconId: ObjectId): Promise<IPartnerIconDB> {
+    const response = await axios.put(buildUrl(`bo/PartnerIcon/${PartnerIconId}`), data);
+    return response.data;
+}
+
+async function DeletePartnerIcon(PartnerIconId: ObjectId): Promise<IPartnerIconDB> {
+    const response = await axios.delete(buildUrl(`bo/PartnerIcon/${PartnerIconId}`));
+    return response.data;
+}
+
+// -----------------------------------------------------------------------------------
 // ANALYTICS
 
+// -----------------------------------------------------------------------------------
+//BecomeAPartner
+async function GetBecomePartners(): Promise<IMembersPartnerDB> {
+    const response = await axios.get(buildUrl("/partners"));
+    return response.data;
+}
+
+async function PostBecomePartners(data: any): Promise<IMembersPartnerDB> {
+    const response = await axios.post(buildUrl(`/partners`), data);
+    return response.data;
+}
+// -----------------------------------------------------------------------------------
+//MembersPartner
+async function GetMembersPartners(): Promise<IMembersPartnerDB> {
+    const response = await axios.get(buildUrl("/member-partners"));
+    return response.data;
+}
+
+async function PostMembersPartners(data: any): Promise<IMembersPartnerDB> {
+    const response = await axios.post(buildUrl(`/member-partners`), data);
+    return response.data;
+}
+
+// -----------------------------------------------------------------------------------
+//sendAnalytics
 async function sendAnalytics(data: AnalyticsData): Promise<void> {
     try {
         if (import.meta.env.VITE_GTAG && import.meta.env.VITE_GTAG.trim().length > 0) {
@@ -517,7 +621,13 @@ async function registerToNewsletter(email: string): Promise<boolean> {
         throw err.response.data;
     }
 }
+// -----------------------------------------------------------------------------------
+// PAYMENTS
+async function createPayments(amount: number): Promise<{ secret: string, key: string }> {
+    const result = await axios.post(buildUrl("/create-payment-intent"), { amount });
+    return result.data;
 
+}
 
 // -----------------------------------------------------------------------------------
 // LEGALS

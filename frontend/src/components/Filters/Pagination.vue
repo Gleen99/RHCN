@@ -23,7 +23,7 @@ const goToPage = (page: number) => {
 
 <template>
   <div class="pagination">
-    <ISwapLeft @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">&laquo;</ISwapLeft>
+    <ISwapLeft class="swap" @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">&laquo;</ISwapLeft>
     <div class="totalPages">
       <span
           v-for="page in totalPages"
@@ -34,7 +34,7 @@ const goToPage = (page: number) => {
       {{ page }}
     </span>
     </div>
-    <ISwapright @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">&raquo;</ISwapright>
+    <ISwapright class="swap" @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">&raquo;</ISwapright>
   </div>
 </template>
 
@@ -61,7 +61,7 @@ const goToPage = (page: number) => {
     padding: 8px 12px;
     border: 1px solid $cteal-dark;
     cursor: pointer;
-    font-size: 34px;
+    font-size: 14px;
     font-weight: bold;
     margin-left: 8px;
 
@@ -69,6 +69,13 @@ const goToPage = (page: number) => {
       border: none;
       background-color: $clight-gray;
       color: $cteal-dark;
+    }
+  }
+  .swap{
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.5);
     }
   }
 }

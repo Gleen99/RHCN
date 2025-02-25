@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useSlots } from "vue";
+import {type Slots, useSlots} from "vue";
 
 const props = defineProps<{
   type?: "icon" | "underline" | "default" | "underlineBleu";
 }>();
 
-const slots = useSlots();
+const slots: Slots = useSlots();
 </script>
 
 <template>

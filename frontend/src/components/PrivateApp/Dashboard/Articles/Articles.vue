@@ -223,51 +223,127 @@ function annulerEdition() {
   max-width: 900px;
   margin: auto;
   font-family: Arial, sans-serif;
+  background: #f4f4f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
   .page-title {
     text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2c3e50;
     margin-bottom: 20px;
   }
 
-  input {
-    width: 100%;
-    margin: 10px 0;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+  .article-form {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    h2 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #2c3e50;
+    }
+
+    input, textarea {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #2c3e50;
+      border-radius: 5px;
+      transition: border-color 0.3s ease-in-out;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #2c3e50;
+      outline: none;
+    }
   }
 
   .content-block {
     margin-bottom: 20px;
     padding: 10px;
-    border: 1px dashed #ccc;
+    border: 2px dashed #2c3e50;
     border-radius: 4px;
+    background: #f8f9fa;
+  }
+
+  .article-list {
+    h2 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+    }
+
+    .article-item {
+      background: white;
+      padding: 15px;
+      border-left: 5px solid #2c3e50;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+
+      h3 {
+        color: #2c3e50;
+        margin-bottom: 5px;
+      }
+
+      &:hover {
+        transform: scale(1.02);
+      }
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
   }
 
   .btn {
-    margin: 5px;
     padding: 10px 15px;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s;
 
     &.btn-primary {
-      background-color: #007bff;
+      background: #2c3e50;
+      color: white;
+    }
+
+    &.btn-success {
+      background: #28a745;
       color: white;
     }
 
     &.btn-secondary {
-      background-color: #6c757d;
+      background: #6c757d;
       color: white;
     }
 
     &.btn-danger {
-      background-color: #dc3545;
+      background: #dc3545;
       color: white;
     }
 
     &.btn-info {
-      background-color: #17a2b8;
+      background: #17a2b8;
       color: white;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      opacity: 0.9;
     }
   }
 }

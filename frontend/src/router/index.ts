@@ -27,6 +27,7 @@ import Articles from "@/components/PrivateApp/Dashboard/Articles/Articles.vue";
 import Categories from "@/components/PrivateApp/Dashboard/Category/Categories.vue";
 import Images from "@/components/PrivateApp/Dashboard/Images/Images.vue";
 import EventsDashboard from "@/components/PrivateApp/Dashboard/Events/EventsDashboard.vue";
+import PartenairesIcons from "@/components/PrivateApp/Dashboard/Partenaires Icons/Partenaires-Icons.vue";
 
 
 
@@ -196,7 +197,12 @@ const routes: Array<RouteRecordRaw> = [
             name: Routes.eventsdashboard,
             component: EventsDashboard,
           },
-         
+          {
+            path: "partenairesIcons",
+            name: Routes.partenairesIcons,
+            component: PartenairesIcons,
+          },
+
         ],
       },
     ],

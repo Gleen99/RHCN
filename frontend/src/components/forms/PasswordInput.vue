@@ -40,14 +40,14 @@ const handleInputChange = (event: Event) => {
     />
     <div class="toggle-password" @click="togglePasswordVisibility">
       <img 
-        v-if="props.showPassword" 
-        src="" 
+        v-if="props.showPassword"
+        src="../../assets/oeil.png"
         alt="Masquer le mot de passe" 
         crossorigin="anonymous"
       />
       <img 
         v-else 
-        src="" 
+        src="../../assets/oeilClose.png"
         alt="Afficher le mot de passe" 
         crossorigin="anonymous"
       />

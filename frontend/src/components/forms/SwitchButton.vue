@@ -50,17 +50,17 @@ function toggle() {
 	}
 
 	&.true {
-		border-color: $cblack;
+		border-color: $cDark-steel-Blue;
 
 		.button {
-			background-color: $cblack;
+			background-color: $cyellow;
 			right: 3px;
 		}
 	}
 
 	&.disabled {
 		opacity: 0.4;
-		border-color: $cborder;
+		border-color: $cDark-steel-Blue;
 
 		.button {
 			background-color: $cborder;

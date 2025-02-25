@@ -18,8 +18,7 @@ import PublicTemplate from "@/components/layout/PublicTemplate.vue";
 
 <style lang="scss">
 .aboutUs {
-	height: 100%;
-	overflow: auto;
+  padding: 0 !important;
 
 }
 </style>

@@ -33,13 +33,13 @@
         @content;
     }
 }
-@mixin desktopLittle {
+@mixin desktopMax {
     @media (min-width: 1610px) {
         @content;
     }
 }
 
-@mixin desktopMax {
+@mixin desktopLittle {
     @media (max-width: 1350px) {
         @content;
     }

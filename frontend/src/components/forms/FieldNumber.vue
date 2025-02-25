@@ -104,7 +104,7 @@ const handleInput = (event: Event) => {
       line-height: 1.3em;
 
       &::placeholder {
-        color: $cblack;
+        color: #aaa;
         font-weight: $fregular;
       }
     }

@@ -10,18 +10,18 @@ const { createEvent, getEvents, deleteEvent, updateEvent, GetCategoriesByType } 
 const events = ref<IEventDB[]>([]);
 const newEvent = ref<IEvent>({
   title: "",
-  date: "",
-  time: "",
+  date: Date.now(),
+  time: Date.now(),
   address: "",
   description: "",
   price: "",
   categories: [],
-  mainPicture: null,
+  mainPicture: { path: "" },
 });
 const initializeDateTime = () => {
   const now = new Date();
-  newEvent.value.date = now.toISOString().slice(0, 10);
-  newEvent.value.time = now.toTimeString().slice(0, 5);
+  newEvent.value.date = now.getTime();
+  newEvent.value.time = now.getTime();
 };
 
 const editingEvent = ref<IEventDB | null>(null);
@@ -38,6 +38,10 @@ const fetchCategories = async () => {
   error.value = null;
   try {
     const rawCategories = await GetCategoriesByType(selectedType.value);
+    if (!Array.isArray(rawCategories)) {
+      console.error("rawEvents n'est pas un tableau :", rawCategories);
+      return;
+    }
     categoriesList.value = rawCategories.flatMap((item: any) =>
         typeof item.fr.category === "string"
             ? item.fr.category.split(",").map((cat: string) => cat.trim())
@@ -53,7 +57,8 @@ const fetchCategories = async () => {
 
 const fetchEvents = async () => {
   try {
-    events.value = await getEvents();
+      const result = await getEvents();
+      events.value = Array.isArray(result) ? result : [result];
   } catch (error) {
     console.error("Error fetching events:", error);
   }
@@ -61,7 +66,9 @@ const fetchEvents = async () => {
 
 const createNewEvent = async () => {
   try {
-    newEvent.value.categories = selectedCategories.value;
+    newEvent.value.categories = selectedCategories.value.map((cat) => ({
+      category: [cat],
+    }));
     const createdEvent = await createEvent(newEvent.value);
     events.value.push(createdEvent);
     resetNewEvent();
@@ -79,31 +86,22 @@ const deleteExistingEvent = async (id: string) => {
   }
 };
 
-const updateExistingEvent = async () => {
-  try {
-    if (editingEvent.value) {
-      const updatedEvent = await updateEvent(editingEvent.value._id, editingEvent.value);
-      const index = events.value.findIndex(event => event._id === editingEvent.value._id);
-      if (index !== -1) {
-        events.value[index] = updatedEvent;
-      }
-      editingEvent.value = null;
-    }
-  } catch (error) {
-    console.error("Error updating event:", error);
-  }
+
+const startEditing = (event: IEventDB) => {
+  editingEvent.value = { ...event };
 };
+
 
 const resetNewEvent = () => {
   newEvent.value = {
     title: "",
-    date: "",
-    time: "",
+    date: Date.now(),
+    time: Date.now(),
     address: "",
     description: "",
     price: "",
     categories: [],
-    mainPicture: null,
+    mainPicture: { path: "" },
   };
   initializeDateTime();
   selectedCategories.value = [];
@@ -168,7 +166,7 @@ onMounted(() => {
           <img :src="event.mainPicture?.thumbnail || event.mainPicture?.path" alt="Preview" />
         </div>
         <button @click="() => deleteExistingEvent(event._id)">Delete</button>
-        <button @click="() => (editingEvent.value = { ...event })">Edit</button>
+        <button @click="startEditing(event)">Edit</button>
       </div>
     </div>
   </div>
@@ -179,50 +177,102 @@ onMounted(() => {
   max-width: 900px;
   margin: auto;
   font-family: Arial, sans-serif;
+  background: #f4f4f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
-  .add-event,
-  .edit-event {
+  h1 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2c3e50;
     margin-bottom: 20px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+  }
 
-    input,
-    textarea {
-      display: block;
-      width: 100%;
-      margin: 10px 0;
-      padding: 8px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
+  .add-event, .edit-event {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    h2 {
+      color: #2c3e50;
+      margin-bottom: 15px;
     }
 
-    button {
-      margin-top: 10px;
-      padding: 10px 20px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
+    label {
+      font-weight: bold;
+      color: #2c3e50;
+    }
+
+    input, textarea {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+      border: 2px solid #2c3e50;
+      transition: border-color 0.3s ease-in-out;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #2c3e50;
+      outline: none;
     }
   }
 
   .event-list {
+    h2 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+    }
+
     .event-item {
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      background-color: #f9f9f9;
-      margin-bottom: 10px;
+      padding: 15px;
+      border-left: 5px solid #2c3e50;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.02);
+      }
+
+      h3 {
+        color: #2c3e50;
+        margin-bottom: 5px;
+      }
+
+      p {
+        color: #555;
+        margin: 5px 0;
+      }
+
+      .image-preview {
+        width: 100px;
+        height: 100px;
+        margin-top: 10px;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 4px;
+          border: 2px solid #2c3e50;
+        }
+      }
 
       button {
-        margin-right: 10px;
-        padding: 5px 10px;
+        margin-top: 10px;
+        padding: 8px 12px;
         border: none;
-        border-radius: 4px;
+        border-radius: 5px;
         cursor: pointer;
+        font-weight: bold;
+        transition: background 0.3s ease, transform 0.2s;
 
         &:first-of-type {
           background-color: #dc3545;
@@ -230,10 +280,50 @@ onMounted(() => {
         }
 
         &:last-of-type {
-          background-color: #007bff;
+          background-color: #2c3e50;
           color: white;
         }
+
+        &:hover {
+          transform: translateY(-2px);
+          opacity: 0.9;
+        }
       }
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s;
+
+    &.btn-primary {
+      background: #2c3e50;
+      color: white;
+    }
+
+    &.btn-danger {
+      background: #dc3545;
+      color: white;
+    }
+
+    &.btn-secondary {
+      background: #6c757d;
+      color: white;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      opacity: 0.9;
     }
   }
 }

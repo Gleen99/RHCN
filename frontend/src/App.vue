@@ -6,6 +6,7 @@ import WaitingScreen from "@/components/ui/WaitingScreen.vue";
 import type {GlobalController} from "@/front-types";
 import { toast } from 'vue3-toastify';
 import {useI18n} from "vue-i18n";
+import TawkTo from "@/components/TawkTo/TawkTo.vue";
 
 const {initAuth} = useAuth();
 const {t} = useI18n();
@@ -70,15 +71,19 @@ function acceplimitedCookies(){
 			<waiting-screen v-if="waitingText" :text="waitingText"/>
         </transition>
 	</router-view>
-	<vue-cookie-comply
-		:headerTitle="t('cookies.title')"
-		:headerDescription="t('cookies.description')"
-		:acceptAllLabel="t('cookies.acceptAll')"
-		:preferences="cookiesPreferences"
-		@on-accept-all-cookies="acceptAllCookies"
-		@on-save-cookie-preferences="acceplimitedCookies"
-	/>
+<!--	<vue-cookie-comply-->
+<!--		:headerTitle="t('cookies.title')"-->
+<!--		:headerDescription="t('cookies.description')"-->
+<!--		:acceptAllLabel="t('cookies.acceptAll')"-->
+<!--		:preferences="cookiesPreferences"-->
+<!--		@on-accept-all-cookies="acceptAllCookies"-->
+<!--		@on-save-cookie-preferences="acceplimitedCookies"-->
+<!--	/>-->
+  <div id="modal-container"/>
 	<div id="modal-target"/>
+  <div>
+    <TawkTo/>
+  </div>
 </template>
 
 <style lang="scss">

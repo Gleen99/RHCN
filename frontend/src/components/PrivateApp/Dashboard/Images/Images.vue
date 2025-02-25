@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useApi } from "@/composition/api";
-import {IListImage, IListImageDB} from "@shared/crudTypes";
+import {IListImage, IListImageDB, Picture} from "@shared/crudTypes";
 import PictureLoader from "@/components/ui/PictureLoader.vue";
 
 const { GetListImage, CreateListImage, DeleteListImage, UpdateListImage } = useApi();
@@ -46,7 +46,7 @@ const updateImage = async () => {
   if (!editingImage.value) return;
 
   try {
-    const updatedImage = await UpdateListImage(editingImage.value._id, { categories: editingImage.value.categories });
+    const updatedImage = await UpdateListImage(editingImage.value._id, editingImage.value.categories);
     const index = images?.value.findIndex((img) => img._id === editingImage.value?._id);
     if (index !== -1) {
       images.value[index] = { ...images.value[index], categories: updatedImage.categories };
@@ -140,69 +140,103 @@ onMounted(() => {
   max-width: 900px;
   margin: auto;
   font-family: Arial, sans-serif;
+  background: #f4f4f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+  h1 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
 
   .add-image, .edit-image {
-    margin-bottom: 20px;
+    background: white;
     padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
-    input {
-      display: block;
-      width: 100%;
-      margin: 10px 0;
-      padding: 8px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
+    h2 {
+      color: #2c3e50;
+      margin-bottom: 15px;
     }
 
-    button {
-      margin-top: 10px;
-      padding: 10px 20px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
+    label {
+      font-weight: bold;
+      color: #2c3e50;
+    }
+
+    input {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+      border: 2px solid #2c3e50;
+      transition: border-color 0.3s ease-in-out;
+    }
+
+    input:focus {
+      border-color: #2c3e50;
+      outline: none;
     }
   }
 
   .image-list {
+    h2 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+    }
+
     .image-item {
       display: flex;
       align-items: center;
-      margin-bottom: 20px;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      background-color: #f9f9f9;
+      padding: 15px;
+      border-left: 5px solid #2c3e50;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.02);
+      }
 
       .image-preview {
         width: 100px;
         height: 100px;
         margin-right: 20px;
+
         img {
           width: 100%;
           height: 100%;
           object-fit: cover;
           border-radius: 4px;
+          border: 2px solid #2c3e50;
         }
       }
 
       .image-details {
         flex: 1;
+
         p {
           margin: 5px 0;
+          color: #2c3e50;
         }
       }
 
       button {
         margin-left: 10px;
-        padding: 5px 10px;
+        padding: 8px 12px;
         border: none;
-        border-radius: 4px;
+        border-radius: 5px;
         cursor: pointer;
+        font-weight: bold;
+        transition: background 0.3s ease, transform 0.2s;
 
         &:first-of-type {
           background-color: #dc3545;
@@ -210,10 +244,50 @@ onMounted(() => {
         }
 
         &:last-of-type {
-          background-color: #007bff;
+          background-color: #2c3e50;
           color: white;
         }
+
+        &:hover {
+          transform: translateY(-2px);
+          opacity: 0.9;
+        }
       }
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s;
+
+    &.btn-primary {
+      background: #2c3e50;
+      color: white;
+    }
+
+    &.btn-danger {
+      background: #dc3545;
+      color: white;
+    }
+
+    &.btn-secondary {
+      background: #6c757d;
+      color: white;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      opacity: 0.9;
     }
   }
 }

@@ -70,7 +70,7 @@ const changeLanguage = (lang: string) => {
 	z-index: 300;
 	padding: 0 40px;
 	justify-content: space-between;
-	@include desktopLittle {
+	@include desktopMax {
 		max-width: 1650px;
 		
 	}

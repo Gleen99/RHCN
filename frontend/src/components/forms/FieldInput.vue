@@ -73,7 +73,7 @@ const thePlaceholder = computed<string|undefined>(() => {
 		line-height: 1.3em;
 
 		&::placeholder {
-			color: $cblack;
+      color: #aaa;
 			font-weight: $fregular;
 		}
 	}

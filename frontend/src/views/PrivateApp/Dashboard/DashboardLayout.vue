@@ -16,6 +16,7 @@ import { Routes } from "@/enums";
           <router-link :to="{ name: Routes.category }" class="link">Catégories</router-link>
           <router-link :to="{ name: Routes.images }" class="link">Images</router-link>
           <router-link :to="{ name: Routes.eventsdashboard }" class="link">Evènements</router-link>
+          <router-link :to="{ name: Routes.partenairesIcons }" class="link">Partenaires-Icons</router-link>
         </div>
       </div>
   

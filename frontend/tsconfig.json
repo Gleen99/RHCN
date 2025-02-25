@@ -13,12 +13,11 @@
 		"sourceMap": true,
 		"baseUrl": ".",
 		"types": [
-			"webpack-env",
 			"vite/client"
 		],
 		"paths": {
 			"@/*": ["src/*"],
-			"@shared/*": ["../shared/*"]
+			"@shared/*": ["src/shared/*"]
 		},
 		"lib": [
 			"esnext",

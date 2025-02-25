@@ -24,7 +24,7 @@ export default defineConfig(({mode }): UserConfig => {
 				// @ts-ignore
 				'@': fileURLToPath(new URL('./src', import.meta.url)),
 				// @ts-ignore
-				'@shared': fileURLToPath(new URL('../shared', import.meta.url))
+				'@shared': fileURLToPath(new URL('./src/shared', import.meta.url))
 			}
 		},
 		css: {

@@ -24,7 +24,14 @@ const editingCategory = ref<ICategorieDB | null>(null);
 
 const fetchCategories = async () => {
   try {
-    categories.value = await GetCategories();
+    const data = await GetCategories();
+
+    // Validation explicite pour TypeScript
+    if (Array.isArray(data)) {
+      categories.value = data as ICategorieDB[];
+    } else {
+      console.error("Les données ne sont pas un tableau :", data);
+    }
   } catch (error) {
     console.error("Échec de la récupération des catégories:", error);
   }
@@ -180,67 +187,151 @@ onMounted(() => {
   max-width: 900px;
   margin: auto;
   font-family: Arial, sans-serif;
+  background: #f4f4f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
-  input, select {
-    width: 100%;
-    margin: 10px 0;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+  h1 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 20px;
   }
 
-  button {
-    margin: 5px;
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
+  .type-selector {
+    margin-bottom: 20px;
 
-    &.btn-primary {
-      background-color: #007bff;
-      color: white;
+    label {
+      font-weight: bold;
+      color: #2c3e50;
     }
 
-    &.btn-danger {
-      background-color: #dc3545;
-      color: white;
+    select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 2px solid #2c3e50;
+      transition: border-color 0.3s ease-in-out;
     }
 
-    &.btn-secondary {
-      background-color: #6c757d;
-      color: white;
+    select:focus {
+      border-color: #2c3e50;
+      outline: none;
+    }
+  }
+
+  .add-category, .edit-category {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    h2 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #2c3e50;
+    }
+
+    input {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+      border: 2px solid #2c3e50;
+      transition: border-color 0.3s ease-in-out;
+    }
+
+    input:focus {
+      border-color:#2c3e50;
+      outline: none;
     }
   }
 
   .categories-list {
-    margin-top: 20px;
+    h2 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+    }
 
     .category-item {
+      background: white;
       padding: 15px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      margin-bottom: 10px;
-      background-color: #f9f9f9;
+      border-left: 5px solid #2c3e50;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.02);
+      }
 
       .category-language {
         margin-bottom: 10px;
 
         h3 {
+          color: #2c3e50;
           margin-bottom: 5px;
         }
 
         ul {
           padding-left: 20px;
           display: flex;
+          flex-wrap: wrap;
+        }
+
+        .category {
+          background: #2c3e50;
+          color: white;
+          padding: 5px 10px;
+          border-radius: 5px;
+          margin-right: 5px;
+          font-size: 0.9rem;
         }
       }
     }
   }
 
-  .edit-category {
-    margin-top: 30px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
+  .form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s;
+
+    &.btn-primary {
+      background: #2c3e50;
+      color: white;
+    }
+
+    &.btn-danger {
+      background: #dc3545;
+      color: white;
+    }
+
+    &.btn-secondary {
+      background: #6c757d;
+      color: white;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      opacity: 0.9;
+    }
   }
 }
 </style>

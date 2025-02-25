@@ -1,34 +1,41 @@
-<script setup lang="ts">
-import { ref, onMounted, computed } from "vue";
+<script lang="ts" setup>
+import { ref, computed, onMounted } from "vue";
 import { useApi } from "@/composition/api";
+import { useI18n } from "vue-i18n";
 import Filters from "@/components/Filters/Filters.vue";
 import Pagination from "@/components/Filters/Pagination.vue";
-import { useI18n } from "vue-i18n";
 import PageTitle from "@/components/ui/PageTitle.vue";
 
 const { t } = useI18n();
 const { GetListImage, GetCategoriesByType } = useApi();
 
-const categoriesList = ref<string[]>([]);
-const selectedCategory = ref(t('events.filters.allCategories'));
+// State
+const categoriesList = ref<string[]>([t("events.filters.allCategories") || "All Categories"]);
+const selectedCategory = ref(t("events.filters.allCategories") || "All Categories");
 const selectedDate = ref("");
+const selectedType = ref("Images");
 const currentPage = ref(1);
 const itemsPerPage = 9;
-const selectedType = ref("Images");
 const isLoading = ref(false);
 const error = ref<string | null>(null);
+const images = ref<any[]>([]);
 
+// Fetch categories
 const fetchCategories = async () => {
   isLoading.value = true;
   error.value = null;
   try {
     const rawCategories = await GetCategoriesByType(selectedType.value);
+    if (!Array.isArray(rawCategories)) {
+      console.error("Error: rawCategories is not an array", rawCategories);
+      return;
+    }
     const categories = rawCategories.flatMap((item: any) =>
         typeof item.fr.category === "string"
             ? item.fr.category.split(",").map((cat: string) => cat.trim())
             : item.fr.category
     );
-    categoriesList.value = [t('events.filters.allCategories'), ...categories]; // Ajout de la valeur par défaut
+    categoriesList.value = [t("events.filters.allCategories"), ...categories];
   } catch (err) {
     console.error("Error fetching categories:", err);
     error.value = t("events.filters.errorLoadingCategories");
@@ -36,35 +43,42 @@ const fetchCategories = async () => {
     isLoading.value = false;
   }
 };
-const images = ref([]);
+
+// Fetch images
 const fetchImages = async () => {
+  isLoading.value = true;
   try {
     const result = await GetListImage();
-    images.value = Array.isArray(result) ? result : [result];
-  } catch (error) {
-    console.error("Error fetching images:", error);
+    images.value = Array.isArray(result) ? result : [];
+  } catch (err) {
+    console.error("Error fetching images:", err);
+    images.value = [];
+    error.value = t("events.filters.errorLoadingImages");
+  } finally {
+    isLoading.value = false;
   }
 };
 
+// Filter images
 const filteredImages = computed(() => {
-  let result = images.value;
+  let result = images.value || [];
 
-  // Filtrer par catégorie
-  if (selectedCategory.value && selectedCategory.value !== t('events.filters.allCategories')) {
-    result = result.filter((event: any) =>
-        event.categories.includes(selectedCategory.value)
+  // Filter by category
+  if (selectedCategory.value && selectedCategory.value !== t("events.filters.allCategories")) {
+    result = result.filter((image: any) =>
+        Array.isArray(image.categories) && image.categories.includes(selectedCategory.value)
     );
   }
 
-  // Filtrer par date
+  // Filter by date
   if (selectedDate.value) {
     const selectedDateObj = new Date(selectedDate.value);
-    result = result.filter((event: any) => {
-      const eventDateObj = new Date(event.date);
+    result = result.filter((image: any) => {
+      const imageDateObj = new Date(image.date);
       return (
-          eventDateObj.getFullYear() === selectedDateObj.getFullYear() &&
-          eventDateObj.getMonth() === selectedDateObj.getMonth() &&
-          eventDateObj.getDate() === selectedDateObj.getDate()
+          imageDateObj.getFullYear() === selectedDateObj.getFullYear() &&
+          imageDateObj.getMonth() === selectedDateObj.getMonth() &&
+          imageDateObj.getDate() === selectedDateObj.getDate()
       );
     });
   }
@@ -72,24 +86,29 @@ const filteredImages = computed(() => {
   return result;
 });
 
+// Paginate images
 const paginatedImages = computed(() => {
   const startIndex = (currentPage.value - 1) * itemsPerPage;
   return filteredImages.value.slice(startIndex, startIndex + itemsPerPage);
 });
 
-const totalPages = computed(() =>
-    Math.ceil(filteredImages.value.length / itemsPerPage)
-);
+// Calculate total pages
+const totalPages = computed(() => Math.ceil(filteredImages.value.length / itemsPerPage));
 
+// Handle pagination
 const goToPage = (page: number) => {
-  currentPage.value = page;
+  if (page > 0 && page <= totalPages.value) {
+    currentPage.value = page;
+  }
 };
 
+// Update selected category
 const updateSelectedCategory = (category: string) => {
   selectedCategory.value = category;
   currentPage.value = 1;
 };
 
+// On component mount
 onMounted(() => {
   fetchCategories();
   fetchImages();
@@ -97,73 +116,72 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="listimages">
+  <div class="listImages">
     <PageTitle type="icon" class="Title">
-      {{ t('events.imagesContent.title') }}
+      {{ t("events.imagesContent.title") }}
     </PageTitle>
     <Filters
-        :categories="categoriesList"
+        :categories="categoriesList.map(cat => ({ label: cat, value: cat }))"
         :selectedCategory="selectedCategory"
         :selectedDate="selectedDate"
         @update:selectedCategory="updateSelectedCategory"
         @update:selectedDate="(value: any) => (selectedDate = value)"
     />
 
-    <div v-if="isLoading" class="loading">{{ t('events.filters.loading') }}</div>
+    <div v-if="isLoading" class="loading">{{ t("events.filters.loading") }}</div>
     <div v-if="error" class="error">{{ error }}</div>
 
-    <div v-if="!isLoading && !error" class="image-grid">
+    <div v-if="!isLoading && !error && paginatedImages.length > 0" class="image-grid">
       <div v-for="image in paginatedImages" :key="image.id" class="image-item">
         <div class="image-preview">
-          <img :src="image.mainPicture.thumbnail || image.mainPicture.path" alt="Preview" />
+          <img
+              :src="image.mainPicture?.thumbnail || image.mainPicture?.path || '/placeholder.png'"
+              alt="Preview"
+          />
         </div>
       </div>
     </div>
 
-    <Pagination
-        v-if="!isLoading && !error"
-        :currentPage="currentPage"
-        :totalPages="totalPages"
-        @changePage="goToPage"
-    />
+    <div v-if="!isLoading && !error && paginatedImages.length === 0" class="no-images">
+      {{ t("events.filters.noResults") }}
+    </div>
+
+    <Pagination v-if="!isLoading && !error" :currentPage="currentPage" :totalPages="totalPages" @changePage="goToPage" />
   </div>
 </template>
 
-
 <style lang="scss">
-.listimages {
-  .PageTitle{
+.listImages {
+  padding: 0 0 0 90px;
+
+  .Title {
     margin-bottom: 20px !important;
-  }
-  .title{
-    font-size: 24px !important;
+
   }
   .image-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 15px;
-    width: 100%;
-    max-width: 900px;
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: 0.2s linear;
+    columns: 1rem 3;
+    gap:1.4rem;
 
-    .image-item {
-      background-color: #f9f9f9;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      overflow: hidden;
-      text-align: center;
+  }
 
-      .image-preview {
-        img {
-          width: 100%;
-          height: auto;
-          display: block;
-          object-fit: cover;
+  .image-item {
+    .image-preview {
+      img {
+        width: 100%;
+        margin-bottom: 1rem;
+        border-radius: 0.7rem;
+        &:hover {
+          transform: scale(1.01);
         }
       }
     }
   }
 
-  .loading {
+  .loading, .error, .no-images {
     text-align: center;
     font-weight: bold;
     margin-top: 20px;
@@ -171,39 +189,6 @@ onMounted(() => {
 
   .error {
     color: red;
-    text-align: center;
-    font-weight: bold;
-    margin-top: 20px;
-  }
-
-  .pagination {
-    margin-top: 20px;
-    display: flex;
-    gap: 5px;
-
-    button {
-      padding: 5px 10px;
-      border: 1px solid #ccc;
-      background-color: #fff;
-      cursor: pointer;
-
-      &:disabled {
-        cursor: not-allowed;
-        opacity: 0.5;
-      }
-    }
-
-    span {
-      padding: 5px 10px;
-      cursor: pointer;
-      border: 1px solid #ccc;
-      background-color: #fff;
-
-      &.active {
-        background-color: #007bff;
-        color: white;
-      }
-    }
   }
 }
 </style>

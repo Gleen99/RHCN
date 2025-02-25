@@ -30,8 +30,11 @@ const { t } = useI18n();
 	position: relative;
 	right: 9%;
 	height: fit-content;
-	width: 99.5vw;
+  width: 99.2vw;
 	margin: 0;
+  @include desktopMax {
+    width: 100.36vw;
+  }
 
 	.aboutUsInfosContent {
 		margin:  0 116px;
@@ -41,7 +44,7 @@ const { t } = useI18n();
 		text-align: center;
 		gap: 13px;
 
-		@include desktopLittle {
+		@include desktopMax {
 			margin: 127px;
 		}
 

@@ -4,6 +4,7 @@ import ContactInfos from "@/components/Contact/ContactInfos.vue";
 import FaqItem from "@/components/Contact/FaqItem.vue";
 import Donate from "@/components/Donate/Donate.vue";
 import PublicTemplate from "@/components/layout/PublicTemplate.vue";
+import EmailingFront from "@/components/EmailingFront/EmailingFront.vue";
 
 </script>
 
@@ -15,6 +16,7 @@ import PublicTemplate from "@/components/layout/PublicTemplate.vue";
 	</div>
 	<FaqItem></FaqItem>
 	<Donate></Donate>
+    <EmailingFront/>
 	</public-template>
 </template>
 

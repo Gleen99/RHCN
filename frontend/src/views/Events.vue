@@ -7,7 +7,6 @@ import { useI18n } from "vue-i18n";
 import Eventsgrid from "@/components/ui/Eventsgrid.vue";
 
 const { t } = useI18n();
-
 const selectedInfo = ref<"eventsInfos" | "imagesInfos">("eventsInfos");
 
 const toggleSelection = (info: "eventsInfos" | "imagesInfos") => {
@@ -36,7 +35,7 @@ const toggleSelection = (info: "eventsInfos" | "imagesInfos") => {
             @select="() => toggleSelection('imagesInfos')"
         />
       </div>
-      <div>
+      <div class="eventContent">
         <ListEvents v-if="selectedInfo === 'eventsInfos'" />
         <ListImages v-else />
       </div>
@@ -47,15 +46,13 @@ const toggleSelection = (info: "eventsInfos" | "imagesInfos") => {
 <style lang="scss">
 .Events {
   height: 100%;
-  overflow: auto;
   display: flex;
-  gap: 10rem;
+  margin-bottom: 100px;
 
   .EventsGrid {
     background-color: $clight-gray;
     padding: 40px;
     height: max-content;
-
     .eventsInfos {
       margin-bottom: 25px;
     }

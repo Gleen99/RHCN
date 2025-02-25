@@ -27,9 +27,10 @@ const onCategoryChange = (value: string) => {
   emit("update:selectedCategory", value);
 };
 
-const onDateChange = (value: string | null) => {
-  emit("update:selectedDate", value);
+const onDateChange = (value: number | null) => {
+  emit("update:selectedDate", value ? value.toString() : null);
 };
+
 </script>
 
 <template>

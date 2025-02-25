@@ -52,13 +52,21 @@ function toggle() {
 
 <template>
     <field-layout class="FieldCheckbox" :name="props.name" :mandatory="props.mandatory" :extra="props.extra">
-		<label v-if="theLabel" @click="toggle">{{theLabel}}</label>
-		<switch-button v-model="value" :disabled="disabled"/>
+	<div class="checkbox">
+    <switch-button v-model="value" :disabled="disabled"/>
+    <label v-if="theLabel" @click="toggle">{{theLabel}}</label>
+  </div>
     </field-layout>
 </template>
 
 <style lang="scss">
 .FieldCheckbox {
+  .checkbox{
+    display: flex;
+    gap:23px ;
+    align-items: center;
+  }
+
 	label {
 		margin-bottom: 0;
 		margin-right: $gap2;
@@ -69,8 +77,7 @@ function toggle() {
 	}
 
 	.input {
-		display: flex;
-		align-items: center;
+
 	}
 }
 </style>

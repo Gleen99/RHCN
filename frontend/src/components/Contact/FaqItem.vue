@@ -28,20 +28,23 @@ async function fetchFaqs() {
     console.error("Error fetching FAQs:", error);
   }
 }
-function toggleFaq(item: IFaqWithShowText) {
-  console.log('Toggling FAQ:', item._id, 'Current state:', item.showText);
-  item.showText = !item.showText;
-  console.log('New state:', item.showText);
+function toggleFaq(faqItem: IFaqWithShowText) {
+  const foundFaq = faqs.value.find(faq => faq._id === faqItem._id);
+  if (foundFaq) {
+    foundFaq.showText = !foundFaq.showText;
+  }
 }
 
 const localizedFaqs = computed(() =>
-    faqs.value.map((faq) => ({
-      ...faq,
-      localized: faq[locale.value as "en" | "fr"],
-    }))
+    faqs.value.map((faq) => {
+      return {
+        ...faq,
+        localized: faq[locale.value as "en" | "fr"],
+        showText: faq.showText,
+      };
+    })
 );
 
-// Appeler fetchFaqs lors du montage du composant
 onMounted(fetchFaqs);
 </script>
 

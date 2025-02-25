@@ -1,6 +1,8 @@
 <script setup lang="ts">
 
-import {useSlots} from "vue";
+
+import { useSlots, type Slots } from 'vue';
+
 
 const props = defineProps<{
 	title?: string
@@ -14,7 +16,7 @@ const emit = defineEmits<{
 	// (e: 'click', value: any): void
 }>();
 
-const slots = useSlots();
+const slots: Slots = useSlots();
 
 </script>
 

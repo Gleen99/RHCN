@@ -87,16 +87,15 @@ watchEffect(async () => {
       padding: 16px 26px;
       font-family: $Arial;
       font-size: $fsform;
-      color: $cteal-dark ;
+      color: $cformText;
       background-color: transparent;
       outline: none;
       width: 100%;
       line-height: 1.3em;
-      padding-right: 40px;
 
       &::placeholder {
-        color: $cteal-dark;
-        font-weight: $fregular;
+        color: $cformText;
+        color: #aaa;
       }
     }
 

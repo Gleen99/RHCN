@@ -29,7 +29,7 @@ import PublicFooter from "@/components/layout/PublicFooter.vue";
         .content {
             margin: 108px;
 		min-height: calc(100vh - $publicMenuHeight - $publicFooterHeight - 3 * $gap);
-        @include desktopLittle {
+        @include desktopMax {
             margin: 127px;
 
             

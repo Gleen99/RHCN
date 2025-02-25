@@ -14,7 +14,7 @@ const props = defineProps<{
   mandatory?: boolean;
   placeholder?: string;
   disabled?: boolean;
-  modelValue: timestamp | null;
+  modelValue: any | null;
   min?: timestamp;
   max?: timestamp;
   nullable?: boolean;

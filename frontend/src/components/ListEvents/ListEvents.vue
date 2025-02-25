@@ -1,276 +1,197 @@
 <script lang="ts" setup>
-import {useApi} from "@/composition/api";
-import {ref, computed, onMounted} from "vue";
-import {IEventDB} from "@shared/crudTypes";
+import { ref, computed, onMounted, nextTick } from "vue";
+import { useApi } from "@/composition/api";
+import { useI18n } from "vue-i18n";
 import Filters from "@/components/Filters/Filters.vue";
 import Pagination from "@/components/Filters/Pagination.vue";
-import {useI18n} from "vue-i18n";
 import PageTitle from "@/components/ui/PageTitle.vue";
 import IAgenda from "@/components/images/IAgenda.vue";
 import ITime from "@/components/images/ITime.vue";
 import ILocation from "@/components/images/ILocation.vue";
 import IllusIconOpen from "@/components/images/IllusIconOpen.vue";
+import ModalEvent from "@/components/ListEvents/ModalEvent.vue";
+import {IEventDB} from "@shared/crudTypes";
 
+const { t } = useI18n();
+const { getEvents, GetCategoriesByType } = useApi();
 
-const {t} = useI18n();
-const {getEvents, GetCategoriesByType} = useApi();
-
-const eventList = ref<string[]>([]);
-const selectedEvent = ref(t('events.filters.allCategories'));
+const eventList = ref<string[]>([t("events.filters.allCategories") || "All Categories"]);
+const selectedCategory = ref(t("events.filters.allCategories") || "All Categories");
 const selectedDate = ref("");
-const selectedType = ref("Evènements");
 const currentPage = ref(1);
 const itemsPerPage = 6;
 const isLoading = ref(false);
 const error = ref<string | null>(null);
-const events = ref([]);
+const events = ref<IEventDB[]>([]);
+const isModalVisible = ref(false);
+const selectedEventDetails = ref<IEventDB | null>(null);
+
+const openModal = async (event: IEventDB) => {
+  selectedEventDetails.value = event;
+  isModalVisible.value = true;
+};
+
+const closeModal = () => {
+  isModalVisible.value = false;
+};
+
+
 const fetchEvents = async () => {
   isLoading.value = true;
   try {
-    events.value = await getEvents();
+    const response = await getEvents();
+    events.value = Array.isArray(response) ? response : [];
   } catch (err) {
-    console.error("Error fetching events:", err);
-    error.value = t("events.filters.errorLoadingEvents");
-  } finally {
-    isLoading.value = false;
-  }
-};
-
-const fetchEventsCategories = async () => {
-  isLoading.value = true;
-  error.value = null;
-  try {
-    const rawEvents = await GetCategoriesByType(selectedType.value);
-    const events = rawEvents.flatMap((item: any) =>
-        typeof item.fr.category === "string"
-            ? item.fr.category.split(",").map((cat: string) => cat.trim())
-            : item.fr.category
-    );
-    eventList.value = [t('events.filters.allCategories'), ...events]; // Ajout de la valeur par défaut
-  } catch (err) {
-    console.error("Error fetching events:", err);
-    error.value = t("events.filters.errorLoading");
+    console.error("Erreur lors de la récupération des événements :", err);
+    events.value = [];
   } finally {
     isLoading.value = false;
   }
 };
 
 const filteredEvents = computed(() => {
-  let result = events.value;
-
-  // Filtrer par catégorie
-  if (selectedEvent.value && selectedEvent.value !== t('events.filters.allCategories')) {
-    result = result.filter((event: any) =>
-        event.categories.includes(selectedEvent.value)
+  let result = events.value || [];
+  if (selectedCategory.value && selectedCategory.value !== t("events.filters.allCategories")) {
+    result = result.filter(event =>
+        Array.isArray(event.categories) &&
+        event.categories.some(cat => cat.category.includes(selectedCategory.value))
     );
-  }
 
-  // Filtrer par date
-  if (selectedDate.value) {
-    const selectedDateObj = new Date(selectedDate.value);
-    result = result.filter((event: any) => {
-      const eventDateObj = new Date(event.date);
-      return (
-          eventDateObj.getFullYear() === selectedDateObj.getFullYear() &&
-          eventDateObj.getMonth() === selectedDateObj.getMonth() &&
-          eventDateObj.getDate() === selectedDateObj.getDate()
-      );
-    });
   }
-
   return result;
 });
 
-
-const paginatedEvents = computed<IEventDB[]>(() => {
+const paginatedEvents = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage;
   return filteredEvents.value.slice(start, start + itemsPerPage);
 });
-
-const totalPages = computed(() => Math.ceil(filteredEvents.value.length / itemsPerPage));
-
-
-const goToPage = (page: number) => {
-  if (page > 0 && page <= totalPages.value) {
-    currentPage.value = page;
-  }
-};
-
-const formatDate = (dateString: string): string => {
-  const date = new Date(dateString);
-  const formattedDate = new Intl.DateTimeFormat("fr-FR", {
+const formatDate = (dateInput: string | number): string => {
+  const date = new Date(dateInput);
+  return new Intl.DateTimeFormat("fr-FR", {
     weekday: "long",
     day: "numeric",
     month: "long",
-  }).format(date);
-
-  // Mettre la première lettre en majuscule
-  return formattedDate
+  })
+      .format(date)
       .split(" ")
       .map((word, index) =>
-          index === 0 || index === 2 // Mettre en majuscule le jour et le mois
-              ? word.charAt(0).toUpperCase() + word.slice(1)
-              : word
+          index === 0 || index === 2 ? word.charAt(0).toUpperCase() + word.slice(1) : word
       )
       .join(" ");
 };
-
-
 onMounted(() => {
   fetchEvents();
-  fetchEventsCategories();
 });
 </script>
 
 <template>
   <div class="listEvents">
     <PageTitle class="Title" type="icon">
-      {{ t('events.eventsContent.title') }}
+      {{ t("events.eventsContent.title") }}
     </PageTitle>
+
     <Filters
-        :categories="eventList"
-        :selectedCategory="selectedEvent"
+        :categories="eventList.map(cat => ({ label: cat, value: cat }))"
+        :selectedCategory="selectedCategory"
         :selectedDate="selectedDate"
-        @update:selectedCategory="(value: any) => (selectedEvent = value)"
-        @update:selectedDate="(value: any) => (selectedDate = value)"
+        @update:selectedCategory="value => (selectedCategory = value)"
+        @update:selectedDate="value => (selectedDate = value ?? '')"
     />
 
-    <div v-if="isLoading" class="loading">{{ t('events.filters.loading') }}</div>
-    <div v-if="error" class="error">{{ error }}</div>
-
-    <div v-if="!isLoading && !error" class="events-grid">
-      <div v-for="event in paginatedEvents" :key="event._id" class="event-card">
-        <img :src="event.mainPicture?.thumbnail || '/placeholder.png'" alt="Event Image" class="event-image"/>
+    <div v-if="!isLoading && !error && paginatedEvents.length> 0" class="events-grid">
+      <div v-for="event in paginatedEvents" :key="event._id" class="event-card" @click="openModal(event)">
+        <img :src="event.mainPicture?.thumbnail || '/placeholder.png'" alt="Event Image" class="event-image" />
         <div class="event-details">
           <h2 class="event-title">{{ event.title }}</h2>
           <div class="event-info">
             <div class="event-infosContent">
-              <div class="icon">
-                <IAgenda/>
-              </div>
+              <div class="icon"><IAgenda /></div>
               <div class="infos">{{ formatDate(event.date) }}</div>
             </div>
             <div class="event-infosContent">
-              <div class="icon">
-                <ITime/>
-              </div>
+              <div class="icon"><ITime /></div>
               <div class="infos">{{ event.time }}</div>
             </div>
             <div class="event-infosContent">
-              <div class="icon">
-                <ILocation/>
-              </div>
+              <div class="icon"><ILocation /></div>
               <div class="infos"> {{ event.address }}</div>
             </div>
           </div>
         </div>
-        <div class="event-button">
-          <div>
-            <IllusIconOpen class="icon"/>
-          </div>
-          <div class="infos">{{ t('events.eventsInfos.seeMore') }}</div>
+        <div class="event-button" >
+          <div><IllusIconOpen class="icon" /></div>
+          <div class="infos">{{ t("events.eventsInfos.seeMore") }}</div>
         </div>
       </div>
     </div>
 
-    <Pagination
-        v-if="!isLoading && !error"
-        :currentPage="currentPage"
-        :totalPages="totalPages"
-        @changePage="goToPage"
-    />
+    <ModalEvent :show="isModalVisible"  :event="selectedEventDetails ?? {} as IEventDB" @close="closeModal" />
   </div>
 </template>
-
 <style lang="scss">
 .listEvents {
   cursor: pointer;
-
-  .title {
+  padding: 0 0 0 90px;
+  .Title {
     font-size: 24px !important;
-    margin-bottom: 20px !important;
   }
 
   .events-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 74px;
-    width: 100%;
-    max-width: 900px;
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: 0.2s linear;
+    columns: 12rem 3;
+    gap:1.4rem;
   }
 
   .event-card {
     background-color: #fff;
-    box-shadow: 0px 3px 6px #00000029;
-    border-radius: 48px;
+    border-radius: 12px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     transition: box-shadow 0.3s;
-
-    &:hover {
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+    .event-image{
+      height: 24vh;
     }
-
-    .event-image {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-
     .event-details {
-      padding: 15px 15px 0 15px ;
-
-      .event-infosContent {
-        display: flex;
-        gap: 15px;
-        align-items: center;
-
-        &:not(:last-child) {
-          padding-bottom: 15px;
-        }
-
-
-      .infos {
-          font-size: 18px;
-        }
-      }
-
+      padding: 0 16px;
       .event-title {
-        font-size: 20px;
-        margin-bottom: 10px;
-        padding-bottom: 10px;
-        font-weight: 500;
         display: flex;
         justify-content: center;
-        color: $cdeep-blue;
+        text-align: center;
+        font-size: 20px;
+        font-family: $Arial;
+        width: 100%;
+        margin-bottom: 16px;
         border-bottom: 1px solid $csoft-light-gray;
-      }
-
-
-    }
-    .event-button {
-      display: flex;
-      justify-content: center;
-      gap:15px;
-      align-items: center;
-      padding:0 0 10px 0;
-
-      .icon {
-        width: 15px;
-      }
-      .infos{
+        padding: 16px 0;
         color: $cdeep-blue;
-        font-size: 18px;
-        font-weight: bold;
-        font-family: $Roboto;
       }
+      .event-info{
+        .event-infosContent{
+          display: flex;
+          align-items: center;
+          gap:10px;
+          padding: 0 0 10px 0;
 
-      &:hover {
-        transform: scale(1.1);
+        }
       }
     }
   }
 
+  .event-button {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+    font-weight: bold;
+    .icon{
+      width: 24px;
+    }
+  }
 }
 </style>

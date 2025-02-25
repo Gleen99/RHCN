@@ -183,11 +183,13 @@ async function click() {
 	&.standard{
 		background-color: $cwhite;
     color: $cdark-blue-gray;
+    border:$cdark-blue-gray solid 1px;
+    border-radius: 20px;
 
     &:hover, &.but-loading {
-        background-color: $cwhite; 
+        background-color: $cdark-blue-gray;
         opacity: 0.9; 
-        color: $cdark-blue-gray;
+        color:white;
     }
 	}
 
