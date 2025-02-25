@@ -8,8 +8,7 @@ const { acceptInvitation } = useApi();
 const route = useRoute();
 const router = useRouter();
 
-const firstname = ref('');
-const lastname = ref('');
+
 const email = ref('');
 const password = ref('');
 const errorMessage = ref('');

@@ -15,7 +15,6 @@ const props = defineProps<{
   event: IEventDB;
   show: boolean;
 }>();
-
 const emit = defineEmits(['close']);
 
 
@@ -36,47 +35,47 @@ const formatDate = (dateInput: string | number): string => {
 </script>
 
 <template>
-  <Modal v-if="show" :show="show" :title="event?.title || ''" :closeButton="true" @close="emit('close')">
+  <Modal v-if="props.show" :show="props.show" :title="props.event?.title || ''" :closeButton="true" @close="emit('close')">
     <template #default >
       <div class="ModalEvent">
         <div class="event-infos">
           <div class="event-infos-image">
-            <img :src="event.mainPicture?.thumbnail || '/placeholder.png'" alt="Event Image" class="event-image"/>
+            <img :src="props.event.mainPicture?.thumbnail || '/placeholder.png'" alt="Event Image" class="event-image"/>
           </div>
-          <div v-if="event" class="event-details">
+          <div v-if="props.event" class="event-details">
             <div class="event-info">
-              <h2 class="event-title">{{ event.title }}</h2>
+              <h2 class="event-title">{{ props.event.title }}</h2>
               <div class="event-infosContent">
                 <div class="icon">
                   <IAgenda/>
                 </div>
-                <div class="infos">{{ formatDate(event.date) }}</div>
+                <div class="infos">{{ formatDate(props.event.date) }}</div>
               </div>
               <div class="event-infosContent">
                 <div class="icon">
                   <ITime/>
                 </div>
-                <div class="infos">{{ event.time }}</div>
+                <div class="infos">{{ props.event.time }}</div>
               </div>
               <div class="event-infosContent">
                 <div class="icon">
                   <ILocation/>
                 </div>
-                <div class="infos">{{ event.address }}</div>
+                <div class="infos">{{ props.event.address }}</div>
               </div>
             </div>
           </div>
         </div>
         <div class="more-infos">
           <div class="more-infos-content description">
-            <div  class="infos">{{ event.description }}</div>
+            <div  class="infos">{{ props.event.description }}</div>
           </div>
           <div class="more-infos-content">
             <div  class="infos">
               <IDollars />
               <div>
                 {{t("modal.modalEvent.price")}}
-                <span class="price">{{ event.price }}$</span>
+                <span class="price">{{ props.event.price }}$</span>
               </div>
              </div>
             <div  class="infos">

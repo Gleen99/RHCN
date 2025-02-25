@@ -7,7 +7,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div class="LegalParagraph" v-html="text"/>
+    <div class="LegalParagraph" v-html="props.text"/>
 </template>
 
 <style lang="scss">

@@ -21,7 +21,7 @@ const slots: Slots = useSlots();
 </script>
 
 <template>
-	<div :class="'Box' + (interactive? ' interactive':'') + (light? ' light':'') + (hmini? ' hmini':'')">
+	<div :class="'Box' + (props.interactive? ' interactive':'') + (light? ' light':'') + (hmini? ' hmini':'')">
 		<div v-if="picture" class="picture">
 			<img :src="picture" :alt="pictureAlt" crossorigin="anonymous"/>
 		</div>

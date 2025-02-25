@@ -60,21 +60,21 @@ const createPaymentIntent = async () => {
   }
 };
 
-const handlePayment = async () => {
-  if (!stripe.value || !elements.value || !clientSecret.value) return;
-
-  const {paymentIntent, error} = await stripe.value.confirmCardPayment(clientSecret.value, {
-    payment_method: {
-      card: cardNumberElement.value!
-    }
-  });
-
-  if (error) {
-    message.value = `❌ Erreur : ${error.message}`;
-  } else if (paymentIntent?.status === "succeeded") {
-    message.value = "🎉 Paiement réussi ! Merci pour votre don !";
-  }
-};
+// const handlePayment = async () => {
+//   if (!stripe.value || !elements.value || !clientSecret.value) return;
+//
+//   const {paymentIntent, error} = await stripe.value.confirmCardPayment(clientSecret.value, {
+//     payment_method: {
+//       card: cardNumberElement.value!
+//     }
+//   });
+//
+//   if (error) {
+//     message.value = `❌ Erreur : ${error.message}`;
+//   } else if (paymentIntent?.status === "succeeded") {
+//     message.value = "🎉 Paiement réussi ! Merci pour votre don !";
+//   }
+// };
 
 watch(amount, async () => {
   if (amount.value !== null && amount.value > 0) {

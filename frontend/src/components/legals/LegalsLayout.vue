@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {LegalType} from "@shared/enums";
 import LoadingContext from "@/components/ui/LoadingContext.vue";
-import {useApi} from "@/composition/api";
 import {computed, ref} from "vue";
 import type {ILegalsDB} from "@shared/crudTypes";
 import LegalBlock from "@/components/legals/LegalBlock.vue";

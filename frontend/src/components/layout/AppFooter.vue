@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import moment from "moment-timezone";
-import {useI18n} from "vue-i18n";
 import {useApi} from "@/composition/api";
-import {useAnalytics} from "@/composition/analytics";
-import {useRoute, useRouter} from "vue-router";
-import {useAuth} from "@/composition/snark-auth";
 
 
 // const props = defineProps<{
@@ -14,11 +10,6 @@ import {useAuth} from "@/composition/snark-auth";
 //     (e: 'click', value: any): void
 // }>();
 
-const router = useRouter();
-const currentRoute = useRoute();
-const {t} = useI18n();
-const {sendEventAnalytics} = useAnalytics();
-const {currentUser, isAuth} = useAuth();
 const {} = useApi();
 
 
@@ -26,7 +17,7 @@ const {} = useApi();
 
 <template>
 	<div class="AppFooter">
-		<div class="copyright">&copy; copyright {{moment().year()}}</div>
+    <div class="copyright">© copyright {{ moment().year() }}</div>
 	</div>
 </template>
 

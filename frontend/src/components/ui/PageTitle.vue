@@ -11,7 +11,7 @@ const slots: Slots = useSlots();
 <template>
   <div class="PageTitle" :class="type">
     <!-- Titre avec icône -->
-    <div v-if="type === 'icon'" class="title with-icon">
+    <div v-if="props.type === 'icon'" class="title with-icon">
       <div class="icon" v-if="slots.icon">
         <slot name="icon" />
       </div>

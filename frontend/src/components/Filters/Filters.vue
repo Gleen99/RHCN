@@ -39,8 +39,8 @@ const onDateChange = (value: number | null) => {
      <div class="FormPlusContent">
          <FieldSelect
              name="category"
-             :options="categories"
-             :modelValue="selectedCategory"
+             :options="props.categories"
+             :modelValue="props.selectedCategory"
              @update:modelValue="onCategoryChange"
              :label="t('events.filters.category.label')"
          />

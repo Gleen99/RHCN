@@ -47,7 +47,7 @@ function submitForm() {
       @close="emit('close')"
       class="ModalDonateModal"
   >
-    <template #default="{ close }">
+    <template>
       <div class="ModalDonateContent">
         <FormPlus error-prefix="contact" class="FormPlus">
           <!-- Champs prénom et nom -->

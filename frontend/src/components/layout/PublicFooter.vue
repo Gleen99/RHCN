@@ -1,22 +1,13 @@
 <script setup lang="ts">
 import {useI18n} from "vue-i18n";
 import {useApi} from "@/composition/api";
-import {useAnalytics} from "@/composition/analytics";
-
-import {useRoute, useRouter} from "vue-router";
-import {useAuth} from "@/composition/snark-auth";
-import { Routes } from "@/enums";
 import MainButton from "@/components/ui/MainButton.vue";
 import IFacebookYellow from "@/components/images/IFacebookYellow.vue";
 import IXYellow from "@/components/images/IXYellow.vue";
 import ILinkedlnYellow from "@/components/images/ILinkedlnYellow.vue";
 import IInstagramYellow from "@/components/images/IInstagramYellow.vue";
 
-const router = useRouter();
-const currentRoute = useRoute();
 const {t} = useI18n();
-const {sendEventAnalytics} = useAnalytics();
-const {currentUser, isAuth} = useAuth();
 const {} = useApi();
 
 

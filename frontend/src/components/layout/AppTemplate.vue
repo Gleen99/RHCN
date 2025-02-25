@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 
-const props = defineProps<{
-  noPadding?: boolean
-}>();
+
 </script>
 
 <template>

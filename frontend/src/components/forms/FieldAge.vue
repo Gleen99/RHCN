@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // props
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import FieldLayout from "@/components/forms/FieldLayout.vue";
 
 const props = defineProps<{

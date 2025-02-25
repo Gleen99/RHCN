@@ -10,7 +10,7 @@ const props = defineProps<{
 <template>
   <div class="Avatar">
     <div class="picture-inner">
-      <img v-if="pictureUrl" :src="pictureUrl" alt="image" crossorigin="anonymous" />
+      <img v-if="props.pictureUrl" :src="pictureUrl" alt="image" crossorigin="anonymous" />
       <IllusAvatar v-else />
     </div>
   </div>

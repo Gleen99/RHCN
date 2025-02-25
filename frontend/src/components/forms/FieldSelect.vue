@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watchEffect } from "vue";
 import FieldLayout from "@/components/forms/FieldLayout.vue";
-import IAgenda from "@/components/images/IAgenda.vue";
 import IllusIconOpen from "@/components/images/IllusIconOpen.vue";
 
 const props = defineProps<{

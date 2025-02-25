@@ -26,7 +26,6 @@ const handleLogin = async () => {
 
     const response = await login({ email: email.value, password: password.value });
     const user = response; 
-    const token = response.token; 
 
     authStore.setUser({
       email: user.email,

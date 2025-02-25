@@ -4,9 +4,7 @@ import Loader from "@/components/ui/Loader.vue";
 const props = defineProps<{
     text: string
 }>();
-const emit = defineEmits<{
-	// (e: 'click', value: any): void
-}>();
+
 
 </script>
 
@@ -14,7 +12,7 @@ const emit = defineEmits<{
     <div class="WaitingScreen">
         <div class="info">
             <Loader/>
-            <div v-if="text" class="text" v-html="text"/>
+            <div v-if="props.text" class="text" v-html="text"/>
         </div>
     </div>
 </template>

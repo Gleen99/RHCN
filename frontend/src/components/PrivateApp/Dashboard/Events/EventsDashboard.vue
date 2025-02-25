@@ -5,7 +5,7 @@ import PictureLoader from "@/components/ui/PictureLoader.vue";
 
 import { IEvent, IEventDB } from "@shared/crudTypes";
 
-const { createEvent, getEvents, deleteEvent, updateEvent, GetCategoriesByType } = useApi();
+const { createEvent, getEvents, deleteEvent, GetCategoriesByType } = useApi();
 
 const events = ref<IEventDB[]>([]);
 const newEvent = ref<IEvent>({

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import PublicTemplate from "@/components/layout/PublicTemplate.vue";
 import { useI18n } from "vue-i18n";
 import PageTitle from "../ui/PageTitle.vue";
 import { onMounted, ref } from "vue";

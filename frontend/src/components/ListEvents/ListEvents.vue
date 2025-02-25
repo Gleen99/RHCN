@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-import { ref, computed, onMounted, nextTick } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useApi } from "@/composition/api";
 import { useI18n } from "vue-i18n";
 import Filters from "@/components/Filters/Filters.vue";
-import Pagination from "@/components/Filters/Pagination.vue";
 import PageTitle from "@/components/ui/PageTitle.vue";
 import IAgenda from "@/components/images/IAgenda.vue";
 import ITime from "@/components/images/ITime.vue";
@@ -13,7 +12,7 @@ import ModalEvent from "@/components/ListEvents/ModalEvent.vue";
 import {IEventDB} from "@shared/crudTypes";
 
 const { t } = useI18n();
-const { getEvents, GetCategoriesByType } = useApi();
+const { getEvents } = useApi();
 
 const eventList = ref<string[]>([t("events.filters.allCategories") || "All Categories"]);
 const selectedCategory = ref(t("events.filters.allCategories") || "All Categories");
@@ -22,9 +21,9 @@ const currentPage = ref(1);
 const itemsPerPage = 6;
 const isLoading = ref(false);
 const error = ref<string | null>(null);
-const events = ref<IEventDB[]>([]);
 const isModalVisible = ref(false);
 const selectedEventDetails = ref<IEventDB | null>(null);
+const events = ref<IEventDB[]>([]);
 
 const openModal = async (event: IEventDB) => {
   selectedEventDetails.value = event;
@@ -40,7 +39,7 @@ const fetchEvents = async () => {
   isLoading.value = true;
   try {
     const response = await getEvents();
-    events.value = Array.isArray(response) ? response : [];
+    events.value = Array.isArray(response) ? response : []; // Assurez-vous que c'est bien un tableau
   } catch (err) {
     console.error("Erreur lors de la récupération des événements :", err);
     events.value = [];

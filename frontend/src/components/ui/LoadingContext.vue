@@ -9,9 +9,7 @@ const props = defineProps<{
 	loader: () => Promise<any>
 	ifError?: ErrorFunction|string
 }>();
-const emit = defineEmits<{
-	// (e: 'click', value: any): void
-}>();
+
 
 const {loading, error, load} = useLoader();
 

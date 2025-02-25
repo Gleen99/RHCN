@@ -17,7 +17,7 @@ function selectTab(tab: Tab) {
 
 <template>
 	<div class="TabsBar">
-		<template v-for="tab in tabs" :key="tab.value">
+		<template v-for="tab in props.tabs" :key="tab.value">
 			<div :class="'tab ' + tab.value + (modelValue === tab.value ? ' active':'')" @click="selectTab(tab)">{{tab.label}}</div>
 			<hr/>
 		</template>

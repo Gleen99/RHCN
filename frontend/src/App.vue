@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import {onMounted, provide, ref} from "vue";
-import {useAuth} from "@/composition/snark-auth";
+import { provide, ref} from "vue";
 import WaitingScreen from "@/components/ui/WaitingScreen.vue";
 import type {GlobalController} from "@/front-types";
 import { toast } from 'vue3-toastify';
-import {useI18n} from "vue-i18n";
 import TawkTo from "@/components/TawkTo/TawkTo.vue";
 
-const {initAuth} = useAuth();
-const {t} = useI18n();
+// const {initAuth} = useAuth();
 
 
 
@@ -39,25 +36,25 @@ provide<GlobalController>("globalController", {
 	showSuccess
 });
 
-const cookiesPreferences = [
-	{
-		items: [
-			{ label: t("cookies.acceptAll"), value: 'ga', isEnable: true },
-		],
-	},
-];
-
-function acceptAllCookies(){
-	localStorage.setItem('allLivecookCookiesAccepted', 'true');
-}
-
-function acceplimitedCookies(){
-	if(localStorage.getItem('cookie-comply') === '["ga"]') {
-		localStorage.setItem('allLivecookCookiesAccepted', 'true')
-	} else {
-		localStorage.setItem('allLivecookCookiesAccepted', 'false');
-	}
-}
+// const cookiesPreferences = [
+// 	{
+// 		items: [
+// 			{ label: t("cookies.acceptAll"), value: 'ga', isEnable: true },
+// 		],
+// 	},
+// ];
+//
+// function acceptAllCookies(){
+// 	localStorage.setItem('allLivecookCookiesAccepted', 'true');
+// }
+//
+// function acceplimitedCookies(){
+// 	if(localStorage.getItem('cookie-comply') === '["ga"]') {
+// 		localStorage.setItem('allLivecookCookiesAccepted', 'true')
+// 	} else {
+// 		localStorage.setItem('allLivecookCookiesAccepted', 'false');
+// 	}
+// }
 
 
 </script>

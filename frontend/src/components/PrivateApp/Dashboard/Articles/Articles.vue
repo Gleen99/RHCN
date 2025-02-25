@@ -8,7 +8,7 @@ import TextEditor from "@/components/ui/TextEditor.vue";
 const {
   createArticle,
   getArticles,
-  deleteArticle,
+  // deleteArticle,
   updateArticle,
 } = useApi();
 
@@ -30,8 +30,8 @@ const newArticle = ref<IArticle>({
 
 const idEdition = ref<string | null>(null);
 const chargement = ref(false);
-const afficherModalSuppression = ref(false);
-const articleASupprimer = ref<string | null>(null);
+// const afficherModalSuppression = ref(false);
+// const articleASupprimer = ref<string | null>(null);
 
 // Récupérer les articles
 async function fetchArticles() {
@@ -84,18 +84,18 @@ async function modifierArticle() {
 }
 
 // Supprimer un article
-async function supprimerArticle() {
-  if (!articleASupprimer.value) return;
-
-  try {
-    await deleteArticle(articleASupprimer.value);
-    afficherModalSuppression.value = false;
-    articleASupprimer.value = null;
-    fetchArticles();
-  } catch (error) {
-    console.error("Erreur lors de la suppression de l'article :", error);
-  }
-}
+// async function supprimerArticle() {
+//   if (!articleASupprimer.value) return;
+//
+//   try {
+//     await deleteArticle(articleASupprimer.value);
+//     afficherModalSuppression.value = false;
+//     articleASupprimer.value = null;
+//     fetchArticles();
+//   } catch (error) {
+//     console.error("Erreur lors de la suppression de l'article :", error);
+//   }
+// }
 
 // Valider l'article
 function validerArticle(article: IArticle) {

@@ -13,7 +13,7 @@ const emit = defineEmits<{
 <template>
 	<div class="SeeMoreButton" @click="emit('click')">
 		
-		<div class="label">{{label}}</div>
+		<div class="label">{{props.label}}</div>
 	</div>
 </template>
 

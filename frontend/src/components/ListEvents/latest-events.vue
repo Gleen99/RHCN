@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { useApi } from "@/composition/api";
 import { useI18n } from "vue-i18n";
 import IAgenda from "@/components/images/IAgenda.vue";

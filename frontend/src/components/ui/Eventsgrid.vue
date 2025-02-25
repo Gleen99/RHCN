@@ -20,7 +20,7 @@ const toggleDetails = (event: Event) => {
 </script>
 
 <template>
-  <div :class="type" @click="$emit('select')">
+  <div :class="props.type" @click="$emit('select')">
     <div class="ButtonImages">
       <ISwapButtonWhite v-if="isSelected" />
       <ISwapButton v-else />

@@ -13,8 +13,7 @@ const newPartenaire = ref<IPartnerIcon>({
 const partenaires = ref<IPartnerIconDB[]>([]);
 const idEdition = ref<string | null>(null);
 const chargement = ref(false);
-const afficherModalSuppression = ref(false);
-const PartnerSupprimer = ref<string | null>(null);
+
 
 async function fetchPartenaires() {
   try {

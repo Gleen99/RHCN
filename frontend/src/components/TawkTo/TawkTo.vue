@@ -3,8 +3,6 @@ import { onMounted } from "vue";
 
 onMounted(() => {
   // Déclaration de Tawk_API correctement avec TypeScript
-  const Tawk_API: any = (window as any).Tawk_API || {};
-  const Tawk_LoadStart = new Date();
 
   (function () {
     const script = document.createElement("script");

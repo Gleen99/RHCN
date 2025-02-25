@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import { ref } from "vue";
 
 const props = defineProps({
   value: Object,
 });
 
 const emit = defineEmits(['onChange']);
-
-const fileInput = ref<File | null>(null);
 
 function handleFileChange(event: Event) {
   const target = event.target as HTMLInputElement;
@@ -31,8 +28,8 @@ function handleFileChange(event: Event) {
 <template>
   <div class="picture-loader">
     <input type="file" @change="handleFileChange" />
-    <div v-if="value?.thumbnail">
-      <img :src="value.thumbnail" alt="Preview" class="image-preview" />
+    <div v-if="props.value?.thumbnail">
+      <img :src="props.value?.thumbnail" alt="Preview" class="image-preview" />
     </div>
   </div>
 </template>

@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue';
 import { useApi } from '@/composition/api';
 import { IUserDB } from '@shared/crudTypes';
 import { useAuthStore } from '@/composition/authStore';
-const { GetAllUsers, DeleteUser, PutUser } = useApi();
+const { GetAllUsers, PutUser } = useApi();
 
 const users = ref<IUserDB[]>([]);
 const loading = ref(true);
@@ -31,7 +31,7 @@ const fetchUsers = async () => {
 const deleteUser = async (userId: string) => {
   try {
     if (confirm('Voulez-vous vraiment supprimer cet utilisateur ?')) {
-      const response = await DeleteUser(userId);
+      // const response = await DeleteUser(userId);
       authStore.deleteUser()
       users.value = users.value.filter(user => user._id !== userId);
     }

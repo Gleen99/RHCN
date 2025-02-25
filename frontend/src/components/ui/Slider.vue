@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import {useI18n} from "vue-i18n";
 import {useApi} from "@/composition/api";
-import {useAnalytics} from "@/composition/analytics";
-import {useRoute, useRouter} from "vue-router";
-import {useAuth} from "@/composition/snark-auth";
 import {computed, nextTick, onMounted, onUnmounted, ref} from "vue";
 import vResize from "@/directives/resize-directive";
 import Ileft from "@/components/images/pagination/Ileft.vue";
@@ -35,11 +31,7 @@ const props = defineProps<{
 //     (e: 'click', value: any): void
 // }>();
 
-const router = useRouter();
-const currentRoute = useRoute();
-const {t} = useI18n();
-const {sendEventAnalytics} = useAnalytics();
-const {currentUser, isAuth} = useAuth();
+
 const {} = useApi();
 
 const sliderWindow = ref<HTMLElement>();

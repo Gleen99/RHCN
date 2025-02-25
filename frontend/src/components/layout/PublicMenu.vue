@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import { useRoute, useRouter } from "vue-router";
 import { Routes } from "@/enums";
 import MainButton from "../ui/MainButton.vue";
 
-const router = useRouter();
-const currentRoute = useRoute();
 const { t, locale } = useI18n();
 
 const changeLanguage = (lang: string) => {

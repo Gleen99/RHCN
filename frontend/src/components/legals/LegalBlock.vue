@@ -11,8 +11,8 @@ const props = defineProps<{
 </script>
 
 <template>
-    <LegalTitle v-if="block.blockName === 'block-title'" :title="block.text!" :level="1"/>
-    <LegalTitle v-if="block.blockName === 'block-title2'" :title="block.text!" :level="2"/>
-    <LegalParagraph v-else-if="block.blockName === 'block-paragraph'" :text="block.text!"/>
-    <LegalImage v-else-if="block.blockName === 'block-image'" :image="block.image!"/>
+    <LegalTitle v-if="props.block.blockName === 'block-title'" :title="props.block.text!" :level="1"/>
+    <LegalTitle v-if="props.block.blockName === 'block-title2'" :title="props.block.text!" :level="2"/>
+    <LegalParagraph v-else-if="props.block.blockName === 'block-paragraph'" :text="props.block.text!"/>
+    <LegalImage v-else-if="props.block.blockName === 'block-image'" :image="props.block.image!"/>
 </template>

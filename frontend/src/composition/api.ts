@@ -1,7 +1,7 @@
 import axios from "axios";
-import type {AnalyticsData, GetAllUsersResponse, objectId, ObjectId, PaginationOption, SortField} from "@shared/types";
+import type {AnalyticsData, objectId, ObjectId, PaginationOption, SortField} from "@shared/types";
 
-import {AnalyticsType, LegalType, DBCollection, SortOrder} from "@shared/enums";
+import {AnalyticsType, DBCollection, SortOrder} from "@shared/enums";
 import {event, pageview} from "vue-gtag";
 
 import {PaginatedList} from "@/front-types";
