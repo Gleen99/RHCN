@@ -10,7 +10,7 @@
     "port": 41101,
     "api": {
       "version": "1.0",
-      "autoDiscoveryPath": "dist/src/controllers"
+      "autoDiscoveryPath": "dist/backend/src/controllers"
     },
     "CORS_ALLOW_ORIGIN": "*",
     "JSON_SIZE_LIMIT": "200mb",

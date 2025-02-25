@@ -1,12 +1,12 @@
 {
   "name": "repo",
   "version": "1.0.0",
-  "main": "dist/src/server.js",
+  "main": "dist/backend/src/server.js",
   "scripts": {
-    "dev": "node dist/src/server.js",
+    "dev": "node dist/backend/src/server.js",
     "build": "tsc",
     "build-watch": "tsc -w",
-    "initData": "ts-node dist/scripts/initData.js"
+    "initData": "ts-node dist/backend/scripts/initData.js"
   },
   "keywords": [],
   "author": "",
