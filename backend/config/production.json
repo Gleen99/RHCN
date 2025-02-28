@@ -1,7 +1,29 @@
 {
   "environment": "production",
+  "port": 41101,
   "debug": false,
   "dbLogger": false,
+  "database": {
+    "mongo": {
+      "host": "127.0.0.1",
+      "database": "rhcn",
+      "port": 27017,
+      "user": "rhcn",
+      "password": "cfGDh6UzBo93K7GGnmsv",
+      "mongoOptions": {
+        "directConnection": true,
+        "serverSelectionTimeoutMS": 2000
+      }
+    }
+  },
+  "modes": {
+    "api": {
+      "activated": true
+    },
+    "queue": {
+      "activated": false
+    }
+  },
   "logLevel": "error",
   "logAsToken": "LOGASTOKENPRODUCTION",
   "authSecret": "AUTH_SECRET_PROD",
@@ -23,19 +45,38 @@
       "logAsToken": "LOGASTOKENLOCAL"
     }
   },
-  "database": {
-    "mongo": {
-      "uri": "mongodb://repo_prod_user:prod_password@localhost:27017/repo_prod",
-      "mongoOptions": {
-        "directConnection": true,
-        "serverSelectionTimeoutMS": 2000
+  "email": {
+    "passthrough": ".*?@((gmail\\.com)|(rhcn\\.ca))",
+    "forceTo": false,
+    "defaultSender": "rhcn <gleencpro@gmail.com>",
+    "defaultName": "RHCN",
+    "adminRecipients": [
+      "tech@rhcn.fr"
+    ],
+    "extraData": {
+      "_frontUrl": "https://www.rhcn.ca",
+      "_apiUrl": "https://www.rhcn.ca/api",
+      "_cdnUrl": "https://www.rhcn.ca/static",
+      "contactEmail": "contact@rhcn.fr"
+    },
+    "server": {
+      "host": "in-v3.mailjet.com",
+      "port": 465,
+      "secure": true,
+      "auth": {
+        "MJ_APIKEY_PUBLIC": "77c65e6761b77d567436d7633c37cb45",
+        "MJ_APIKEY_PRIVATE": "4a1c96c655727d4f8e655c81138f49bd"
       }
-    }
+    },
+    "newsletterListId": "10495905"
+  },
+  "stripe": {
+    "publishableKey": "pk_test_51QnqxfQnpnxfJzarTPCmlcoCDY6AkGD7JaoEeBIAt6Xb7pe7xyqJwwmHpKZGGv77DW75wv94BFKupyqen6iPNiKb00y8SIFVcM",
+    "secretKey": "sk_test_51QnqxfQnpnxfJzarUBcpFUJea410xGzpUCVz4O9iRsqRxgcU5LqF2jjhIMtcaxVCeLcviRcnVzELxW6WbMYNCiDO00jyIlu4TS",
+    "webhook": "whsec_f083572cf8fe69d91e2a943703f5b84ceeb500d51e233c8283223d823fafdfea"
   },
   "services": {
     "front": "https://www.rhcn.ca",
-    "api": "https://api.rhcn.ca",
-    "bo": "https://bo.rhcn.ca",
-    "notifier": "https://notifier.rhcn.ca"
+    "api": "https://api.rhcn.ca"
   }
 }
