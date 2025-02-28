@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "main": "dist/backend/src/server.js",
   "scripts": {
-    "dev": "node dist/backend/src/server.js",
+    "dev": "nodemon dist/backend/src/server.js",
     "build": "tsc",
-    "build-watch": "tsc -w",
-    "initData": "ts-node dist/backend/scripts/initData.js"
+    "build-watch": "yarn build && tsc -w",
+    "initData": "ts-node dist/backend/scripts/initData.js",
+    "staging": "NODE_ENV=staging forever --uid 'RHCN (STAGING)' -l '/var/log/rhcn/staging.log' --append start dist/backend/src/server.js",
+    "prod": "NODE_ENV=production forever --uid 'RHCN (PROD)' -l '/var/log/rhcn/prod.log' --append start dist/backend/src/server.js"
   },
   "keywords": [],
   "author": "",
