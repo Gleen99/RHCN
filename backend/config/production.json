@@ -9,23 +9,23 @@
     "port": 41101,
     "api": {
       "version": "1.0",
-      "autoDiscoveryPath": "%api%/dist/back/api/src/controllers"
+      "autoDiscoveryPath": "dist/backend/src/controllers"
     },
-    "CORS_ALLOW_ORIGIN": "https://www.repo.com",
-    "JSON_SIZE_LIMIT": "50mb",
+    "CORS_ALLOW_ORIGIN": "*",
+    "JSON_SIZE_LIMIT": "200mb",
     "uploads": {
       "environment": ["development", "staging", "production"],
-      "path": "%project%/uploads",
+      "path": "uploads",
       "temp": "temp"
+    },
+    "auth": {
+      "secret": "%ASSO%.RHCN%µ!2024?µ!",
+      "logAsToken": "LOGASTOKENLOCAL"
     }
   },
   "database": {
     "mongo": {
-      "host": "mongodb-production.repo.com",
-      "database": "repo_prod",
-      "port": 27017,
-      "user": "repo_prod_user",
-      "password": "prod_password",
+      "uri": "mongodb://repo_prod_user:prod_password@localhost:27017/repo_prod",
       "mongoOptions": {
         "directConnection": true,
         "serverSelectionTimeoutMS": 2000
@@ -33,9 +33,9 @@
     }
   },
   "services": {
-    "front": "https://www.repo.com",
-    "api": "https://api.repo.com/1.0",
-    "bo": "https://bo.repo.com",
-    "notifier": "https://notifier.repo.com"
+    "front": "https://www.rhcn.ca",
+    "api": "https://api.rhcn.ca",
+    "bo": "https://bo.rhcn.ca",
+    "notifier": "https://notifier.rhcn.ca"
   }
 }
