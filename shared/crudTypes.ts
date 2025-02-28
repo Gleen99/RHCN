@@ -83,27 +83,32 @@ export interface  IMember {
 }
 
 export interface IMemberDB extends IMember, DB {}
+
+
+export interface BlogImage {
+	path: string
+	size?: number
+	mimetype?: string
+}
 export interface ArticleContent {
-    blockName: string;
-    text?: string;
-    image?: Picture & { position?: "left" | "right" | "center" };
-    link?: { url: string; openInNewTab: boolean };
-    isList?: boolean;
-    listItems?: string[];
-    size?: "small" | "medium" | "large";
-    structuration?: string;
+	blockName: string;
+	text?: string;
+	image?: BlogImage;
 }
 
-export interface IArticle{
-	title: string
-	slug: string
-	mainPicture?: Picture
-	author?: string
-	categories: ICategoryContent[]
-	published: boolean
-	content: ArticleContent[]
+export interface IArticle {
+	title: string;
+	slug: string;
+	excerpt?: string;
+	date?: string;
+	mainPicture?: Picture;
+	author?: string;
+	categories: string[];
+	published: boolean;
+	content: ArticleContent[];
 }
-export interface  IArticleDB extends IArticle, DB {}
+
+export interface IArticleDB extends IArticle, DB {}
 
 export interface IEvent {
 	title: string;
@@ -146,6 +151,9 @@ export interface IContact {
 	data?: any
 }
 export interface IContactDB extends IContact, DB {}
+
+
+
 
 export interface LegalImage {
 	path: string

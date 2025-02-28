@@ -9,45 +9,48 @@ export default class CreateArticle extends Controller {
 
     public async handler(req: Request, res: Response): Promise<any> {
         try {
-            const {
-                title,
-                slug,
-                date,
-                mainPicture,
-                author,
-                categories,
-                published,
-                content
-            } = req.body;
+            const { title, slug, mainPicture, author, categories, published, content } = req.body;
 
-            // Validation des données requises
-            if (!title || !slug || !date || !categories ) {
+            if (!title || !slug || !categories) {
                 return res.status(400).json({
-                    error: "Title, slug, date, and categories are required fields.",
+                    error: "Title, slug, and at least one category are required fields.",
                 });
             }
 
-            if (!content || !Array.isArray(content)) {
-                return res.status(400).json({
-                    error: "Content must be an array of ArticleContent objects.",
-                });
+            // if (!content || !Array.isArray(content) || content.length === 0 || !content.every(block => block.blockName && block.text)) {
+            //     return res.status(400).json({
+            //         error: "Content must be a non-empty array of ArticleContent objects with blockName and text.",
+            //     });
+            // }
+
+            // Vérifier si un article avec le même slug existe déjà
+            const existingArticle = await db.collection("articles").findOne({ slug });
+            if (existingArticle) {
+                return res.status(409).json({ error: "An article with this slug already exists." });
             }
 
+            // Création de l'objet article
             const newArticle = {
                 title,
                 slug,
-                date: new Date(date), // Conversion en objet Date
                 mainPicture,
-                author,
+                author: author || "Unknown", // Valeur par défaut
                 categories,
                 published: !!published, // Conversion en boolean
                 content,
             };
 
             // Insertion dans la base de données
-            const createdArticle = await db.collection("articles").insertOne(newArticle);
+            const result = await db.collection("articles").insertOne(newArticle);
 
-            // Retourne l'article créé
+            if (!result.acknowledged) {
+                throw new Error("Database insertion failed");
+            }
+
+            // Récupérer l'article inséré pour renvoyer une réponse complète
+            const createdArticle = await db.collection("articles").findOne({ _id: result.insertedId });
+
+            // Retourner l'article créé
             return res.status(201).json(createdArticle);
         } catch (error) {
             console.error("Error creating article:", error);

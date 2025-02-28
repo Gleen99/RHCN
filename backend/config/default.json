@@ -42,7 +42,7 @@
   },
   
   "email": {
-    "passthrough": ".*?@((gmail\\.com)|(rhcn\\.fr))",
+    "passthrough": ".*?@((gmail\\.com)|(rhcn\\.ca))",
     "forceTo": false,
     "defaultSender": "rhcn <gleencpro@gmail.com>",
     "defaultName": "RHCN",

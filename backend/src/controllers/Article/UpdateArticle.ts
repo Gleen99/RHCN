@@ -29,22 +29,25 @@ export default class UpdateArticle extends Controller {
             const articleId = new ObjectId(id);
 
             // Validation des données nécessaires
-            if (!title || !slug || !categories || !Array.isArray(content)) {
+            if (!title || !slug || !categories || !Array.isArray(content) || content.length === 0) {
                 return res.status(400).json({
-                    error: "Title, slug, categories, and content are required.",
+                    error: "Title, slug, categories, and content (non-empty array) are required.",
                 });
             }
 
-            const updateData = {
+            const updateData: any = {
                 title,
                 slug,
-                date: new Date(date),
-                mainPicture,
-                author,
-                categories,
+                mainPicture: mainPicture || null,
+                author: author || "Unknown",
+                categories: Array.isArray(categories) ? categories : [categories],
                 published: !!published,
                 content,
             };
+
+            if (date) {
+                updateData.date = new Date(date);
+            }
 
             const updatedArticle = await db.collection("articles").findOneAndUpdate(
                 { _id: articleId },
@@ -52,7 +55,7 @@ export default class UpdateArticle extends Controller {
                 { returnDocument: "after" }
             );
 
-            if (!updatedArticle?.value) {
+            if (!updatedArticle) {
                 return res.status(404).json({ error: "Article not found." });
             }
 

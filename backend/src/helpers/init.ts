@@ -6,17 +6,11 @@ import { expressInit, expressInitApi, expressInitErrorManagement, expressInitUpl
 import moment from 'moment-timezone'
 import { db } from './IDatabase';
 
-console.log('Current directory:', process.cwd());
-console.log('NODE_ENV:', process.env.NODE_ENV);
-console.log('Config files:', require('config').util.getConfigSources());
-
 const port = config.get<number>('server.port');
 console.log("le serveur est lancé sur le port", port)
 
 moment.tz.setDefault('Europe/Paris');
 moment.locale('fr');
-
-
 
 interface MongoOptions {
     directConnection?: boolean;

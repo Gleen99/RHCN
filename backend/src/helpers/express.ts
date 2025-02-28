@@ -11,6 +11,7 @@ import {apiPath, backPath, projectPath} from "./commons";
 
 export function expressInit(): Application {
     const app = express();
+    app.use('/public', express.static('public'));
     app.use(helmet());
     app.disable("etag");
 
