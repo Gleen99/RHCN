@@ -3,19 +3,6 @@
   "port": 41101,
   "debug": false,
   "dbLogger": false,
-  "database": {
-    "mongo": {
-      "host": "127.0.0.1",
-      "database": "rhcn",
-      "port": 27017,
-      "user": "rhcn",
-      "password": "cfGDh6UzBo93K7GGnmsv",
-      "mongoOptions": {
-        "directConnection": true,
-        "serverSelectionTimeoutMS": 2000
-      }
-    }
-  },
   "modes": {
     "api": {
       "activated": true
@@ -28,7 +15,6 @@
   "logAsToken": "LOGASTOKENPRODUCTION",
   "authSecret": "AUTH_SECRET_PROD",
   "server": {
-    "port": 41101,
     "api": {
       "version": "1.0",
       "autoDiscoveryPath": "dist/backend/src/controllers"
