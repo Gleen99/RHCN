@@ -7,8 +7,8 @@
     "build": "tsc",
     "build-watch": "yarn build && tsc -w",
     "initData": "ts-node dist/backend/scripts/initData.js",
-    "staging": "NODE_ENV=staging forever --uid 'RHCN (STAGING)' -l '/var/log/rhcn/staging.log' --append start dist/backend/src/server.js",
-    "prod": "NODE_ENV=production forever --uid 'RHCN (PROD)' -l '/var/log/rhcn/prod.log' --append start dist/backend/src/server.js"
+    "staging": "NODE_ENV=staging forever stop 'RHCN (STAGING)' && NODE_ENV=staging forever --uid 'RHCN (STAGING)' -l '/var/log/rhcn/staging.log' --append start dist/backend/src/server.js",
+    "prod": "NODE_ENV=production forever stop 'RHCN (PROD)' && NODE_ENV=production forever --uid 'RHCN (PROD)' -l '/var/log/rhcn/prod.log' --append start dist/backend/src/server.js"
   },
   "keywords": [],
   "author": "",
