@@ -1,8 +1,21 @@
 {
-  "environment": "production",
-  "port": 41101,
-  "debug": false,
-  "dbLogger": false,
+  "environment": "${NODE_ENV}",
+  "port": "${PORT}",
+  "debug": "${DEBUG}",
+  "dbLogger": "${DB_LOGGER}",
+  "database": {
+    "mongo": {
+      "host": "${MONGODB_HOST}",
+      "database": "${MONGODB_DATABASE}",
+      "port": "${MONGODB_PORT}",
+      "user": "${MONGODB_USER}",
+      "password": "${MONGODB_PASSWORD}",
+      "mongoOptions": {
+        "directConnection": true,
+        "serverSelectionTimeoutMS": 2000
+      }
+    }
+  },
   "modes": {
     "api": {
       "activated": true
@@ -12,57 +25,56 @@
     }
   },
   "logLevel": "error",
-  "logAsToken": "LOGASTOKENPRODUCTION",
-  "authSecret": "AUTH_SECRET_PROD",
+  "logAsToken": "${LOG_AS_TOKEN}",
+  "authSecret": "${AUTH_SECRET}",
   "server": {
+    "port": "${PORT}",
     "api": {
-      "version": "1.0",
+      "version": "${API_VERSION}",
       "autoDiscoveryPath": "dist/backend/src/controllers"
     },
-    "CORS_ALLOW_ORIGIN": "*",
-    "JSON_SIZE_LIMIT": "200mb",
+    "CORS_ALLOW_ORIGIN": "${CORS_ALLOW_ORIGIN}",
+    "JSON_SIZE_LIMIT": "${JSON_SIZE_LIMIT}",
     "uploads": {
       "environment": ["development", "staging", "production"],
-      "path": "uploads",
-      "temp": "temp"
+      "path": "${UPLOADS_PATH}",
+      "temp": "${UPLOADS_TEMP}"
     },
     "auth": {
-      "secret": "%ASSO%.RHCN%µ!2024?µ!",
-      "logAsToken": "LOGASTOKENLOCAL"
+      "secret": "${AUTH_SECRET}",
+      "logAsToken": "${LOG_AS_TOKEN}"
     }
   },
   "email": {
     "passthrough": ".*?@((gmail\\.com)|(rhcn\\.ca))",
     "forceTo": false,
-    "defaultSender": "rhcn <gleencpro@gmail.com>",
-    "defaultName": "RHCN",
-    "adminRecipients": [
-      "tech@rhcn.fr"
-    ],
+    "defaultSender": "${EMAIL_DEFAULT_NAME} <${EMAIL_DEFAULT_SENDER}>",
+    "defaultName": "${EMAIL_DEFAULT_NAME}",
+    "adminRecipients": ["${EMAIL_ADMIN_RECIPIENTS}"],
     "extraData": {
-      "_frontUrl": "https://www.rhcn.ca",
-      "_apiUrl": "https://www.rhcn.ca/api",
-      "_cdnUrl": "https://www.rhcn.ca/static",
+      "_frontUrl": "${FRONT_URL}",
+      "_apiUrl": "${API_URL}",
+      "_cdnUrl": "${FRONT_URL}/static",
       "contactEmail": "contact@rhcn.fr"
     },
     "server": {
-      "host": "in-v3.mailjet.com",
-      "port": 465,
-      "secure": true,
+      "host": "${EMAIL_HOST}",
+      "port": "${EMAIL_PORT}",
+      "secure": "${EMAIL_SECURE}",
       "auth": {
-        "MJ_APIKEY_PUBLIC": "77c65e6761b77d567436d7633c37cb45",
-        "MJ_APIKEY_PRIVATE": "4a1c96c655727d4f8e655c81138f49bd"
+        "MJ_APIKEY_PUBLIC": "${MJ_APIKEY_PUBLIC}",
+        "MJ_APIKEY_PRIVATE": "${MJ_APIKEY_PRIVATE}"
       }
     },
-    "newsletterListId": "10495905"
+    "newsletterListId": "${EMAIL_NEWSLETTER_LIST_ID}"
   },
   "stripe": {
-    "publishableKey": "pk_test_51QnqxfQnpnxfJzarTPCmlcoCDY6AkGD7JaoEeBIAt6Xb7pe7xyqJwwmHpKZGGv77DW75wv94BFKupyqen6iPNiKb00y8SIFVcM",
-    "secretKey": "sk_test_51QnqxfQnpnxfJzarUBcpFUJea410xGzpUCVz4O9iRsqRxgcU5LqF2jjhIMtcaxVCeLcviRcnVzELxW6WbMYNCiDO00jyIlu4TS",
-    "webhook": "whsec_f083572cf8fe69d91e2a943703f5b84ceeb500d51e233c8283223d823fafdfea"
+    "publishableKey": "${STRIPE_PUBLISHABLE_KEY}",
+    "secretKey": "${STRIPE_SECRET_KEY}",
+    "webhook": "${STRIPE_WEBHOOK_SECRET}"
   },
   "services": {
-    "front": "https://www.rhcn.ca",
-    "api": "https://api.rhcn.ca"
+    "front": "${FRONT_URL}",
+    "api": "${API_URL}"
   }
 }
