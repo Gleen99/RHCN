@@ -5,11 +5,10 @@
   "scripts": {
     "dev": "nodemon dist/backend/src/server.js",
     "build": "tsc && cp -r config dist/",
-    "build-watch": "yarn build && tsc -w",
+    "build-watch": "npm run build && tsc -w",
     "initData": "ts-node dist/backend/scripts/initData.js",
     "staging": "NODE_ENV=staging pm2 start dist/backend/src/server.js --name RHCN-STAGING --env staging",
     "prod": "NODE_ENV=production pm2 start dist/backend/src/server.js --name RHCN --env production"
-
   },
   "keywords": [],
   "author": "",
