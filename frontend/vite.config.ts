@@ -1,13 +1,11 @@
 import { fileURLToPath, URL } from 'node:url'
-
-import {defineConfig, loadEnv, type UserConfig} from 'vite'
+import { defineConfig, loadEnv, type UserConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
-
-
-export default defineConfig(({mode }): UserConfig => {
+export default defineConfig(({ mode }): UserConfig => {
 	const env = loadEnv(mode, process.cwd(), '')
+
 	return {
 		server: {
 			port: parseInt(env.VITE_PORT),
@@ -16,8 +14,11 @@ export default defineConfig(({mode }): UserConfig => {
 			},
 		},
 		build: {
-			sourcemap: false
-		  },
+			sourcemap: false,
+			rollupOptions: {
+				external: ['quill-delta-to-markdown'] // ✅ Correctly placed inside build
+			}
+		},
 		plugins: [vue()],
 		resolve: {
 			alias: {
@@ -32,7 +33,8 @@ export default defineConfig(({mode }): UserConfig => {
 				scss: {
 					api: 'modern-compiler',
 					quietDeps: true,
-					additionalData: `@use "sass:math"; @use "@/scss/_variables" as *; @use "@/scss/_mixins" as *;`				}
+					additionalData: `@use "sass:math"; @use "@/scss/_variables" as *; @use "@/scss/_mixins" as *;`
+				}
 			}
 		}
 	}

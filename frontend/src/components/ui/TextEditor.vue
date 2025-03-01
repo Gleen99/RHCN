@@ -3,7 +3,6 @@ import { ref, watch, PropType } from "vue";
 import { QuillEditor, Delta } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import Quill from "quill";
-import quillDeltaToMarkdown from "quill-delta-to-markdown";
 
 // 📌 Définir `modelValue` pour supporter `string | Delta`
 const props = defineProps({
@@ -37,8 +36,8 @@ const editorOptions = ref({
 });
 
 // 📌 Convertir Delta en Markdown (pour l'enregistrement)
-function deltaToMarkdown(delta: Delta): string {
-  return quillDeltaToMarkdown(delta.ops);
+function deltaToMarkdown(delta: any): string {
+  return deltaToMarkdown(delta.ops);
 }
 
 // 📌 Convertir Delta en HTML (pour affichage)
