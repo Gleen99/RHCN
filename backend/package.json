@@ -8,7 +8,8 @@
     "build-watch": "yarn build && tsc -w",
     "initData": "ts-node dist/backend/scripts/initData.js",
     "staging": "NODE_ENV=staging pm2 start dist/backend/src/server.js --name RHCN-STAGING --env staging",
-    "prod": "NODE_ENV=production pm2 start dist/backend/src/server.js --name RHCN --env production -f && pm2 save"
+    "prod": "NODE_ENV=production NODE_CONFIG_DIR=./config pm2 start dist/backend/src/server.js --name RHCN --env production -f && pm2 save"
+
   },
   "keywords": [],
   "author": "",
