@@ -1,6 +1,6 @@
 import { connectToDatabase, standardExpressRun} from './helpers/init';
-import dotenv from 'dotenv';
-dotenv.config({ path: '.env.prod' });
+require('dotenv').config();
+console.log('Environnement:', process.env.NODE_ENV);
 
 connectToDatabase();
 standardExpressRun();
