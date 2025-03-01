@@ -11,7 +11,7 @@
     "build-staging": "vite build --mode staging",
     "build-prod": "vite build --mode production",
     "type-check": "vue-tsc --noEmit",
-    "prod": "NODE_ENV=production pm2 start node_modules/vite/bin/vite.js --name RHCN --env production"
+    "prod": "NODE_ENV=production pm2 start node_modules/vite/bin/vite.js --name RHCN-Front --env production"
   },
   "dependencies": {
     "@stripe/stripe-js": "^5.6.0",
