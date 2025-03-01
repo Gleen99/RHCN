@@ -132,7 +132,7 @@ export const generateEmailTemplate = (name: string, message: string): string => 
 
     <div class="container">
       <div class="header">
-         <img class="logo" src="${_frontUrl}/email/logo.png" alt="rhcn"/>
+         <img class="logo" src="${_frontUrl}/email/Logo.png" alt="rhcn"/>
       </div>
 
       <div class="content">
