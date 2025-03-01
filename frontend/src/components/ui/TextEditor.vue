@@ -1,66 +1,78 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import { QuillEditor } from "@vueup/vue-quill";
+import { ref, watch, PropType } from "vue";
+import { QuillEditor, Delta } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
+import Quill from "quill";
+import quillDeltaToMarkdown from "quill-delta-to-markdown";
 
-// Props pour gérer le contenu
+// 📌 Définir `modelValue` pour supporter `string | Delta`
 const props = defineProps({
-  modelValue: String,
+  modelValue: {
+    type: [String, Object] as PropType<string | Delta>,
+    default: "",
+  },
 });
 
 const emit = defineEmits(["update:modelValue"]);
 
-// État local pour le contenu
-const content = ref(props.modelValue || "");
+const content = ref<string | Delta>(props.modelValue || "");
 
-// Configuration étendue pour l'éditeur
-const editorOptions = {
+// 📌 Options de l'éditeur Quill
+const editorOptions = ref({
   placeholder: "Ajoutez du contenu ici...",
   theme: "snow",
   modules: {
     toolbar: [
-      // Style de texte
       ["bold", "italic", "underline", "strike"],
-
-      // En-têtes
       [{ header: 1 }, { header: 2 }],
-
-      // Alignement
       [{ align: [] }],
-
-      // Listes
       [{ list: "ordered" }, { list: "bullet" }],
-
-      // Indentations
       [{ indent: "-1" }, { indent: "+1" }],
-
-      // Sous/sur-indices
       [{ script: "sub" }, { script: "super" }],
-
-      // Couleurs de texte et de fond
       [{ color: [] }, { background: [] }],
-
-      // Liens et images
       ["link", "image"],
-
-      // Nettoyer la mise en forme
       ["clean"],
     ],
   },
-};
+});
 
-// Synchronisation entre le parent et l'état local
+// 📌 Convertir Delta en Markdown (pour l'enregistrement)
+function deltaToMarkdown(delta: Delta): string {
+  return quillDeltaToMarkdown(delta.ops);
+}
+
+// 📌 Convertir Delta en HTML (pour affichage)
+function deltaToHtml(delta: any): string {
+  const tempDiv = document.createElement("div");
+  const tempQuill = new Quill(tempDiv);
+  tempQuill.setContents(delta);
+  return tempQuill.root.innerHTML;
+}
+
+// 📌 Gérer les changements de `modelValue`
 watch(
     () => props.modelValue,
     (newValue) => {
-      if (content.value !== newValue) {
-        content.value = newValue || "";
+      if (!newValue) {
+        content.value = "";
+        return;
       }
-    }
+
+      if (typeof newValue === "object" && "ops" in newValue) {
+        content.value = deltaToHtml(newValue); // Convertir Delta en HTML pour affichage
+      } else {
+        content.value = newValue;
+      }
+    },
+    { deep: true }
 );
 
+// 📌 Convertir Delta en Markdown avant de sauvegarder
 watch(content, (newValue) => {
-  if (props.modelValue !== newValue) {
+  if (typeof newValue === "object" && "ops" in newValue) {
+    const markdownContent = deltaToMarkdown(newValue);
+    emit("update:modelValue", markdownContent); // Stocker en Markdown
+  } else {
     emit("update:modelValue", newValue);
   }
 });
@@ -68,11 +80,7 @@ watch(content, (newValue) => {
 
 <template>
   <div>
-    <!-- Éditeur de texte enrichi -->
-    <QuillEditor
-        v-model="content"
-        :options="editorOptions"
-    />
+    <QuillEditor v-model:content="content" :options="editorOptions" />
   </div>
 </template>
 

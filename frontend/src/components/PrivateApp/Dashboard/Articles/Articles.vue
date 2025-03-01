@@ -1,37 +1,27 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useApi } from "@/composition/api";
-import { IArticle } from "@shared/crudTypes";
+import { IArticle, IArticleDB } from "@shared/crudTypes";
 import TextEditor from "@/components/ui/TextEditor.vue";
+import PictureLoader from "@/components/ui/PictureLoader.vue";
 
-// API Simulation
-const {
-  createArticle,
-  getArticles,
-  // deleteArticle,
-  updateArticle,
-} = useApi();
+const { createArticle, getArticles, deleteArticle, updateArticle } = useApi();
 
-const articles = ref<IArticle[]>([]);
-
+const articles = ref<IArticleDB[]>([]);
 const newArticle = ref<IArticle>({
   title: "",
   slug: "",
   categories: [],
-  content: [
-    {
-      blockName: "Introduction",
-      text: "",
-    },
-  ],
+  content: [{ blockName: "", text: "" }],
   author: "",
   published: false,
+  mainPicture: { path: "" },
 });
 
 const idEdition = ref<string | null>(null);
 const chargement = ref(false);
-// const afficherModalSuppression = ref(false);
-// const articleASupprimer = ref<string | null>(null);
+const afficherModalSuppression = ref(false);
+const articleASupprimer = ref<IArticleDB | null>(null);
 
 // Récupérer les articles
 async function fetchArticles() {
@@ -50,60 +40,44 @@ async function fetchArticles() {
   }
 }
 
+onMounted(fetchArticles);
 
-// Ajouter un article
-async function ajouterArticle() {
-  if (!validerArticle(newArticle.value)) {
-    alert("Tous les champs sont requis.");
-    return;
-  }
-
+// Ajouter ou modifier un article
+async function enregistrerArticle() {
   try {
-    const articleCree = await createArticle(newArticle.value);
-    if (articleCree) {
-      articles.value.push(articleCree);
-      reinitialiserFormulaire();
+    if (idEdition.value) {
+      await updateArticle(newArticle.value, idEdition.value);
+    } else {
+      const articleCree = await createArticle(newArticle.value);
+      if (articleCree) articles.value.push(articleCree);
     }
-  } catch (error) {
-    console.error("Erreur lors de la création de l'article :", error);
-  }
-}
-
-// Modifier un article
-async function modifierArticle() {
-  if (!idEdition.value || !validerArticle(newArticle.value)) return;
-
-  try {
-    await updateArticle(newArticle.value, idEdition.value);
     idEdition.value = null;
     reinitialiserFormulaire();
     fetchArticles();
   } catch (error) {
-    console.error("Erreur lors de la modification de l'article :", error);
+    console.error("Erreur lors de l'enregistrement de l'article :", error);
   }
 }
 
 // Supprimer un article
-// async function supprimerArticle() {
-//   if (!articleASupprimer.value) return;
-//
-//   try {
-//     await deleteArticle(articleASupprimer.value);
-//     afficherModalSuppression.value = false;
-//     articleASupprimer.value = null;
-//     fetchArticles();
-//   } catch (error) {
-//     console.error("Erreur lors de la suppression de l'article :", error);
-//   }
-// }
+async function supprimerArticle() {
+  if (!articleASupprimer.value) return;
+  try {
+    await deleteArticle(articleASupprimer.value._id);
+    afficherModalSuppression.value = false;
+    articleASupprimer.value = null;
+    fetchArticles();
+  } catch (error) {
+    console.error("Erreur lors de la suppression de l'article :", error);
+  }
+}
 
 // Valider l'article
 function validerArticle(article: IArticle) {
   return (
-      article.title &&
-      article.slug &&
-      article.categories.length > 0 &&
-      article.content.every((block) => block.blockName && block.text)
+      article.title.trim() !== "" &&
+      article.slug.trim() !== "" &&
+      Array.isArray(article.categories) && article.categories.length > 0
   );
 }
 
@@ -113,107 +87,84 @@ function reinitialiserFormulaire() {
     title: "",
     slug: "",
     categories: [],
-    content: [
-      {
-        blockName: "Introduction",
-        text: "",
-      },
-    ],
+    content: [{ blockName: "Introduction", text: "" }],
     author: "",
     published: false,
+    mainPicture: { path: "" },
   };
 }
-
-
 
 // Supprimer un bloc de contenu
 function supprimerContenu(index: number) {
   newArticle.value.content.splice(index, 1);
 }
 
-// Activer le mode édition
-function activerEdition(article: IArticle) {
-  idEdition.value = article.slug; // Utiliser un identifiant unique
-  newArticle.value = { ...article };
+// Ajouter un bloc de contenu
+function ajouterBloc() {
+  newArticle.value.content.push({ blockName: "Nouvelle section", text: "" });
 }
+
+// Activer le mode édition
+function activerEdition(article: IArticleDB) {
+  idEdition.value = article._id;
+  newArticle.value = JSON.parse(JSON.stringify(article));
+}
+
+// Surveiller newArticle pour assurer la mise à jour correcte de TextEditor
+watch(newArticle, (val) => {
+  console.log("Article chargé pour édition:", val);
+}, { deep: true });
 
 // Annuler l'édition
 function annulerEdition() {
   idEdition.value = null;
   reinitialiserFormulaire();
 }
-
-
 </script>
 
 <template>
   <div class="article-manager">
     <h1 class="page-title">Gestion des Articles</h1>
-    <!-- Formulaire pour créer ou modifier un article -->
     <div class="article-form">
       <h2>{{ idEdition ? "Modifier l'article" : "Créer un article" }}</h2>
-      <div>
-        <label>Titre</label>
-        <input v-model="newArticle.title" placeholder="Entrez le titre" />
+      <label>Titre</label>
+      <input v-model="newArticle.title" placeholder="Entrez le titre" />
+
+      <label>Slug</label>
+      <input v-model="newArticle.slug" placeholder="Entrez le slug" />
+
+      <label>Auteur</label>
+      <input v-model="newArticle.author" placeholder="Entrez l'auteur" />
+
+      <label>Catégories</label>
+      <input v-model="newArticle.categories" placeholder="Catégories (séparées par des virgules)" />
+      <picture-loader
+          :value="newArticle.mainPicture"
+          @onChange="(fileData : any) => (newArticle.mainPicture = fileData)"
+      />
+      <div>ajouter voyre ilage</div>
+      <label>Publié</label>
+      <input type="checkbox" v-model="newArticle.published" />
+
+      <h3>Contenu</h3>
+      <div v-for="(block, index) in newArticle.content" :key="index" class="content-block">
+        <TextEditor v-model="block.text" />
+        <button @click="supprimerContenu(index)" class="btn btn-danger">Supprimer ce bloc</button>
       </div>
-      <div>
-        <label>Slug</label>
-        <input v-model="newArticle.slug" placeholder="Entrez le slug" />
-      </div>
-      <div>
-        <label>Auteur</label>
-        <input v-model="newArticle.author" placeholder="Entrez l'auteur" />
-      </div>
-      <div>
-        <label>Catégories</label>
-        <input
-            v-model="newArticle.categories"
-            placeholder="Catégories (séparées par des virgules)"
-        />
-      </div>
-      <div>
-        <label>Publié</label>
-        <input type="checkbox" v-model="newArticle.published" />
-      </div>
-      <div>
-        <h3>Contenu</h3>
-        <div
-            v-for="(block, index) in newArticle.content"
-            :key="index"
-            class="content-block"
-        >
-          <TextEditor v-model="block.text" />
-          <button
-              @click="() => supprimerContenu(index)"
-              class="btn btn-danger"
-          >
-            Supprimer ce bloc
-          </button>
-        </div>
-      </div>
-      <div class="form-actions">
-        <button v-if="!idEdition" @click="ajouterArticle" class="btn btn-primary">
-          Ajouter
-        </button>
-        <button v-else @click="modifierArticle" class="btn btn-success">
-          Mettre à jour
-        </button>
-        <button v-if="idEdition" @click="annulerEdition" class="btn btn-secondary">
-          Annuler
-        </button>
-      </div>
+
+      <button @click="enregistrerArticle" class="btn btn-primary">
+        {{ idEdition ? "Mettre à jour" : "Ajouter" }}
+      </button>
+      <button v-if="idEdition" @click="annulerEdition" class="btn btn-secondary">Annuler</button>
     </div>
 
-    <!-- Liste des articles -->
     <div class="article-list">
       <h2>Liste des Articles</h2>
       <div v-for="article in articles" :key="article.slug" class="article-item">
         <h3>{{ article.title }}</h3>
         <p><strong>Auteur :</strong> {{ article.author }}</p>
-        <p><strong>Catégories :</strong> {{ article.categories.join(", ") }}</p>
-        <button @click="activerEdition(article)" class="btn btn-info">
-          Modifier
-        </button>
+        <p><strong>Catégories :</strong> {{ article.categories}}</p>
+        <button @click="activerEdition(article)" class="btn btn-info">Modifier</button>
       </div>
     </div>
   </div>

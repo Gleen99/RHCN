@@ -1,27 +1,23 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useAuthStore } from '@/composition/authStore';
+import { computed } from "vue";
+import { useAuthStore } from "@/composition/authStore";
 
 const authStore = useAuthStore();
-const userLastname = computed(() => authStore.user?.lastname || '');
-const userFirstname = computed(() => authStore.user?.firstname || '');
+
+const userFirstname = computed(() => authStore.user?.firstname || "");
+const userLastname = computed(() => authStore.user?.lastname || "");
+const userRole = computed(() => authStore.user?.role || "guest"); // Récupérer le rôle
 </script>
 
 <template>
   <div class="dashboard">
-
-
-    <!-- Main Content -->
-    <div class="main-content">
-      <!-- Header -->
-      <div class="header">
-        <h1>{{ userFirstname }} {{ userLastname }}</h1>
-        <h2>Tableau de bord</h2>
-      </div>
-      
-      <!-- Dynamic content from routes -->
-      <router-view />
+    <div class="header">
+      <h1>{{ userFirstname }} {{ userLastname }}</h1>
+      <h2>Tableau de bord</h2>
+      <p>Rôle: <strong>{{ userRole }}</strong></p>
     </div>
+
+    <router-view />
   </div>
 </template>
 
@@ -29,7 +25,7 @@ const userFirstname = computed(() => authStore.user?.firstname || '');
 .dashboard {
   display: flex;
   height: 100vh;
-
+}
 
 .main-content {
   flex: 1;
@@ -52,6 +48,5 @@ const userFirstname = computed(() => authStore.user?.firstname || '');
 
 .header p {
   color: #7f8c8d;
-}
 }
 </style>
