@@ -9,9 +9,10 @@
     "build-only": "vite build",
     "staging": "run-p type-check build-staging",
     "build-staging": "vite build --mode staging",
-    "prod": "run-p type-check build-prod",
     "build-prod": "vite build --mode production",
-    "type-check": "vue-tsc --noEmit"
+    "type-check": "vue-tsc --noEmit",
+    "prod": "NODE_ENV=production pm2 start /node_modules/vite/bin/vite.j --name RHCN --env production"
+
   },
   "dependencies": {
     "@stripe/stripe-js": "^5.6.0",
