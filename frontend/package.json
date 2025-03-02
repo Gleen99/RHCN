@@ -11,8 +11,10 @@
     "build-staging": "vite build --mode staging",
     "build-prod": "vite build --mode production",
     "type-check": "vue-tsc --noEmit",
-    "prod": "npm run build-prod && NODE_ENV=production pm2 start dist --name RHCN-Front --env production"
+    "start": "node server.js",
+    "prod": "npm run build-prod && NODE_ENV=production pm2 start npm --name RHCN -- run start"
   },
+
   "dependencies": {
     "@stripe/stripe-js": "^5.6.0",
     "@vueup/vue-quill": "^1.2.0",

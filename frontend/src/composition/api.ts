@@ -636,20 +636,23 @@ async function createPayments(amount: number): Promise<{ secret: string, key: st
 // -----------------------------------------------------------------------------------
 // HELPERS
 
-export function buildUrl(url: string, query?: any): string {
+
+function buildUrl(url: string, query?: any): string {
     let fullUrl = import.meta.env.VITE_API_URL + url;
     if (query) {
         let separator = "?";
         for (const key of Object.keys(query)) {
-            const value = query[key] ? encodeURIComponent(query[key].toString()) : null;
-            if (value !== null) {
-                fullUrl += separator + key + "=" + encodeURIComponent(query[key].toString());
-                separator = "&";
-            }
+            fullUrl += separator + key + "=" + encodeURIComponent(query[key].toString());
+            separator = "&";
         }
     }
     return fullUrl;
 }
+
+function buildStaticUrl(url: string): string {
+    return import.meta.env.VITE_API_STATIC_URL + ((url && url.startsWith("/")) ? "" : "/") + url;
+}
+
 
 // -----------------------------------------------------------------------------------
 // CRUD
@@ -714,9 +717,7 @@ function crudBuildQuery(options?: {
     return query;
 }
 
-function buildStaticUrl(url: string): string {
-    return import.meta.env.VITE_API_STATIC_URL + ((url && url.startsWith("/")) ? "" : "/") + url;
-}
+
 
 // -----------------------------------------------------------------------------------
 // DEFAULT VALUES
