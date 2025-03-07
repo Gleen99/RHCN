@@ -130,18 +130,15 @@ onMounted(() => {
 <style lang="scss">
 .listEvents {
   cursor: pointer;
-  padding: 0 0 0 90px;
   .Title {
     font-size: 24px !important;
   }
 
   .events-grid {
-    margin:0;
-    padding: 0;
-    box-sizing: border-box;
-    transition: 0.2s linear;
-    columns: 12rem 3;
-    gap:1.4rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.4rem;
+
   }
 
   .event-card {

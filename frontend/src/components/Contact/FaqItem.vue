@@ -49,7 +49,7 @@ onMounted(fetchFaqs);
 </script>
 
 <template>
-  <div class="FaqItem">
+  <div class="FaqItem container">
     <div class="FaqItemContent">
       <!-- Boucle pour afficher les FAQs -->
       <div

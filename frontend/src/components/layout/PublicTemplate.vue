@@ -20,6 +20,12 @@ import PublicFooter from "@/components/layout/PublicFooter.vue";
   position: relative;
   .container {
     margin: 0 5.8rem;
+    @include desktopMax {
+      margin: 0 10rem;
+    }
+  }
+  .history {
+    padding-top: 15rem;
   }
 
 	.PublicFooter {

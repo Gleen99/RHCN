@@ -70,6 +70,7 @@ const closeModal = () => {
 .Donate {
   position: relative;
   overflow: hidden;
+  margin-top: 23px;
   .Donate-content{
     .BGDonate {
       position: relative;

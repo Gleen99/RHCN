@@ -30,7 +30,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="aboutUsMembers">
+  <div class="aboutUsMembers container">
     <div class="aboutUsMembersContent">
       <PageTitle type="underline" class="title">
         {{ t('aboutUs.title') }}
@@ -57,7 +57,7 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   align-content: center;
-  margin-bottom: 20px ;
+ 
 
   .aboutUsMembersContent {
     .title {

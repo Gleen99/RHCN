@@ -10,7 +10,7 @@ import EmailingFront from "@/components/EmailingFront/EmailingFront.vue";
 
 <template>
 	<public-template class="Contact">
-    <div class="ContactContentInfos">
+    <div class="ContactContentInfos container history">
 		<ContactContent></ContactContent>
 		<ContactInfos></ContactInfos>
 	</div>

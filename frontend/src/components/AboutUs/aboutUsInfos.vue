@@ -26,26 +26,22 @@ const { t } = useI18n();
 <style lang="scss">
 .aboutUsInfos {
 	background-color: $clight-gray;
-	position: relative;
-	right: 9%;
 	height: fit-content;
-  width: 99.2vw;
-	margin: 0;
-  @include desktopMax {
-    width: 100.36vw;
-  }
-
+  margin-top: 50px ;
 	.aboutUsInfosContent {
-		margin:  0 116px;
+
 		padding: 5% 0;
 		display: flex;
 		justify-content: space-between;
 		text-align: center;
 		gap: 13px;
+    margin-left: 5.8rem;
+    margin-right: 6rem;
+    @include desktopMax {
+      margin-left: 9.8rem;
+      margin-right: 11.4rem;
+    }
 
-		@include desktopMax {
-			margin: 127px;
-		}
 
 		.ContentText {
 			background-color: #FFFFFF;

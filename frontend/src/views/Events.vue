@@ -16,7 +16,7 @@ const toggleSelection = (info: "eventsInfos" | "imagesInfos") => {
 
 <template>
   <PublicTemplate>
-    <div class="Events">
+    <div class="Events container history">
       <div class="EventsGrid">
         <Eventsgrid
             type="eventsInfos"
@@ -47,15 +47,20 @@ const toggleSelection = (info: "eventsInfos" | "imagesInfos") => {
 .Events {
   height: 100%;
   display: flex;
+  gap: 23px;
   margin-bottom: 100px;
 
   .EventsGrid {
     background-color: $clight-gray;
     padding: 40px;
     height: max-content;
+    flex:1;
     .eventsInfos {
       margin-bottom: 25px;
     }
+  }
+  .eventContent{
+    flex: 3;
   }
 }
 </style>

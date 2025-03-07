@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/node-mailjet": "^3.3.12",
+    "axios": "^1.8.2",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",

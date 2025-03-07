@@ -31,32 +31,26 @@ const { t } = useI18n();
 
 <style lang="scss">
 .AboutUsHeader {
-    background-color: $cdark-blue-gray;
   position: relative;
-  right: 10%;
-  bottom: 10rem;
-  height: 75vh;
-  width: 100vw;
+  height: 115vh;
   margin: 0;
+  align-items: center;
   @include desktopMax {
-    width: 101.2vw;
+    height: 100vh;
   }
     .AboutUsHeaderContent {
-        margin: 116px 106px 0 116px;
+      background-color: $cdark-blue-gray;
+      height: 96vh;
       padding-top: 15%;
-
         @include desktopMax {
-          padding-top: 13%;
-            margin:  127px 127px 0 127px;
+          height: 80vh;
         }
-
         .BGAboutUs {
             max-width: 100%;
             height: auto;
             display: block;
         }
         .ContentInfos{
-
             position: relative;
             bottom: 295px;
             .title{
@@ -76,11 +70,15 @@ const { t } = useI18n();
     border-radius: 50px;
     padding: 5% 5%;
     font-size: 18px;
-    margin-top: -2.5%;
+
+
     line-height: 1.5;
     box-shadow: $box-shadow;
+          margin: 0 5.8rem;
           @include desktopMax {
             margin-top: -9.5%;
+            margin-left: 10rem;
+            margin-right: 10rem;
           }
             .textContent{
                 display: flex;

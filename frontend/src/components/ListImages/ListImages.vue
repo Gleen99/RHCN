@@ -152,7 +152,6 @@ onMounted(() => {
 
 <style lang="scss">
 .listImages {
-  padding: 0 0 0 90px;
 
   .Title {
     margin-bottom: 20px !important;

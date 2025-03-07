@@ -20,7 +20,7 @@ const toggleSelection = (info: "partnerInfos" | "membersInfos") => {
 
 <template>
   <public-template>
-    <div class="partners">
+    <div class="partners container history">
       <div class="PartnersGrid">
         <Eventsgrid
             class="partnerInfos"

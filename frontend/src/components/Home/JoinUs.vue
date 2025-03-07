@@ -57,9 +57,12 @@ const {t} = useI18n()
 
 <style lang="scss">
 .join-us {
-  min-height: 57Vh;
+  min-height: 62Vh;
   margin: 0;
   align-items: center;
+  @include desktopMax {
+    min-height: 52Vh;
+  }
 .join-us-BG{
   background-color: $clight-gray;
   height: 45vh;
