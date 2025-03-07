@@ -10,6 +10,7 @@ import ModalEvent from "@/components/ListEvents/ModalEvent.vue";
 import { useRouter } from "vue-router";
 import { IEventDB } from "@shared/crudTypes";
 import PageTitle from "@/components/ui/PageTitle.vue";
+import IEyes from "@/components/images/IEyes.vue";
 
 const { t } = useI18n();
 const { getEvents } = useApi();
@@ -63,7 +64,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="latest-events">
+  <div class="latest-events container">
     <PageTitle class="page-title">
       {{ t("events.latestEvents.title") }}
     </PageTitle>
@@ -95,9 +96,14 @@ onMounted(() => {
     </div>
 
     <div v-if="events.length > 0" class="view-more-container">
-      <button @click="router.push('/events')" class="view-more-button">
-        {{ t("events.latestEvents.viewMore") }}
-      </button>
+      <div @click="router.push('/events')" class="view-more-button">
+        <PageTitle type="icon" class="Title">
+          <template #icon>
+            <IEyes/>
+          </template>
+          {{ t("events.latestEvents.viewMore") }}
+        </PageTitle>
+      </div>
     </div>
 
     <ModalEvent :show="isModalVisible" :event="selectedEventDetails ?? {} as IEventDB" @close="closeModal" />
@@ -106,7 +112,7 @@ onMounted(() => {
 
 <style lang="scss">
 .latest-events {
-  padding: 0 90px;
+
   text-align: center;
 
   .events-grid {
@@ -170,19 +176,11 @@ onMounted(() => {
     margin-top: 20px;
     display: flex;
     justify-content: center;
-
-    .view-more-button {
-      background-color: #1d3557;
-      color: white;
-      padding: 12px 24px;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      border: none;
-      transition: background 0.3s;
-
+    .title{
+      font-size: 26px !important;
+      border-bottom: 1px solid $cyellow;
       &:hover {
-        background-color: #457b9d;
+        border-bottom: none;
       }
     }
   }

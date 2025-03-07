@@ -30,7 +30,7 @@ async function sendEmail() {
 </script>
 
 <template>
-  <div class="EmailingFront">
+  <div class="EmailingFront container">
     <div class="EmailFront">
       <img src="../../assets/BGEmailFront.png" class="BGEmailFront" alt="Email Background" />
       <div class="EmailFrontText">
@@ -56,7 +56,6 @@ async function sendEmail() {
 <style lang="scss">
 .EmailingFront {
   padding: 45px 0;
-
   .EmailFront {
     display: flex;
     align-items: center;

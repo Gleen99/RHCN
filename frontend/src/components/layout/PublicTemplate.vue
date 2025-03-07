@@ -17,24 +17,10 @@ import PublicFooter from "@/components/layout/PublicFooter.vue";
 
 <style lang="scss">
 .PublicTemplate {
-	position: relative;
-    padding-top: $publicMenuHeight;
-
-    .PublicMenu {
-        position: fixed;
-    
-		z-index: 100;
-    }
-
-        .content {
-            margin: 108px;
-		min-height: calc(100vh - $publicMenuHeight - $publicFooterHeight - 3 * $gap);
-        @include desktopMax {
-            margin: 127px;
-
-            
-        }
-	}
+  position: relative;
+  .container {
+    margin: 0 5.8rem;
+  }
 
 	.PublicFooter {
 		margin-top: calc($gap * 2);

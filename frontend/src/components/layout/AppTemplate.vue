@@ -22,9 +22,11 @@
     scrollbar-width: none; /* Pour Firefox */
   }
 
-  .container::-webkit-scrollbar {
-    display: none; /* Pour Chrome, Safari et Edge */
-  }
+
+
+  //.container::-webkit-scrollbar {
+  //  display: none; /* Pour Chrome, Safari et Edge */
+  //}
 
   .MainWrapper {
     flex-grow: 1;

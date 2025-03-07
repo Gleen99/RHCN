@@ -47,18 +47,23 @@ const{t}= useI18n();
 .home-header {
   background-color: $cdark-blue-gray;
   position: relative;
-  right: 11.5%;
-  bottom: 30rem;
   height: fit-content;
-  width: 102.5vw;
   margin: 0;
   align-items: center;
+
   .home-header__wrapper{
     display: flex;
     padding-top: 9%;
+    @include desktopMax {
+      padding-top: 2%;
+    }
     .home-header__infos {
       width: 69%;
-      padding: 10% 10% 8.2% 13%;
+      padding: 10% 10% 8.2% 6%;
+      @include desktopMax {
+        width: 69%;
+        padding: 10% 10% 8.2% 13%;
+      }
 
       .title-wrapper {
         font-family: $Arial;
@@ -114,6 +119,9 @@ const{t}= useI18n();
       right: 0;
       width: auto;
       height: auto;
+      @include mobile {
+
+      }
     }
   }
 

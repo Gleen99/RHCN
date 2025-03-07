@@ -67,13 +67,9 @@ onMounted(() => {
 <style lang="scss">
 .partnerIcons{
   background-color: $clight-gray;
-  position: relative;
-  right: 11.5%;
-  bottom: 30rem;
   height: fit-content;
-  width: 102.5vw;
   margin: 0;
-  padding: 5%;
+  padding: 2% 0;
   display: flex;
   flex-direction: column;
   align-items: center;

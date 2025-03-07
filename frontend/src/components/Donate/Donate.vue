@@ -20,7 +20,7 @@ const closeModal = () => {
 
 <template>
   <div class="Donate">
-    <div class="content">
+    <div class="Donate-content">
       <img src="../../assets/BGDonate.png" class="BGDonate" />
     </div>
 
@@ -69,42 +69,34 @@ const closeModal = () => {
 <style lang="scss">
 .Donate {
   position: relative;
-  margin: 0;
-  padding: 0;
-  .content{
+  overflow: hidden;
+  .Donate-content{
     .BGDonate {
-      position: absolute;
-      right: 0;
-      left: -10%;
-      top:0;
-      bottom:0;
+      position: relative;
+      left: -2%;
       height: fit-content;
-      width: 100.5vw;
-      margin: 0;
+      width: 100.8vw;
     }
   }
-
   .IAvatarDonate {
     display: flex;
-    align-items: flex-start;
-    padding: 0 34px;
+    align-items: center;
+    padding: 0;
   }
   .DonateContent {
-    position: relative;
-    top: -58vh;
-    left: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 1;
     background-color: $cdark-gray;
     color: #FFFFFF;
-    display: flex;
     padding: 22px;
     border-radius: 150px;
-
-
-    @include desktopMax {
-      top: -62vh;
-      padding: 50px;
-    }
+    width: 85%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     .MainDonate {
       font-size: 16px;

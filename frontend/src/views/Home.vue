@@ -13,7 +13,7 @@ import LatestEvents from "@/components/ListEvents/latest-events.vue";
 	<public-template class="Home">
     <HomeHeader/>
     <JoinUs/>
-    <Donate class="Donate" />
+    <Donate/>
     <latest-events/>
     <PartnerIcon/>
     <EmailingFront/>
@@ -22,11 +22,6 @@ import LatestEvents from "@/components/ListEvents/latest-events.vue";
 
 <style lang="scss">
 .Home {
-	height: 100%;
-	overflow: auto;
-  .Donate{
-    position: relative;
-    top: -408px;
-  }
+
 }
 </style>

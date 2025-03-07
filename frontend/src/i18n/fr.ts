@@ -239,6 +239,7 @@ export const fr = {
 		},
 		latestEvents:{
 			title:"Nos évènements",
+			viewMore: "Voir tous les évènements"
 		}
 	},
 	partners:{
