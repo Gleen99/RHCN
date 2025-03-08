@@ -16,7 +16,7 @@ export default defineConfig(({ mode }): UserConfig => {
 		build: {
 			sourcemap: false,
 			rollupOptions: {
-				external: ['quill-delta-to-markdown'] // ✅ Correctly placed inside build
+				external: ['quill-delta-to-markdown']
 			}
 		},
 		plugins: [vue()],

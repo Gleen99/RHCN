@@ -4,11 +4,6 @@ import { provide, ref} from "vue";
 import WaitingScreen from "@/components/ui/WaitingScreen.vue";
 import type {GlobalController} from "@/front-types";
 import { toast } from 'vue3-toastify';
-import TawkTo from "@/components/TawkTo/TawkTo.vue";
-
-// const {initAuth} = useAuth();
-
-
 
 const waitingText = ref<string|null>(null);
 function showWaitingScreen(text?: string|null) {
@@ -78,9 +73,6 @@ provide<GlobalController>("globalController", {
 <!--	/>-->
   <div id="modal-container"/>
 	<div id="modal-target"/>
-  <div>
-    <TawkTo/>
-  </div>
 </template>
 
 <style lang="scss">
