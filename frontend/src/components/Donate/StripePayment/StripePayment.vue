@@ -43,7 +43,7 @@ const amountString = computed({
 
 // Initialisation des éléments Stripe au montage du composant
 onMounted(async () => {
-  stripe.value = await stripePromise;
+  // stripe.value = await;
   if (stripe.value) {
     elements.value = stripe.value.elements();
 
