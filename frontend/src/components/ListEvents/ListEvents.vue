@@ -53,7 +53,9 @@ const filteredEvents = computed(() => {
   if (selectedCategory.value && selectedCategory.value !== t("events.filters.allCategories")) {
     result = result.filter(event =>
         Array.isArray(event.categories) &&
-        event.categories.some(cat => cat.category.includes(selectedCategory.value))
+        event.categories.some(cat =>
+            (cat.fr?.category?.includes(selectedCategory.value) || cat.en?.category?.includes(selectedCategory.value))
+        )
     );
 
   }

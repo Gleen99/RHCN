@@ -13,7 +13,7 @@ const slug = computed<string>(() => route.params.articleSlug as string);
 async function loadArticle() {
   try {
     const articles = await getArticles();
-    article.value = articles.find((a: IArticleDB) => a.slug === slug.value) || null;
+    article.value = Array.isArray(articles) ? articles.find((a) => a.slug === slug.value) || null : null;
   } catch (error) {
     console.error("Erreur lors du chargement de l'article :", error);
   }

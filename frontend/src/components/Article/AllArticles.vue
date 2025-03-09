@@ -14,7 +14,8 @@ const router = useRouter();
 onMounted(async () => {
   try {
     const response = await getArticles();
-    articles.value = response ?? [];
+    console.log(response);
+    articles.value = Array.isArray(response) ? response : [response];
   } catch (error) {
     console.error("Failed to fetch articles:", error);
   }

@@ -67,7 +67,9 @@ const fetchEvents = async () => {
 const createNewEvent = async () => {
   try {
     newEvent.value.categories = selectedCategories.value.map((cat) => ({
-      category: [cat],
+      type: "event",
+      en: { category: [cat] },
+      fr: { category: [cat] },
     }));
     const createdEvent = await createEvent(newEvent.value);
     events.value.push(createdEvent);
