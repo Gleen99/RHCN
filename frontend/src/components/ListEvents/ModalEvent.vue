@@ -99,6 +99,7 @@ const formatDate = (dateInput: string | number): string => {
     display: flex;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
+
     .event-infos-image{
       .event-image{
         width: 10vw;
@@ -142,6 +143,9 @@ const formatDate = (dateInput: string | number): string => {
     height: auto;
     color: #00353D;
     font-size: 14px;
+    @include mobile{
+      width: 100%;
+    }
     .more-infos-content{
       margin-top:3%;
     }
