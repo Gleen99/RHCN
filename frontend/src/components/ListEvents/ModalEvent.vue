@@ -94,18 +94,33 @@ const formatDate = (dateInput: string | number): string => {
 </template>
 
 <style scoped lang="scss">
-.ModalEvent{
-  .event-infos{
+.ModalEvent {
+  .event-infos {
     display: flex;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
 
-    .event-infos-image{
-      .event-image{
+    @include mobile {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .event-infos-image {
+      .event-image {
         width: 10vw;
         height: 10vw;
         border-bottom-left-radius: 12px;
         border-top-left-radius: 12px;
+
+        @include mobile {
+          margin-top: 20px;
+          object-fit: cover;
+          display: flex;
+          justify-content: center;
+          width: 50vw;
+          height: 50vw;
+          border-radius: 12px;
+        }
       }
     }
   }
@@ -116,10 +131,21 @@ const formatDate = (dateInput: string | number): string => {
     justify-content: center;
     align-items: center;
     font-family: $Arial;
+
+    @include mobile {
+      flex-direction: column;
+      text-align: center;
+    }
+
     .event-title {
       font-size: 20px;
       margin-bottom: 1rem;
+
+      @include mobile {
+        font-size: 18px;
+      }
     }
+
     .event-infosContent {
       display: flex;
       align-items: center;
@@ -127,13 +153,15 @@ const formatDate = (dateInput: string | number): string => {
       padding: 4px 0;
       font-size: 14px;
       color: #00353D;
-    }
-    .event-infosContent > *:last-child {
-      padding: 0;
-    }
 
+      @include mobile {
+        gap: 0.8rem;
+        font-size: 12px;
+      }
+    }
   }
-  .more-infos{
+
+  .more-infos {
     margin-top: 16px;
     background-color: $clight-gray;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -143,21 +171,30 @@ const formatDate = (dateInput: string | number): string => {
     height: auto;
     color: #00353D;
     font-size: 14px;
-    @include mobile{
+
+    @include mobile {
       width: 100%;
+      padding: 10px;
+      font-size: 12px;
     }
-    .more-infos-content{
-      margin-top:3%;
+
+    .more-infos-content {
+      margin-top: 3%;
     }
-    .infos{
+
+    .infos {
       display: flex;
       gap: 1.5rem;
 
-      .price, .link{
-       font-weight: bold;
+      @include mobile {
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+
+      .price, .link {
+        font-weight: bold;
       }
     }
   }
 }
-
 </style>
