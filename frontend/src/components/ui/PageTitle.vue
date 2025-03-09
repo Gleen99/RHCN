@@ -51,6 +51,7 @@ const slots: Slots = useSlots();
     font-weight: $fbold;
 
     @include mobile{
+      font-size: $fslarge;
       display: flex;
       text-align: center;
     }
@@ -59,11 +60,17 @@ const slots: Slots = useSlots();
       display: flex;
       align-items: center;
       gap: 10px;
-
+      @include mobile{
+        gap:1px;
+      font-size: $fsregular !important;
+      }
       .icon {
         display: flex;
         align-items: center;
         justify-content: center;
+        @include mobile{
+        width: 8vw;
+        }
       }
     }
 

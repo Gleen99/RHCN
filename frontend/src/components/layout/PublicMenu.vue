@@ -15,7 +15,9 @@ const changeLanguage = (lang: string) => {
 <template>
    <div class="PublicMenu" :class="{ 'open': isMenuOpen }">
   <div class="menu-header">
-    <img src="../../assets/Logo.jpeg" class="Logo" />
+    <router-link :to="{ name: Routes.home }" class="link">
+      <img src="../../assets/Logo.jpeg" class="Logo" />
+    </router-link>
     <div class="menu-toggle" @click="isMenuOpen = !isMenuOpen">
       <span v-if="!isMenuOpen">☰</span>
       <span v-else>✖</span>

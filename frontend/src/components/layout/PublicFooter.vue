@@ -118,6 +118,9 @@ const {} = useApi();
       .Footer-icon {
         width: auto;
         gap: 15px;
+        @include mobile {
+          width: 55%;
+        }
       }
     }
 
@@ -126,6 +129,7 @@ const {} = useApi();
       align-items: center;
       gap: 10px;
       font-size: 18px;
+
     }
 
     .footer-buttons-infos {

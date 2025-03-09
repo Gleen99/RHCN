@@ -35,66 +35,112 @@ const { t } = useI18n();
   height: 115vh;
   margin: 0;
   align-items: center;
+
   @include desktopMax {
     height: 100vh;
   }
-    .AboutUsHeaderContent {
-      background-color: $cdark-blue-gray;
-      height: 96vh;
-      padding-top: 15%;
-        @include desktopMax {
-          height: 80vh;
-        }
-        .BGAboutUs {
-            max-width: 100%;
-            height: auto;
-            display: block;
-        }
-        .ContentInfos{
-            position: relative;
-            bottom: 295px;
-            .title{
-                display: flex;
-            justify-content: center;
-              position: relative;
-              bottom: 30px;
-              font-size: 60px;
-              @include desktopMax {
-                bottom: 100px;
-              }
-            }
 
-        }
-        .ContentInfosText{
-    background-color: #FFFFFF;
-    border-radius: 50px;
-    padding: 5% 5%;
-    font-size: 18px;
+  @include mobile {
+    height: auto;
+    padding: 36% 0 6% 0;
+  }
 
+  .AboutUsHeaderContent {
+    background-color: $cdark-blue-gray;
+    height: 96vh;
+    padding-top: 15%;
 
-    line-height: 1.5;
-    box-shadow: $box-shadow;
-          margin: 0 5.8rem;
-          @include desktopMax {
-            margin-top: -9.5%;
-            margin-left: 10rem;
-            margin-right: 10rem;
-          }
-            .textContent{
-                display: flex;
-                gap:15px
-            }
-            .TextBottom{
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                font-weight: bold;
-                padding-top: 5%;
-            }
-            .text{
-                flex: 1;
-            }
-        }
+    @include desktopMax {
+      height: 80vh;
     }
+
+    @include mobile {
+      height: auto;
+      padding-top: 10%;
+    }
+
+    .BGAboutUs {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .ContentInfos {
+      position: relative;
+      bottom: 295px;
+
+      @include mobile {
+        bottom: 34px;
+        text-align: center;
+      }
+
+      .title {
+        display: flex;
+        justify-content: center;
+        position: relative;
+        bottom: 30px;
+        font-size: 60px;
+
+        @include desktopMax {
+          bottom: 100px;
+        }
+
+        @include mobile {
+          font-size: 30px;
+          bottom: 40px;
+          display: block;
+          margin: 0 auto;
+
+
+        }
+      }
+    }
+
+    .ContentInfosText {
+      background-color: #FFFFFF;
+      border-radius: 50px;
+      padding: 5% 5%;
+      font-size: 18px;
+      line-height: 1.5;
+      box-shadow: $box-shadow;
+      margin: 0 5.8rem;
+
+      @include desktopMax {
+        margin-top: -9.5%;
+        margin-left: 10rem;
+        margin-right: 10rem;
+      }
+
+      @include mobile {
+        margin: 5% 2%;
+        padding: 8% 5%;
+        font-size: 16px;
+        border-radius: 20px;
+      }
+
+      .textContent {
+        display: flex;
+        gap: 15px;
+
+        @include mobile {
+          flex-direction: column;
+          gap: 10px;
+        }
+      }
+
+      .TextBottom {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        padding-top: 5%;
+      }
+
+      .text {
+        flex: 1;
+      }
+    }
+  }
 }
+
 </style>

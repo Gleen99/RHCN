@@ -3,6 +3,7 @@ import {useI18n} from "vue-i18n";
 import IDonate from "@/components/images/IDonate.vue";
 import IPartner from "@/components/images/IPartner.vue";
 import IMember from "@/components/images/IMember.vue";
+import MainButton from "@/components/ui/MainButton.vue";
 
 const{t}= useI18n();
 
@@ -17,10 +18,7 @@ const{t}= useI18n();
       <div class="infos-wrapper2" v-html="t('home.infos2').replace(/\n/g, '<br/>')"></div>
       <div class="ql-icon-picker">
         <div class="ql-icon">
-          <IDonate/>
-          <div>
-            {{t('home.links1')}}
-          </div>
+          <MainButton type="main">{{ t('global.buttons.donate') }}</MainButton>
         </div>
         <div class="ql-icon">
           <IPartner/>
@@ -50,19 +48,53 @@ const{t}= useI18n();
   height: fit-content;
   margin: 0;
   align-items: center;
+  overflow: hidden;
 
-  .home-header__wrapper{
+  @include mobile {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('../../assets/Header.png') no-repeat center center;
+      background-size: cover;
+      filter: blur(10px);
+      opacity: 0.3;
+      z-index: 0;
+    }
+  }
+
+  .home-header__wrapper {
     display: flex;
     padding-top: 9%;
+    position: relative;
+    z-index: 1;
+
     @include desktopMax {
       padding-top: 2%;
     }
+
+    @include mobile {
+      flex-direction: column;
+      align-items: center;
+      padding-top: 5%;
+    }
+
     .home-header__infos {
       width: 69%;
       padding: 10% 10% 8.2% 6%;
+
       @include desktopMax {
         width: 69%;
         padding: 10% 10% 8.2% 13%;
+      }
+
+      @include mobile {
+        width: 90%;
+        padding: 5% 5%;
+        margin-top: 12rem;
       }
 
       .title-wrapper {
@@ -73,6 +105,12 @@ const{t}= useI18n();
         padding-bottom: 34px;
         width: 100%;
         line-height: 5.5Vh;
+
+        @include mobile {
+          font-size: 28px;
+          line-height: 4vh;
+          padding-bottom: 20px;
+        }
       }
 
       .infos-wrapper {
@@ -80,10 +118,11 @@ const{t}= useI18n();
         font-family: $Arial;
         font-size: 18px;
         line-height: 3Vh;
-      }
 
-      infos-wrapper {
-        width: 40%;
+        @include mobile {
+          font-size: 16px;
+          line-height: 2.5vh;
+        }
       }
 
       .infos-wrapper2 {
@@ -93,12 +132,23 @@ const{t}= useI18n();
         font-size: 18px;
         width: 60%;
         padding: 20px 0 34px 0;
+
+        @include mobile {
+          width: 100%;
+          font-size: 16px;
+          padding: 15px 0;
+        }
       }
 
       .ql-icon-picker {
         display: flex;
         gap: 45px;
         color: $cwhite;
+
+        @include mobile {
+          gap: 20px;
+          align-items: center;
+        }
 
         .ql-icon {
           display: flex;
@@ -107,10 +157,18 @@ const{t}= useI18n();
           font-family: $Arial;
           font-size: 18px;
           font-weight: bold;
+
+          @include mobile {
+            font-size: 16px;
+          }
+        }
+
+        @include mobile {
+          .ql-icon:nth-child(n+2) {
+            display: none;
+          }
         }
       }
-
-
     }
 
     .header-logo {
@@ -119,11 +177,11 @@ const{t}= useI18n();
       right: 0;
       width: auto;
       height: auto;
-      @include mobile {
 
+      @include mobile {
+        display: none;
       }
     }
   }
-
 }
 </style>

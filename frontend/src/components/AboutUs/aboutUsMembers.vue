@@ -57,7 +57,6 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   align-content: center;
- 
 
   .aboutUsMembersContent {
     .title {
@@ -72,6 +71,10 @@ onMounted(() => {
     gap: 23px;
     justify-content: center;
 
+    @include mobile {
+      grid-template-columns: repeat(2, 1fr); // 2 colonnes sur mobile
+      gap: 15px;
+    }
 
     .event-item {
       display: flex;
@@ -87,6 +90,11 @@ onMounted(() => {
         width: 150px;
         height: 150px;
         margin-bottom: 10px;
+
+        @include mobile {
+          width: 120px;
+          height: 120px;
+        }
 
         .ibg-member {
           width: 100%;
@@ -106,6 +114,10 @@ onMounted(() => {
           position: relative;
           z-index: 1;
           border: 10px solid $cyellow;
+
+          @include mobile {
+            border: 7px solid $cyellow;
+          }
         }
       }
 
@@ -124,14 +136,25 @@ onMounted(() => {
         text-align: center;
         margin-top: -25%;
 
+        @include mobile {
+          font-size: 14px;
+          padding: 20% 8% 8% 8%;
+          margin-top: -20%;
+        }
+
         .title {
           color: $cyellow;
           font-weight: 600;
           font-size: 20px;
           font-family: $Arial;
+
+          @include mobile {
+            font-size: 16px;
+          }
         }
       }
     }
   }
 }
+
 </style>

@@ -25,39 +25,53 @@ const { t } = useI18n();
 
 <style lang="scss">
 .aboutUsInfos {
-	background-color: $clight-gray;
-	height: fit-content;
-  margin-top: 50px ;
-	.aboutUsInfosContent {
+  background-color: $clight-gray;
+  height: fit-content;
+  margin-top: 50px;
 
-		padding: 5% 0;
-		display: flex;
-		justify-content: space-between;
-		text-align: center;
-		gap: 13px;
+  .aboutUsInfosContent {
+    padding: 5% 0;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    gap: 13px;
     margin-left: 5.8rem;
     margin-right: 6rem;
+
     @include desktopMax {
       margin-left: 9.8rem;
       margin-right: 11.4rem;
     }
 
+    @include mobile {
+      flex-direction: column;
+      align-items: center;
+      margin-left: 2rem;
+      margin-right: 2rem;
+      gap: 10px;
+    }
 
-		.ContentText {
-			background-color: #FFFFFF;
-			border-radius: 50px;
-			padding: 5% 5%;
-			font-size: 16px;
-			line-height: 1.5;
-			box-shadow: $box-shadow;
+    .ContentText {
+      background-color: #FFFFFF;
+      border-radius: 50px;
+      padding: 5% 5%;
+      font-size: 16px;
+      line-height: 1.5;
+      box-shadow: $box-shadow;
 
-			.title {
-				color: $cyellow;
-				font-weight: bold;
-			}
-		}
+      @include mobile {
+        width: 100%;
+        padding: 5% 8%;
+        font-size: 14px;
+        margin: 3px 0;
+      }
 
-	}
-
+      .title {
+        color: $cyellow;
+        font-weight: bold;
+      }
+    }
+  }
 }
+
 </style>

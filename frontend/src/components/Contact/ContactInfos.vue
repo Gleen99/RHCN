@@ -173,21 +173,51 @@ async function save() {
 <style lang="scss">
 .ContactInfos {
     flex: 1;
+  @include mobile{
+    border: 1px solid $csoft-light-gray;
+    margin-bottom: 30px;
+  }
+  @include mobile{
+
+    .PageTitle{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      margin: 23px 0;
+        .title{
+         font-size: 25px !important;
+      }
+    }
+  }
 
     .ContactInfosTitle {
         border-bottom: 1px solid $csoft-light-gray;
         padding-bottom: 24px;
         margin-bottom: 24px;
+      @include mobile{
+        padding-bottom: 0;
+        margin-bottom: 24px;
+      }
     }
     .name-fields {
         display: flex;
         gap: 20px;
-
+      @include mobile{
+        display:block;
+        padding: 0 30px;
+      }
         .FieldInput,
         .FieldNumber {
             flex: 1;
         }
+
     }
+  .FieldLayout {
+    @include mobile{
+      padding: 0 30px;
+    }
+  }
     .global-error-message {
         font-size: 16px;
         color: $cerror;
@@ -205,6 +235,10 @@ async function save() {
         position: relative;
         margin-left: auto;
         margin-top: 30px;
+      @include mobile{
+        margin-bottom: 20px;
+        margin-right: 20px;
+      }
     }
     .notificationMessage {
         font-size: 14px;
@@ -213,8 +247,12 @@ async function save() {
     }
     .contacMessage{
         margin-top: 15px;
+      @include mobile{
+        padding: 0 30px;
+      }
         .messagePart2 {
         margin-top: 5px;
+
     }
     }
    

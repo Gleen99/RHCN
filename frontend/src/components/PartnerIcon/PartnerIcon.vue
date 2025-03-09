@@ -1,6 +1,7 @@
+
 <script setup lang="ts">
 import {useApi} from "@/composition/api";
-import {onMounted, ref} from "vue";
+import {onMounted, ref, computed} from "vue";
 import {IPartnerIconDB} from "@shared/crudTypes";
 import PageTitle from "@/components/ui/PageTitle.vue";
 import {useI18n} from "vue-i18n";
@@ -10,7 +11,7 @@ const {t} = useI18n();
 const partenaires = ref<IPartnerIconDB[]>([]);
 const visiblePartenaires = ref<IPartnerIconDB[]>([]);
 const index = ref(0);
-const maxVisible = 6;
+const maxVisible = ref(6);
 
 async function fetchPartenaires() {
   try {
@@ -27,23 +28,25 @@ async function fetchPartenaires() {
   }
 }
 
-function updateVisibleImages() {
+const updateVisibleImages = () => {
   const total = partenaires.value.length;
+  const visibleCount = window.innerWidth <= 768 ? 3 : maxVisible.value; // 3 en mobile, 6 sinon
   visiblePartenaires.value = [];
-  for (let i = 0; i < maxVisible; i++) {
+  for (let i = 0; i < visibleCount; i++) {
     visiblePartenaires.value.push(partenaires.value[(index.value + i) % total]);
   }
-}
+};
 
-function startCarousel() {
+const startCarousel = () => {
   setInterval(() => {
     index.value = (index.value + 1) % partenaires.value.length;
     updateVisibleImages();
   }, 3000);
-}
+};
 
 onMounted(() => {
   fetchPartenaires();
+  window.addEventListener('resize', updateVisibleImages);
 });
 </script>
 
@@ -77,6 +80,11 @@ onMounted(() => {
 
   .page-title {
     text-align: center;
+    .title{
+      @include mobile {
+        display: block;
+      }
+    }
   }
 
   .content-icons {
@@ -87,6 +95,11 @@ onMounted(() => {
     align-items: center;
     width: 100%;
     overflow: hidden;
+
+    @include mobile {
+      gap: 15px;
+      overflow: hidden;
+    }
 
     .partenaire-item {
       display: flex;
@@ -102,8 +115,14 @@ onMounted(() => {
       img {
         width: 10vw;
         height: 20vh;
+
+        @include mobile {
+          width: 50vw;
+          height: auto;
+        }
       }
     }
   }
 }
+
 </style>

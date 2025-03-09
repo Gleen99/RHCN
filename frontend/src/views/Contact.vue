@@ -27,6 +27,9 @@ import EmailingFront from "@/components/EmailingFront/EmailingFront.vue";
 	.ContactContentInfos{
 		display: flex;
 		gap: 10rem;
+    @include mobile{
+      display: block;
+    }
 	}
 }
 </style>

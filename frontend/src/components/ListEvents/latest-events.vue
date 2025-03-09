@@ -114,11 +114,23 @@ onMounted(() => {
 .latest-events {
 
   text-align: center;
-
+  .page-title {
+    text-align: center;
+    .title{
+      @include mobile {
+        display: block;
+      }
+    }
+  }
   .events-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1.4rem;
+    @include mobile {
+      margin: 0 5rem;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+    }
   }
 
   .event-card {
@@ -177,7 +189,6 @@ onMounted(() => {
     display: flex;
     justify-content: center;
     .title{
-      font-size: 26px !important;
       border-bottom: 1px solid $cyellow;
       &:hover {
         border-bottom: none;

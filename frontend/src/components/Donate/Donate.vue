@@ -71,19 +71,32 @@ const closeModal = () => {
   position: relative;
   overflow: hidden;
   margin-top: 23px;
-  .Donate-content{
+
+  .Donate-content {
     .BGDonate {
       position: relative;
       left: -2%;
       height: fit-content;
       width: 100.8vw;
+
+      @include mobile {
+        display: none;
+        width: 100%;
+        left: 0;
+      }
     }
   }
+
   .IAvatarDonate {
     display: flex;
     align-items: center;
     padding: 0;
+
+    @include mobile {
+      justify-content: center;
+    }
   }
+
   .DonateContent {
     position: absolute;
     top: 50%;
@@ -99,6 +112,17 @@ const closeModal = () => {
     justify-content: center;
     align-items: center;
 
+    @include mobile {
+      position: relative;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, 0);
+      flex-direction: column;
+      width: 90%;
+      border-radius: 20px;
+      padding: 15px;
+    }
+
     .MainDonate {
       font-size: 16px;
       display: flex;
@@ -106,14 +130,26 @@ const closeModal = () => {
       font-family: $Arial;
       font-style: italic;
 
+      @include mobile {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+      }
+
       .Title {
         margin-bottom: 10px !important;
         font-style: normal;
 
         .title {
           font-size: 40px !important;
+
           @include desktopMax {
             font-size: 60px !important;
+          }
+
+          @include mobile {
+            display: block;
+            font-size: 24px !important;
           }
         }
       }
@@ -122,8 +158,14 @@ const closeModal = () => {
         line-height: 20px;
         font-size: 18px;
         font-weight: normal;
+
         @include desktopMax {
           line-height: 25px;
+        }
+
+        @include mobile {
+          font-size: 14px;
+          line-height: 18px;
         }
 
         .text1 {
@@ -157,6 +199,12 @@ const closeModal = () => {
         color: $cdark-gray;
         font-size: 18px;
         font-weight: bold;
+
+        @include mobile {
+          width: 100%;
+          padding: 10px 30px;
+          font-size: 16px;
+        }
       }
     }
   }

@@ -56,19 +56,30 @@ async function sendEmail() {
 <style lang="scss">
 .EmailingFront {
   padding: 45px 0;
+
   .EmailFront {
     display: flex;
     align-items: center;
     position: relative;
     height: 100%;
 
-    .BGEmailFront {
-      width: 49vw;
-      @include desktopMax{
-        width: 50vw;
-      }
+    @include mobile {
+      flex-direction: column;
+      text-align: center;
+      align-items: center;
     }
 
+    .BGEmailFront {
+      width: 49vw;
+
+      @include desktopMax {
+        width: 50vw;
+      }
+
+      @include mobile {
+        width: 90%;
+      }
+    }
 
     .EmailFrontText {
       backdrop-filter: blur(15px) brightness(100%);
@@ -79,10 +90,20 @@ async function sendEmail() {
       padding: 70px;
       border-radius: 25px;
 
+      @include mobile {
+        right: 0;
+        padding: 30px;
+        width: 90%;
+      }
+
       .title {
         color: $cyellow;
         font-size: 40px;
         font-weight: bold;
+
+        @include mobile {
+          font-size: 24px;
+        }
       }
 
       .text {
@@ -90,6 +111,12 @@ async function sendEmail() {
         width: 39vw;
         font-size: 16px;
         line-height: 23px;
+
+        @include mobile {
+          width: 100%;
+          font-size: 14px;
+          padding: 15px 0;
+        }
       }
     }
 
@@ -103,6 +130,11 @@ async function sendEmail() {
       cursor: pointer;
       font-family: $Roboto;
 
+      @include mobile {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
 
       .text {
         flex: 1;
@@ -117,6 +149,13 @@ async function sendEmail() {
         &::placeholder {
           color: $cteal-dark;
         }
+
+        @include mobile {
+          font-size: 14px;
+          padding: 8px 12px;
+          width: 100%;
+          text-align: center;
+        }
       }
 
       .sender {
@@ -130,6 +169,13 @@ async function sendEmail() {
         display: flex;
         align-items: center;
         justify-content: center;
+
+        @include mobile {
+          width: 100%;
+          padding: 10px;
+          font-size: 16px;
+          margin-top: 10px;
+        }
       }
     }
   }
