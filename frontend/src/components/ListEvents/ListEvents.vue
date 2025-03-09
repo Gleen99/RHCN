@@ -99,7 +99,7 @@ onMounted(() => {
 
     <div v-if="!isLoading && !error && paginatedEvents.length> 0" class="events-grid">
       <div v-for="event in paginatedEvents" :key="event._id" class="event-card" @click="openModal(event)">
-        <img :src="event.mainPicture?.thumbnail || '/placeholder.png'" alt="Event Image" class="event-image" />
+        <img :src="event.mainPicture?.thumbnail || '/Logo.jpeg'" alt="Event Image" class="event-image" />
         <div class="event-details">
           <h2 class="event-title">{{ event.title }}</h2>
           <div class="event-info">
@@ -132,13 +132,21 @@ onMounted(() => {
   cursor: pointer;
   .Title {
     font-size: 24px !important;
+    @include mobile {
+      padding-top: 15px;
+    }
   }
 
   .events-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.4rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.4rem;
 
+    @include mobile {
+      margin: 0 5rem;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+    }
   }
 
   .event-card {
@@ -150,9 +158,11 @@ onMounted(() => {
     transition: box-shadow 0.3s;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 1rem;
-    .event-image{
+
+    .event-image {
       height: 24vh;
     }
+
     .event-details {
       padding: 0 16px;
       .event-title {
@@ -167,16 +177,17 @@ onMounted(() => {
         padding: 16px 0;
         color: $cdeep-blue;
       }
-      .event-info{
-        .event-infosContent{
+      .event-info {
+        .event-infosContent {
           display: flex;
           align-items: center;
-          gap:10px;
+          gap: 10px;
           padding: 0 0 10px 0;
-
         }
       }
     }
+
+
   }
 
   .event-button {
@@ -185,8 +196,12 @@ onMounted(() => {
     gap: 15px;
     align-items: center;
     font-weight: bold;
-    .icon{
+    .icon {
       width: 24px;
+    }
+    @include mobile {
+      gap: 10px;
+      font-size: 14px;
     }
   }
 }

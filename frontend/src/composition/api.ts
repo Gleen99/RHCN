@@ -78,7 +78,8 @@ export type UseApiResult = {
 
     createArticle: (data: any) => Promise<IArticleDB>
     getArticles: () => Promise<IArticleDB>
-    getArticle: (articleId: objectId) => Promise<IArticleDB>
+    getArticle: (slug: string) => Promise<IArticleDB>
+    GetCategoryArticles: () => Promise<IArticleDB>
     deleteArticle: (articleId: objectId) => Promise<IArticleDB>
     updateArticle: (data: any, articleId: ObjectId) => Promise<IArticleDB>
 
@@ -186,6 +187,7 @@ export function useApi(): UseApiResult {
         getArticle,
         deleteArticle,
         updateArticle,
+        GetCategoryArticles,
 
         //Category
         GetCategories,
@@ -443,9 +445,14 @@ async function getArticles(): Promise<IArticleDB> {
     const response = await axios.get(buildUrl("/bo/articles"));
     return response.data;
 }
+async function GetCategoryArticles(): Promise<IArticleDB> {
+    const response = await axios.get(buildUrl("/categoriesArticles"));
+    return response.data;
+}
 
-async function getArticle(ArticleId: ObjectId): Promise<IArticleDB> {
-    const response = await axios.get(buildUrl(`/bo/article/${ArticleId}`));
+
+async function getArticle(slug: string): Promise<IArticleDB> {
+    const response = await axios.get(buildUrl(`/bo/article/${slug}`));
     return response.data;
 }
 

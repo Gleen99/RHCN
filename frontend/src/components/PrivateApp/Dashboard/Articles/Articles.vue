@@ -10,11 +10,10 @@ const { createArticle, getArticles, deleteArticle, updateArticle } = useApi();
 const articles = ref<IArticleDB[]>([]);
 const newArticle = ref<IArticle>({
   title: "",
-  slug: "",
   categories: [],
   content: [{ blockName: "", text: "" }],
   author: "",
-  published: false,
+  published: true,
   mainPicture: { path: "" },
 });
 
@@ -76,7 +75,6 @@ async function supprimerArticle() {
 function validerArticle(article: IArticle) {
   return (
       article.title.trim() !== "" &&
-      article.slug.trim() !== "" &&
       Array.isArray(article.categories) && article.categories.length > 0
   );
 }
@@ -130,23 +128,20 @@ function annulerEdition() {
       <label>Titre</label>
       <input v-model="newArticle.title" placeholder="Entrez le titre" />
 
-      <label>Slug</label>
-      <input v-model="newArticle.slug" placeholder="Entrez le slug" />
-
       <label>Auteur</label>
       <input v-model="newArticle.author" placeholder="Entrez l'auteur" />
 
-      <label>Catégories</label>
+      <label>Catégories en Français</label>
       <input v-model="newArticle.categories" placeholder="Catégories (séparées par des virgules)" />
+
+<!--        <label>Catégories en Anglais</label>-->
+<!--      <input v-model="newArticle.categories" placeholder="Catégories (séparées par des virgules)" />-->
+      <label>Ajouter votre image</label>
       <picture-loader
           :value="newArticle.mainPicture"
           @onChange="(fileData : any) => (newArticle.mainPicture = fileData)"
       />
-      <div>ajouter voyre ilage</div>
-      <label>Publié</label>
-      <input type="checkbox" v-model="newArticle.published" />
-
-      <h3>Contenu</h3>
+      <label>Contenu</label>
       <div v-for="(block, index) in newArticle.content" :key="index" class="content-block">
         <TextEditor v-model="block.text" />
         <button @click="supprimerContenu(index)" class="btn btn-danger">Supprimer ce bloc</button>

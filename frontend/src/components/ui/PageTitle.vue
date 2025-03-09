@@ -49,7 +49,11 @@ const slots: Slots = useSlots();
     font-size: $fsbig;
     font-family: $Arial;
     font-weight: $fbold;
-  
+
+    @include mobile{
+      display: flex;
+      text-align: center;
+    }
 
     &.with-icon {
       display: flex;

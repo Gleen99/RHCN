@@ -70,7 +70,7 @@ onMounted(() => {
     </PageTitle>
     <div v-if="!isLoading && events.length > 0" class="events-grid">
       <div v-for="event in events" :key="event._id" class="event-card" @click="openModal(event)">
-        <img :src="event.mainPicture?.thumbnail || '/placeholder.png'" alt="Event Image" class="event-image" />
+        <img :src="event.mainPicture?.thumbnail || '/Logo.jpeg'" alt="Event Image" class="event-image" />
         <div class="event-details">
           <h2 class="event-title">{{ event.title }}</h2>
           <div class="event-info">

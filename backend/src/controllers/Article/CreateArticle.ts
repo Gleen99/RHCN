@@ -11,17 +11,11 @@ export default class CreateArticle extends Controller {
         try {
             const { title, slug, mainPicture, author, categories, published, content } = req.body;
 
-            if (!title || !slug || !categories) {
+            if (!title || !categories) {
                 return res.status(400).json({
-                    error: "Title, slug, and at least one category are required fields.",
+                    error: "Title, and at least one category (as an array) are required fields.",
                 });
             }
-
-            // if (!content || !Array.isArray(content) || content.length === 0 || !content.every(block => block.blockName && block.text)) {
-            //     return res.status(400).json({
-            //         error: "Content must be a non-empty array of ArticleContent objects with blockName and text.",
-            //     });
-            // }
 
             // Vérifier si un article avec le même slug existe déjà
             const existingArticle = await db.collection("articles").findOne({ slug });
@@ -29,15 +23,19 @@ export default class CreateArticle extends Controller {
                 return res.status(409).json({ error: "An article with this slug already exists." });
             }
 
+            // Assurer que categories est bien un tableau
+            const categoryArray = typeof categories === "string" ? categories.split(",").map(c => c.trim()) : Array.isArray(categories) ? categories : [];
+
             // Création de l'objet article
             const newArticle = {
                 title,
-                slug,
-                mainPicture,
-                author: author || "Unknown", // Valeur par défaut
-                categories,
-                published: !!published, // Conversion en boolean
-                content,
+                slug: title,
+                mainPicture: mainPicture || null,
+                author: author || "RHCN",
+                categories: categoryArray,
+                published: !!published,
+                content: Array.isArray(content) ? content : [],
+                date: new Date(),
             };
 
             // Insertion dans la base de données

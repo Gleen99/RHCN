@@ -2,9 +2,7 @@
 import { ref, watch, PropType } from "vue";
 import { QuillEditor, Delta } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
-import Quill from "quill";
 
-// 📌 Définir `modelValue` pour supporter `string | Delta`
 const props = defineProps({
   modelValue: {
     type: [String, Object] as PropType<string | Delta>,
@@ -13,10 +11,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["update:modelValue"]);
-
 const content = ref<string | Delta>(props.modelValue || "");
 
-// 📌 Options de l'éditeur Quill
 const editorOptions = ref({
   placeholder: "Ajoutez du contenu ici...",
   theme: "snow",
@@ -35,20 +31,56 @@ const editorOptions = ref({
   },
 });
 
-// 📌 Convertir Delta en Markdown (pour l'enregistrement)
-function deltaToMarkdown(delta: any): string {
-  return deltaToMarkdown(delta.ops);
-}
+function deltaToCustomFormat(delta: any): any {
+  return delta.ops.map((op: any) => {
+    if (op.insert && typeof op.insert === "string") {
+      let text = op.insert;
 
-// 📌 Convertir Delta en HTML (pour affichage)
-function deltaToHtml(delta: any): string {
-  const tempDiv = document.createElement("div");
-  const tempQuill = new Quill(tempDiv);
-  tempQuill.setContents(delta);
-  return tempQuill.root.innerHTML;
-}
+      // Vérifier les styles de texte
+      let formattedText = text;
+      if (op.attributes) {
+        if (op.attributes.bold) {
+          formattedText = `<strong>${formattedText}</strong>`;
+        }
+        if (op.attributes.italic) {
+          formattedText = `<em>${formattedText}</em>`;
+        }
+        if (op.attributes.underline) {
+          formattedText = `<u>${formattedText}</u>`;
+        }
+        if (op.attributes.strike) {
+          formattedText = `<s>${formattedText}</s>`;
+        }
+      }
 
-// 📌 Gérer les changements de `modelValue`
+      // Gestion des titres
+      if (op.attributes?.header === 1) {
+        return { blockName: "block-title1", text: `<h1>${formattedText}</h1>` };
+      }
+      if (op.attributes?.header === 2) {
+        return { blockName: "block-title2", text: `<h2>${formattedText}</h2>` };
+      }
+
+      // Gestion des listes
+      if (op.attributes?.list === "ordered") {
+        return { blockName: "block-list-ordered", text: `<li>${formattedText}</li>` };
+      }
+      if (op.attributes?.list === "bullet") {
+        return { blockName: "block-list-unordered", text: `<li>${formattedText}</li>` };
+      }
+
+      // Paragraphe normal
+      return { blockName: "block-paragraph", text: `<p>${formattedText}</p>` };
+    }
+
+    // Gestion des images
+    if (op.insert && typeof op.insert === "object" && op.insert.image) {
+      return { blockName: "block-image", path: op.insert.image };
+    }
+
+    return null;
+  }).filter(Boolean);
+}
 watch(
     () => props.modelValue,
     (newValue) => {
@@ -56,9 +88,8 @@ watch(
         content.value = "";
         return;
       }
-
       if (typeof newValue === "object" && "ops" in newValue) {
-        content.value = deltaToHtml(newValue); // Convertir Delta en HTML pour affichage
+        content.value = newValue;
       } else {
         content.value = newValue;
       }
@@ -66,11 +97,12 @@ watch(
     { deep: true }
 );
 
-// 📌 Convertir Delta en Markdown avant de sauvegarder
 watch(content, (newValue) => {
   if (typeof newValue === "object" && "ops" in newValue) {
-    const markdownContent = deltaToMarkdown(newValue);
-    emit("update:modelValue", markdownContent); // Stocker en Markdown
+    const formattedContent = {
+      content: deltaToCustomFormat(newValue),
+    };
+    emit("update:modelValue", formattedContent);
   } else {
     emit("update:modelValue", newValue);
   }
@@ -84,6 +116,5 @@ watch(content, (newValue) => {
 </template>
 
 <style>
-/* Import des styles Quill */
 @import "@vueup/vue-quill/dist/vue-quill.snow.css";
 </style>

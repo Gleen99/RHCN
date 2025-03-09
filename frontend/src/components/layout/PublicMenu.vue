@@ -2,53 +2,42 @@
 import { useI18n } from "vue-i18n";
 import { Routes } from "@/enums";
 import MainButton from "../ui/MainButton.vue";
+import { ref } from "vue";
 
 const { t, locale } = useI18n();
+const isMenuOpen = ref(false);
 
 const changeLanguage = (lang: string) => {
   locale.value = lang;
 };
 </script>
+
 <template>
-	<div class="PublicMenu">
-			<div class="linkContent">
-			<router-link :to="{ name: Routes.home }" class="link">
-				<img src="../../assets/Logo.jpeg" class="Logo" />
-			</router-link>
-		</div>
-
-		<div class="linkContent">
-			<router-link :to="{ name: Routes.events }" class="link">{{ t('menu.events') }}</router-link>
-		</div>
-		<div class="linkContent">
-			<router-link :to="{ name: Routes.article }" class="link">{{ t('menu.articles') }}</router-link>
-		</div>
-		<div class="linkContent">
-			<router-link :to="{ name: Routes.partners }" class="link">{{ t('menu.partners') }}</router-link>
-		</div>
-		<div class="linkContent">
-			<router-link :to="{ name: Routes.aboutUs }" class="link">{{ t('menu.aboutUs') }}</router-link>
-		</div>
-		<div class="linkContent">
-			<router-link :to="{ name: Routes.contact }" class="link">{{ t('menu.contact') }}</router-link>
-		</div>
-
-		<MainButton type="main">{{ t('global.buttons.donate') }}</MainButton>
-		<div class="languageSwitcher">
-			<div class="languageSwitcher-button"
-				v-if="locale !== 'fr'"
-				@click="changeLanguage('fr')"
-			>
-				Fr
-			</div>
-			<div class="languageSwitcher-button"
-				v-if="locale !== 'en'"
-				@click="changeLanguage('en')"
-			>
-				En
-		</div>
-		</div>
-	</div>
+   <div class="PublicMenu" :class="{ 'open': isMenuOpen }">
+  <div class="menu-header">
+    <img src="../../assets/Logo.jpeg" class="Logo" />
+    <div class="menu-toggle" @click="isMenuOpen = !isMenuOpen">
+      <span v-if="!isMenuOpen">☰</span>
+      <span v-else>✖</span>
+    </div>
+  </div>
+  <div class="menu-links" :class="{ 'open': isMenuOpen }">
+    <router-link :to="{ name: Routes.events }" class="link">{{ t('menu.events') }}</router-link>
+    <router-link :to="{ name: Routes.article }" class="link">{{ t('menu.articles') }}</router-link>
+    <router-link :to="{ name: Routes.partners }" class="link">{{ t('menu.partners') }}</router-link>
+    <router-link :to="{ name: Routes.aboutUs }" class="link">{{ t('menu.aboutUs') }}</router-link>
+    <router-link :to="{ name: Routes.contact }" class="link">{{ t('menu.contact') }}</router-link>
+    <MainButton type="main">{{ t('global.buttons.donate') }}</MainButton>
+    <div class="languageSwitcher">
+      <div class="languageSwitcher-button" v-if="locale !== 'fr'" @click="changeLanguage('fr')">
+        Fr
+      </div>
+      <div class="languageSwitcher-button" v-if="locale !== 'en'" @click="changeLanguage('en')">
+        En
+      </div>
+    </div>
+  </div>
+</div>
 </template>
 
 <style lang="scss">
@@ -69,7 +58,7 @@ const changeLanguage = (lang: string) => {
 	justify-content: space-between;
 	@include desktopMax {
 		max-width: 1650px;
-		
+
 	}
 	.Logo {
 		height: 139px;
@@ -77,22 +66,37 @@ const changeLanguage = (lang: string) => {
 		padding: 5px;
 	}
 
-	.linkContent {
-		.link {
-			cursor: pointer;
-			font-size: 20px;
-			font-weight: 600;
-			color: black;
-			line-height: 1.2em;
+  .menu-toggle {
+    display: none;
+    font-size: 30px;
+    cursor: pointer;
+  }
 
-			&:hover {
-				text-decoration: underline;
-			}
-		}
-	}
-	.MainButton{
-		font-size: 20px;
-	}
+  .menu-links {
+    display: flex;
+    gap: 15px;
+    flex: 1;
+    justify-content: space-between;
+    padding: 0 7rem;
+    align-items: center;
+
+  }
+
+  .link {
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 600;
+    color: black;
+    line-height: 1.2em;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .MainButton {
+    font-size: 20px;
+  }
 
 	.languageSwitcher {
 		position: absolute;
@@ -103,21 +107,61 @@ const changeLanguage = (lang: string) => {
 		cursor: pointer;
 		font-size: 20px;
 		font-weight: 600;
+    @include mobile {
+      left: 50%;
+      top: 100%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 		.languageSwitcher-button {
 			// color: $cyellow;
 			padding: 5px 10px;
 			cursor: pointer;
 			transition: background-color 0.3s, color 0.3s;
 
-			&:hover {
-				background-color: #f0f0f0;
-			}
 
-			&.active {
-				background-color: #3498db;
-				color: white;
-			}
-		}
-	}
+      &:hover {
+        background-color: #f0f0f0;
+      }
+
+      &.active {
+        background-color: #3498db;
+        color: white;
+      }
+    }
+  }
+
+  @include mobile {
+    flex-direction: column;
+    padding: 10px;
+    width: 100%;
+    .menu-header {
+      display: flex;
+      justify-content: center; // Centre le logo
+      position: relative;
+      width: 100%;
+    }
+    .menu-toggle {
+      display: block;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      color: $cyellow;
+    }
+    .menu-links {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      align-items: center;
+      position: relative;
+      background-color: $clight-gray2;
+      padding: 20px;
+      &.open {
+        display: flex;
+      }
+    }
+  }
 }
 </style>

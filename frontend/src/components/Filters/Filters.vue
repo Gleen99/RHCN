@@ -64,6 +64,10 @@ const onDateChange = (value: number | null) => {
       justify-content: space-between;
       margin-bottom: 20px;
       gap: 180px;
+      @include mobile{
+        display: block;
+        margin: 0 2rem;
+      }
       .label{
 
       }

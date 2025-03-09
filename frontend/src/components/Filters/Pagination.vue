@@ -44,6 +44,9 @@ const goToPage = (page: number) => {
   justify-content: space-between;
   gap: 5px;
   margin-top: 20px;
+  @include mobile {
+    margin: 1rem 5rem;
+  }
 
   button {
     background-color: #f9f9f9;

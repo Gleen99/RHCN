@@ -53,49 +53,88 @@ const {} = useApi();
 
 <style lang="scss">
 .PublicFooter {
-	background-color: $cdark-gray;
-	color: $cmainBackground;
-	padding: $gap;
+  background-color: $cdark-gray;
+  color: $cmainBackground;
+  padding: $gap;
+  display: flex;
+  gap: 30px;
 
-	display: flex;
+  > * {
+    flex: 1 1 0;
+  }
 
-	gap: 30px;
-
-
-	> * {
-		flex: 1 1 0;
-	}
-  .footer-logo{
+  .footer-logo {
     width: 10vw;
   }
 
-	.section {
-		display: flex;
-		flex-direction: column;
+  .section {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+  }
 
-	}
-  .navigation{
-    display:inline-flex;
-    gap:13px;
+  .navigation {
+    display: inline-flex;
+    gap: 13px;
     font-family: $Arial;
     font-size: 24px;
-    .Footer-icon{
+
+    .Footer-icon {
       width: 13vw;
       display: inline-flex;
-      gap:23px;
+      gap: 23px;
     }
   }
-  .rs{
-    display:inline-flex;
-    gap:23px;
+
+  .rs {
+    display: inline-flex;
+    gap: 23px;
     font-family: $Arial;
     font-size: 24px;
   }
-  .footer-buttons-infos{
+
+  .footer-buttons-infos {
     display: grid;
-    gap:23px;
+    gap: 23px;
+  }
+
+  @include mobile {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+
+    .footer-logo {
+      width: 30vw;
+    }
+
+    .navigation {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+
+      .Footer-icon {
+        width: auto;
+        gap: 15px;
+      }
+    }
+
+    .rs {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+    }
+
+    .footer-buttons-infos {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      width: 100%;
+    }
   }
 }
 </style>

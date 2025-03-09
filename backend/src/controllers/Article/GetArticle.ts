@@ -1,24 +1,24 @@
+import { Request, Response } from "express";
 import { ObjectId } from "mongodb";
 import { AuthMode, Controller, HttpMethod } from "../../helpers/controller";
-import { Request, Response } from "express";
 import { db } from "../../../src/helpers/IDatabase";
 
 export default class GetArticle extends Controller {
     public method = HttpMethod.get;
-    public route = "/bo/article/:id";
+    public route = "/bo/article/:slug";
     private auth = AuthMode.authenticated;
 
     public async handler(req: Request, res: Response): Promise<any> {
         try {
-            const { id } = req.params;
+            await super.handler(req, res);
 
-            if (!ObjectId.isValid(id)) {
-                return res.status(400).json({ error: "Invalid article ID." });
+            const { slug } = req.params;
+
+            if (!slug) {
+                return res.status(400).json({ error: "Slug is required." });
             }
 
-            const articleId = new ObjectId(id);
-
-            const article = await db.collection("articles").findOne({ _id: articleId });
+            const article = await db.collection("articles").findOne({ slug });
 
             if (!article) {
                 return res.status(404).json({ error: "Article not found." });

@@ -160,20 +160,3 @@ export const generateEmailTemplate = (name: string, message: string): string => 
   `;
 };
 
-// 📌 Exemple d'utilisation
-const sendExampleEmail = async () => {
-  const emailContent = generateEmailTemplate(
-      "Jean Dupont",
-      `Merci pour votre <span class="important">inscription</span> ! Nous sommes ravis de vous accueillir.
-      Votre code de confirmation est : <span class="important">123456</span>.`
-  );
-
-  await sendNotificationEmail({
-    recipientEmail: "gleencpro@gmail.com",
-    subject: "Bienvenue chez Mon Entreprise",
-    htmlContent: emailContent,
-  });
-};
-
-// Envoi d'un email test (exécuter cette fonction pour tester)
-sendExampleEmail();

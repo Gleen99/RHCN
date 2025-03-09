@@ -29,6 +29,8 @@ import Categories from "@/components/PrivateApp/Dashboard/Category/Categories.vu
 import Images from "@/components/PrivateApp/Dashboard/Images/Images.vue";
 import EventsDashboard from "@/components/PrivateApp/Dashboard/Events/EventsDashboard.vue";
 import PartenairesIcons from "@/components/PrivateApp/Dashboard/Partenaires Icons/Partenaires-Icons.vue";
+import BlogArticle from "@/components/Article/BlogArticle.vue";
+import Blog from "@/components/Article/Blog.vue";
 
 const routes: Array<RouteRecordRaw> = [
   // Pages publiques
@@ -47,8 +49,23 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/article",
     name: Routes.article,
-    component: Article,
+    component: Blog,
+    redirect: { name: Routes.articleHome },
     meta: { requiresAuth: false },
+    children: [
+      {
+        path: '',
+        name: Routes.articleHome,
+        component: Article,
+        meta: { requiresAuth: false },
+      },
+      {
+        path: ':articleSlug',
+        name: Routes.blog,
+        component: BlogArticle,
+        meta: { requiresAuth: false },
+      },
+    ]
   },
   {
     path: "/partners",

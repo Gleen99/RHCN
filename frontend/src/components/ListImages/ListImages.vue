@@ -135,7 +135,7 @@ onMounted(() => {
       <div v-for="image in paginatedImages" :key="image.id" class="image-item">
         <div class="image-preview">
           <img
-              :src="image.mainPicture?.thumbnail || image.mainPicture?.path || '/placeholder.png'"
+              :src="image.mainPicture?.thumbnail || image.mainPicture?.path || '/Logo.jpeg'"
               alt="Preview"
           />
         </div>
@@ -152,27 +152,39 @@ onMounted(() => {
 
 <style lang="scss">
 .listImages {
-
   .Title {
-    margin-bottom: 20px !important;
-
+    font-size: 24px !important;
+    @include mobile {
+      padding-top: 15px;
+    }
   }
+
   .image-grid {
-    margin:0;
+    margin: 0;
     padding: 0;
     box-sizing: border-box;
     transition: 0.2s linear;
     columns: 1rem 3;
-    gap:1.4rem;
+    gap: 1.4rem;
 
+    @include mobile {
+      margin: 0 2rem;
+      columns: 1 !important;
+      gap: 1rem;
+    }
   }
 
   .image-item {
+    width: 100%; // S'assurer que chaque élément occupe toute la largeur
+    break-inside: avoid; // Évite que les images se cassent sur plusieurs colonnes
+
     .image-preview {
       img {
         width: 100%;
         margin-bottom: 1rem;
         border-radius: 0.7rem;
+        transition: transform 0.2s ease-in-out;
+
         &:hover {
           transform: scale(1.01);
         }

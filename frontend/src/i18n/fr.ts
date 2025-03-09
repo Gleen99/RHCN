@@ -357,6 +357,10 @@ export const fr = {
 	},
 	partnerIcon:{
 		title:"Nos partenaires",
-	}
+	},
+	articles: {
+		title:"Nos articles",
+		readMore: "Lire la suite",
+	},
 
 };

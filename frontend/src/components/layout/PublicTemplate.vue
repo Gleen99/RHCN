@@ -23,6 +23,9 @@ import PublicFooter from "@/components/layout/PublicFooter.vue";
     @include desktopMax {
       margin: 0 10rem;
     }
+    @include mobile {
+      margin: 0 1rem;
+    }
   }
   .history {
     padding-top: 15rem;

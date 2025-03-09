@@ -152,6 +152,9 @@ const handleFileUpload = (fileData: loader, uploaderName: string) => {
 .partnerInfos {
   border: 1px solid $csoft-light-gray;
   padding: 30px 30px 30px 90px;
+  @include mobile {
+    padding: 30px 30px 30px 30px;
+  }
   .partnerInfos-header {
     border-bottom: 1px solid $csoft-light-gray;
     margin-bottom: $gap;
@@ -160,6 +163,9 @@ const handleFileUpload = (fileData: loader, uploaderName: string) => {
     display: flex;
     gap:23px;
     align-items: center;
+    @include mobile {
+      display: block;
+    }
     .input-style-apport, .input-style-expentation , .input-style , .select-style{
       flex: 1;
     }

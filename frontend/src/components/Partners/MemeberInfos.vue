@@ -173,7 +173,9 @@ const submitMember = async () => {
 .memberInfos {
   border: 1px solid $csoft-light-gray;
   padding: 30px 30px 30px 90px;
-
+  @include mobile {
+    padding: 30px 30px 30px 30px;
+  }
   .memberInfos-header {
     border-bottom: 1px solid $csoft-light-gray;
     margin-bottom: $gap;
@@ -183,7 +185,9 @@ const submitMember = async () => {
     display: flex;
     gap: 23px;
     align-items: center;
-
+    @include mobile {
+      display: block;
+    }
     .input-style {
       flex: 1;
     }

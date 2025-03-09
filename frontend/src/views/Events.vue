@@ -49,6 +49,10 @@ const toggleSelection = (info: "eventsInfos" | "imagesInfos") => {
   display: flex;
   gap: 23px;
   margin-bottom: 100px;
+  @include mobile {
+    display: block;
+    gap: 0;
+  }
 
   .EventsGrid {
     background-color: $clight-gray;

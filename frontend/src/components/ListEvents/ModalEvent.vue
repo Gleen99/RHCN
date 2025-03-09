@@ -40,7 +40,7 @@ const formatDate = (dateInput: string | number): string => {
       <div class="ModalEvent">
         <div class="event-infos">
           <div class="event-infos-image">
-            <img :src="props.event.mainPicture?.thumbnail || '/placeholder.png'" alt="Event Image" class="event-image"/>
+            <img :src="props.event.mainPicture?.thumbnail || '/Logo.jpeg'" alt="Event Image" class="event-image"/>
           </div>
           <div v-if="props.event" class="event-details">
             <div class="event-info">

@@ -55,6 +55,9 @@ const toggleSelection = (info: "partnerInfos" | "membersInfos") => {
   height: 100%;
   display: flex;
   margin-bottom: 100px;
+  @include mobile {
+    display: block;
+  }
 
   .PartnersGrid {
     background-color: $clight-gray;

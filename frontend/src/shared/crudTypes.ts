@@ -96,12 +96,13 @@ export interface ArticleContent {
 
 export interface IArticle{
 	title: string
-	slug: string
+	slug?: string
 	mainPicture?: Picture
 	author?: string
 	categories: ICategoryContent[]
 	published: boolean
 	content: ArticleContent[]
+	date?: timestamp
 }
 export interface  IArticleDB extends IArticle, DB {}
 
@@ -112,18 +113,18 @@ export interface IEvent {
 	address: string;
 	description: string;
 	price: string;
-	categories: ICategoryContent[]
+	categories: ICategorie[]
 	mainPicture?: Picture
 }
 export interface  IEventDB extends IEvent, DB {}
 
-export interface ICategoryContent{
-	category : string[];
-}
 export interface ICategorie{
 	type: string | string[];
 	en: ICategoryContent;
 	fr:ICategoryContent;
+}
+export interface ICategoryContent {
+	category: string[];
 }
 export interface  ICategorieDB extends ICategorie, DB {}
 export interface IListImage{
