@@ -228,6 +228,16 @@ const handlePayment = async () => {
                 mandatory
             />
           </div>
+          <div class="form-row">
+            <FieldInput
+                class="input-style"
+                name="amount"
+                :label="t('modal.modalDonate.paymentInfos.amountofDonate')"
+                v-model="amountString"
+                :placeholder="t('modal.modalDonate.paymentInfos.amount')"
+                mandatory
+            />
+          </div>
           <div>
             <div class="infos-wrapper">
               <span v-html="t('modal.modalDonate.moreInfosSendDonate.infos1').replace(/\n/g, '<br/>')"></span>
@@ -251,16 +261,6 @@ const handlePayment = async () => {
 
         <!-- Stripe Payment Element -->
         <div class="stripe-input">
-          <div class="form-row">
-            <FieldInput
-                class="input-style"
-                name="amount"
-                :label="t('modal.modalDonate.paymentInfos.amountofDonate')"
-                v-model="amountString"
-                :placeholder="t('modal.modalDonate.paymentInfos.amount')"
-                mandatory
-            />
-          </div>
           <div v-if="clientSecret">
             <div id="payment-element" class="stripe-input"></div>
             <MainButton type="dimmed" :disabled="isLoading" @click="handlePayment">
@@ -286,6 +286,12 @@ const handlePayment = async () => {
     justify-content: center;
     gap: 20px;
 
+    @include mobile {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
     .FormPlus {
       flex: 1;
       display: flex;
@@ -295,11 +301,20 @@ const handlePayment = async () => {
       .form-row {
         display: flex;
         gap: 30px;
+
+        @include mobile {
+          flex-direction: column;
+          gap: 15px;
+        }
       }
     }
   }
 
   .stripe-input {
+    @include mobile {
+      width: 100%;
+      text-align: center;
+    }
   }
 }
 
@@ -310,7 +325,13 @@ const handlePayment = async () => {
   justify-content: center;
   width: fit-content;
 
+  @include mobile {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+  }
 }
+
 </style>
 
 
