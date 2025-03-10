@@ -31,10 +31,15 @@ import EventsDashboard from "@/components/PrivateApp/Dashboard/Events/EventsDash
 import PartenairesIcons from "@/components/PrivateApp/Dashboard/Partenaires Icons/Partenaires-Icons.vue";
 import BlogArticle from "@/components/Article/BlogArticle.vue";
 import Blog from "@/components/Article/Blog.vue";
-import MemeberInfos from "@/components/Partners/MemeberInfos.vue";
+
+import NotFoundPage from "@/components/NotFoundPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   // Pages publiques
+  {
+    path: '/:pathMatch(.*)*',
+    component: NotFoundPage
+  },
   {
     path: "/",
     name: Routes.home,

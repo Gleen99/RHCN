@@ -372,5 +372,5 @@ export const fr = {
 		title:"Nos articles",
 		readMore: "Lire la suite",
 	},
-
+	notFound: "Impossible de trouver la page demandée..."
 };
