@@ -72,8 +72,13 @@ const theTitle = computed<string | null>(() => {
   overflow-y: auto;
   overflow-x: hidden;
 
+  @include mobile {
+
+  }
+
   .ModalBox {
     background-color: white;
+    margin: 25px;
 
     &.Box {
       position: relative;
