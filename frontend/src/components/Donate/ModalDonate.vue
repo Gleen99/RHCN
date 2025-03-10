@@ -290,6 +290,7 @@ const handlePayment = async () => {
       flex-direction: column;
       align-items: center;
       gap: 10px;
+
     }
 
     .FormPlus {
@@ -326,7 +327,6 @@ const handlePayment = async () => {
   width: fit-content;
 
   @include mobile {
-    width: 100%;
     padding: 10px;
     text-align: center;
   }
