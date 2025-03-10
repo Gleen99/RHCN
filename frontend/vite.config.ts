@@ -1,7 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig, loadEnv, type UserConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import fs from 'fs';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }): UserConfig => {
@@ -10,14 +9,9 @@ export default defineConfig(({ mode }): UserConfig => {
 	return {
 		server: {
 			port: parseInt(env.VITE_PORT),
-
-			https: {
-				key: fs.readFileSync('localhost-key.pem'),
-				cert: fs.readFileSync('localhost-cert.pem')
+			fs: {
+				allow: ['..']
 			},
-			host: 'localhost',
-
-
 		},
 		build: {
 			sourcemap: false,
@@ -26,7 +20,6 @@ export default defineConfig(({ mode }): UserConfig => {
 			}
 		},
 		plugins: [vue()],
-
 		resolve: {
 			alias: {
 				// @ts-ignore
