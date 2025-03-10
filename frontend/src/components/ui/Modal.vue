@@ -70,6 +70,7 @@ const theTitle = computed<string | null>(() => {
   align-items: center;
   justify-content: center;
   overflow-y: auto;
+  overflow-x: hidden;
 
   .ModalBox {
     background-color: white;
