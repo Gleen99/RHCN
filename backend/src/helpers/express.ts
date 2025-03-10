@@ -17,7 +17,17 @@ export function expressInit(): Application {
     app.use('/public', express.static('public'));
     app.use(helmet());
     app.disable("etag");
-
+    app.use((req, res, next) => {
+        res.setHeader(
+            "Content-Security-Policy",
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://m.stripe.network;"
+        );
+        res.setHeader(
+            "font-src",
+            "'self' https://js.stripe.com;"
+        );
+        next();
+    });
     const corsOptions = {
         origin: config.get<string>("server.CORS_ALLOW_ORIGIN") || "*",
         methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],

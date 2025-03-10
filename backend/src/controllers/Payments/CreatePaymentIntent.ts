@@ -3,39 +3,39 @@ import { Request, Response } from "express";
 import { Controller, HttpMethod } from "../../helpers/controller";
 import Stripe from "stripe";
 
-// ✅ Initialisation de Stripe avec la clé API secrète
 const stripe = new Stripe(config.get<string>("stripe.secretKey"));
+const publicKey = config.get<string>("stripe.publishableKey");
 
-export default class AddUserToNewsletter extends Controller {
+export default class CreatePaymentIntent extends Controller {
     public method = HttpMethod.post;
     public route = "/create-payment-intent";
 
     public async handler(req: Request, res: Response): Promise<void> {
         try {
-            // ✅ 1. Récupération des données du front-end
-            const { amount, donorEmail, message } = req.body;
+            const { amount, donorEmail, contact } = req.body;
+            console.log("🔹 Requête reçue avec :", { amount, donorEmail, contact });
 
-            // ✅ 2. Vérification du montant (Minimum 1 CAD)
             if (!amount || isNaN(amount) || amount < 100) {
-                res.status(400).send({ error: "Le don doit être d'au moins 1 CAD (100 centimes)." });
+                console.warn("⚠️ Montant invalide :", amount);
+                res.status(400).send({ error: "Le montant doit être d'au moins 1 CAD (100 centimes)." });
                 return;
             }
 
-            // ✅ 3. Création du Payment Intent avec Stripe
             const paymentIntent = await stripe.paymentIntents.create({
-                amount: amount, // Montant en centimes CAD (ex: 1000 = 10 CAD)
-                currency: "cad", // 💰 Devise = Dollar Canadien
-                payment_method_types: ["card"], // Paiement par carte
-                metadata: {
-                    donorEmail: donorEmail || "Anonyme",
-                    message: message || "Merci pour votre soutien !",
-                },
+                amount: amount,
+                currency: "cad",
+                automatic_payment_methods: { enabled: true },
+                metadata: { donorEmail: donorEmail || "Anonyme" },
             });
 
-            // ✅ 4. Retourne le `client_secret` au frontend
-            res.status(200).send({ clientSecret: paymentIntent.client_secret });
+            console.log("✅ PaymentIntent créé :", paymentIntent);
+            res.status(200).send({
+                clientSecret: paymentIntent.client_secret,
+                publishableKey: publicKey
+            });
+
         } catch (error) {
-            console.error("🚨 Erreur lors de la création du Payment Intent :", error);
+            console.error("❌ Erreur lors de la création du PaymentIntent :", error);
             res.status(500).send({ error: "Erreur interne du serveur." });
         }
     }

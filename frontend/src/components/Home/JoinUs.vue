@@ -5,6 +5,7 @@ import PageTitle from "@/components/ui/PageTitle.vue";
 import JoinUsContent from "@/components/Home/JoinUsContent.vue";
 
 const {t} = useI18n()
+
 </script>
 
 <template>

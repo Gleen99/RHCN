@@ -8,6 +8,8 @@ import MemeberInfos from "@/components/Partners/MemeberInfos.vue";
 import ListEvents from "@/components/ListEvents/ListEvents.vue";
 import Donate from "@/components/Donate/Donate.vue";
 import EmailingFront from "@/components/EmailingFront/EmailingFront.vue";
+import { onMounted } from "vue";
+import { useRoute } from "vue-router";
 
 const {t} = useI18n();
 const selectedInfo = ref<"partnerInfos" | "membersInfos">("partnerInfos");
@@ -15,6 +17,13 @@ const selectedInfo = ref<"partnerInfos" | "membersInfos">("partnerInfos");
 const toggleSelection = (info: "partnerInfos" | "membersInfos") => {
   selectedInfo.value = info;
 };
+const route = useRoute();
+
+onMounted(() => {
+  if (route.query.info === "membersInfos") {
+    selectedInfo.value = "membersInfos";
+  }
+});
 </script>
 
 

@@ -8,6 +8,8 @@ import IAgenda from "@/components/images/IAgenda.vue";
 import IDollars from "@/components/images/IDollars.vue";
 import ILink from "@/components/images/ILink.vue";
 import {IEventDB} from "@shared/crudTypes";
+import ModalSuccès from "@/components/Donate/ModalSuccès.vue";
+import ModalDonate from "@/components/Donate/ModalDonate.vue";
 
 const {t} = useI18n();
 

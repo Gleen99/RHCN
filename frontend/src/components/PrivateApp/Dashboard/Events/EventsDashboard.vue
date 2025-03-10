@@ -39,14 +39,19 @@ const fetchCategories = async () => {
   try {
     const rawCategories = await GetCategoriesByType(selectedType.value);
     if (!Array.isArray(rawCategories)) {
-      console.error("rawEvents n'est pas un tableau :", rawCategories);
+      console.error("rawCategories n'est pas un tableau :", rawCategories);
       return;
     }
-    categoriesList.value = rawCategories.flatMap((item: any) =>
-        typeof item.fr.category === "string"
-            ? item.fr.category.split(",").map((cat: string) => cat.trim())
-            : item.fr.category
-    );
+
+    categoriesList.value = rawCategories.flatMap((item: any) => {
+      if (item && typeof item === "object" && "fr" in item && "en" in item) {
+        return [
+          ...(Array.isArray(item.fr.category) ? item.fr.category : [item.fr.category]),
+          ...(Array.isArray(item.en.category) ? item.en.category : [item.en.category])
+        ].map((cat: string) => cat.trim());
+      }
+      return [];
+    });
   } catch (err) {
     console.error("Error fetching categories:", err);
     error.value = "Failed to load categories. Please try again.";
@@ -66,11 +71,12 @@ const fetchEvents = async () => {
 
 const createNewEvent = async () => {
   try {
-    newEvent.value.categories = selectedCategories.value.map((cat) => ({
-      type: "event",
-      en: { category: [cat] },
-      fr: { category: [cat] },
-    }));
+    newEvent.value.categories = selectedCategories.value.map((cat) => {
+      if (typeof cat === "string") {
+        return { category: [cat] };
+      }
+      return { category: [] };
+    });
     const createdEvent = await createEvent(newEvent.value);
     events.value.push(createdEvent);
     resetNewEvent();

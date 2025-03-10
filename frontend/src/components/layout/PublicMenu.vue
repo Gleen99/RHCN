@@ -3,10 +3,18 @@ import { useI18n } from "vue-i18n";
 import { Routes } from "@/enums";
 import MainButton from "../ui/MainButton.vue";
 import { ref } from "vue";
+import ModalDonate from "@/components/Donate/ModalDonate.vue";
 
 const { t, locale } = useI18n();
 const isMenuOpen = ref(false);
+const isModalVisible = ref(false);
 
+const openModal = () => {
+  isModalVisible.value = true;
+};
+const closeModal = () => {
+  isModalVisible.value = false;
+};
 const changeLanguage = (lang: string) => {
   locale.value = lang;
 };
@@ -29,7 +37,7 @@ const changeLanguage = (lang: string) => {
     <router-link :to="{ name: Routes.partners }" class="link">{{ t('menu.partners') }}</router-link>
     <router-link :to="{ name: Routes.aboutUs }" class="link">{{ t('menu.aboutUs') }}</router-link>
     <router-link :to="{ name: Routes.contact }" class="link">{{ t('menu.contact') }}</router-link>
-    <MainButton type="main">{{ t('global.buttons.donate') }}</MainButton>
+    <MainButton type="main" @click="openModal" >{{ t('global.buttons.donate') }}</MainButton>
     <div class="languageSwitcher">
       <div class="languageSwitcher-button" v-if="locale !== 'fr'" @click="changeLanguage('fr')">
         Fr
@@ -39,6 +47,8 @@ const changeLanguage = (lang: string) => {
       </div>
     </div>
   </div>
+     <!-- ModalDonate Component -->
+     <ModalDonate v-if="isModalVisible" @close="closeModal" />
 </div>
 </template>
 

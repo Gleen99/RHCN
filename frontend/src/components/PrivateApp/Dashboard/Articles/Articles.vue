@@ -15,6 +15,7 @@ const newArticle = ref<IArticle>({
   author: "",
   published: true,
   mainPicture: { path: "" },
+  slug:""
 });
 
 const idEdition = ref<string | null>(null);

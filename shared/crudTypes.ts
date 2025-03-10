@@ -98,7 +98,7 @@ export interface ArticleContent {
 
 export interface IArticle {
 	title: string;
-	slug: string;
+	slug?: string;
 	excerpt?: string;
 	date?: string;
 	mainPicture?: Picture;
@@ -152,8 +152,23 @@ export interface IContact {
 }
 export interface IContactDB extends IContact, DB {}
 
-
-
+export interface IDonateUser{
+	amount: number,
+	status: string,
+	donor: IdonorContent
+}
+export interface IdonorContent {
+	lastname:string,
+	firstname:string,
+	email:string,
+	number: string,
+	street:string,
+	city:string,
+	postalCode:string,
+	country:string,
+	domaine: string
+}
+export interface IDonateUserDB extends IDonateUser, DB {}
 
 export interface LegalImage {
 	path: string

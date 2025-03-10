@@ -15,9 +15,10 @@ import {
     IListImageDB,
     IMemberDB,
     IMembersPartnerDB, IPartnerIcon, IPartnerIconDB,
-    IUserDB
+    IUserDB,
+    IDonateUserDB
 } from "@shared/crudTypes";
-
+import {PaymentData} from "@shared/baseTypes";
 export type UseApiResult = {
 
     // --- newsletter
@@ -132,7 +133,9 @@ export type UseApiResult = {
     }) => Promise<T[] | PaginatedList<T>>
 
     // --- payments
-    createPayments: (amount: number) => Promise<{ secret: string, key: string }>
+    createPayments: (data: { amount: number; donorEmail?: string; contact?: object }) => Promise<PaymentData | null>
+    getStripePublicKey: () => Promise<string>,
+    SaveDonation: (data: any) => Promise<IDonateUserDB>
 }
 
 export function useApi(): UseApiResult {
@@ -232,8 +235,8 @@ export function useApi(): UseApiResult {
 
         // --- payments
         createPayments,
-
-
+        getStripePublicKey,
+        SaveDonation,
         // --- legals
 
         // --- helpers
@@ -630,10 +633,26 @@ async function registerToNewsletter(email: string): Promise<boolean> {
 }
 // -----------------------------------------------------------------------------------
 // PAYMENTS
-async function createPayments(amount: number): Promise<{ secret: string, key: string }> {
-    const result = await axios.post(buildUrl("/create-payment-intent"), { amount });
-    return result.data;
+async function createPayments(data: { amount: number; donorEmail?: string; contact?: object }): Promise<PaymentData | null> {
+    try {
+        console.log("🔹 Envoi de la requête API `/create-payment-intent` avec :", data);
+        const result = await axios.post(buildUrl("/create-payment-intent"), data);
 
+        console.log("✅ Réponse API `createPayments`:", result.data);
+        return result.data;
+    } catch (error) {
+        console.error("❌ Erreur API createPayments :", error);
+        return null;
+    }
+}
+
+export async function getStripePublicKey(): Promise<string>  {
+    const result = await axios.get(buildUrl("/stripe-public-key"));
+    return result.data;
+}
+async function SaveDonation(data: any): Promise<IDonateUserDB> {
+    const response = await axios.post(buildUrl(`/api/save-donation`), data);
+    return response.data;
 }
 
 // -----------------------------------------------------------------------------------

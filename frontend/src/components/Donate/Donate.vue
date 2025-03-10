@@ -12,10 +12,15 @@ const isModalVisible = ref(false);
 const openModal = () => {
   isModalVisible.value = true;
 };
+const showDonateModal = ref(false);
+const showSuccessModal = ref(false);
 
-const closeModal = () => {
-  isModalVisible.value = false;
+
+const handlePaymentSuccess = () => {
+  showDonateModal.value = false; // Ferme le modal de don
+  showSuccessModal.value = true; // Affiche le modal de succès
 };
+
 </script>
 
 <template>
@@ -62,7 +67,9 @@ const closeModal = () => {
     </div>
 
     <!-- ModalDonate Component -->
-    <ModalDonate v-if="isModalVisible" @close="closeModal" />
+    <ModalDonate v-if="showDonateModal" @close="showDonateModal = false" @paymentSuccess="handlePaymentSuccess" />
+
+    <ModalSuccès v-if="showSuccessModal" @close="showSuccessModal = false" />
   </div>
 </template>
 

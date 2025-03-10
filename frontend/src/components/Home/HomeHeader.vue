@@ -4,9 +4,26 @@ import IDonate from "@/components/images/IDonate.vue";
 import IPartner from "@/components/images/IPartner.vue";
 import IMember from "@/components/images/IMember.vue";
 import MainButton from "@/components/ui/MainButton.vue";
+import {ref} from "vue";
+import ModalDonate from "@/components/Donate/ModalDonate.vue";
+import {Routes} from "@/enums";
+import router from "@/router";
 
 const{t}= useI18n();
+const isModalVisible = ref(false);
 
+const openModal = () => {
+  isModalVisible.value = true;
+};
+const closeModal = () => {
+  isModalVisible.value = false;
+};
+function goToPartner() {
+  router.push({ name: Routes.partners });
+}
+function goToMember() {
+  router.push({ name: Routes.partners, query: { info: "membersInfos" } });
+}
 </script>
 
 <template>
@@ -17,16 +34,22 @@ const{t}= useI18n();
       <div class="infos-wrapper" v-html="t('home.infos1').replace(/\n/g, '<br/>')"></div>
       <div class="infos-wrapper2" v-html="t('home.infos2').replace(/\n/g, '<br/>')"></div>
       <div class="ql-icon-picker">
-        <div class="ql-icon">
-          <MainButton type="main">{{ t('global.buttons.donate') }}</MainButton>
+        <div class="ql-iconMainButton">
+          <MainButton type="main" @click="openModal">{{ t('global.buttons.donate') }}</MainButton>
         </div>
-        <div class="ql-icon">
+        <div class="ql-icon" @click="openModal">
+          <IDonate/>
+          <div>
+            {{t('home.links1')}}
+          </div>
+        </div>
+        <div class="ql-icon"  @click="goToPartner()">
           <IPartner/>
           <div>
             {{t('home.links2')}}
           </div>
         </div>
-        <div class="ql-icon">
+        <div class="ql-icon"  @click="goToMember()">
           <IMember/>
           <div>
             {{t('home.links3')}}
@@ -38,6 +61,8 @@ const{t}= useI18n();
       <img src="../../assets/Header.png" class="header-logo" />
     </div>
   </div>
+  <!-- ModalDonate Component -->
+  <ModalDonate v-if="isModalVisible" @close="closeModal" />
 </div>
 </template>
 
@@ -160,6 +185,21 @@ const{t}= useI18n();
 
           @include mobile {
             font-size: 16px;
+          }
+        }
+        @include desktopMax {
+          .ql-iconMainButton{
+            display: none;
+          }
+        }
+        @include desktop {
+          .ql-iconMainButton{
+            display: none;
+          }
+        }
+        @include tablet {
+          .ql-icon:nth-child(n+2) {
+            display: none;
           }
         }
 

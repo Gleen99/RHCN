@@ -9,7 +9,9 @@ const categories = ref<ICategoryContent[]>([]);
 onMounted(async () => {
   try {
     const response = await GetCategoryArticles();
-    categories.value = response.categories ?? [];
+    categories.value = response.categories?.map((cat) => ({
+      category: Array.isArray(cat) ? cat : [cat]
+    })) ?? [];
   } catch (error) {
     console.error("Failed to fetch categories:", error);
   }

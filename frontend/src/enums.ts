@@ -27,6 +27,7 @@ export enum Routes {
     aboutUs ="aboutUs",
     contact ="contact",
     members= "members",
+    member= "member",
     articles = "articles",
     category= "category",
     images = "images",

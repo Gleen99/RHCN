@@ -83,28 +83,32 @@ export interface  IMember {
 }
 
 export interface IMemberDB extends IMember, DB {}
+
+
+export interface BlogImage {
+	path: string
+	size?: number
+	mimetype?: string
+}
 export interface ArticleContent {
-    blockName: string;
-    text?: string;
-    image?: Picture & { position?: "left" | "right" | "center" };
-    link?: { url: string; openInNewTab: boolean };
-    isList?: boolean;
-    listItems?: string[];
-    size?: "small" | "medium" | "large";
-    structuration?: string;
+	blockName: string;
+	text?: string;
+	image?: BlogImage;
 }
 
-export interface IArticle{
-	title: string
-	slug?: string
-	mainPicture?: Picture
-	author?: string
-	categories: ICategoryContent[]
-	published: boolean
-	content: ArticleContent[]
-	date?: timestamp
+export interface IArticle {
+	title: string;
+	slug: string;
+	excerpt?: string;
+	date?: string;
+	mainPicture?: Picture;
+	author?: string;
+	categories: string[];
+	published: boolean;
+	content: ArticleContent[];
 }
-export interface  IArticleDB extends IArticle, DB {}
+
+export interface IArticleDB extends IArticle, DB {}
 
 export interface IEvent {
 	title: string;
@@ -113,18 +117,18 @@ export interface IEvent {
 	address: string;
 	description: string;
 	price: string;
-	categories: ICategorie[]
+	categories: ICategoryContent[]
 	mainPicture?: Picture
 }
 export interface  IEventDB extends IEvent, DB {}
 
+export interface ICategoryContent{
+	category : string[];
+}
 export interface ICategorie{
 	type: string | string[];
 	en: ICategoryContent;
 	fr:ICategoryContent;
-}
-export interface ICategoryContent {
-	category: string[];
 }
 export interface  ICategorieDB extends ICategorie, DB {}
 export interface IListImage{
@@ -147,6 +151,24 @@ export interface IContact {
 	data?: any
 }
 export interface IContactDB extends IContact, DB {}
+
+export interface IDonateUser{
+	amount: number,
+	status: string,
+	donor: IdonorContent
+}
+export interface IdonorContent {
+	lastname:string,
+	firstname:string,
+	email:string,
+	number: string,
+	street:string,
+	city:string,
+	postalCode:string,
+	country:string,
+	domaine: string
+}
+export interface IDonateUserDB extends IDonateUser, DB {}
 
 export interface LegalImage {
 	path: string

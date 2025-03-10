@@ -29,20 +29,32 @@ export const fr = {
 			cancel:"Annuler",
 			confirm:"Confirmer",
 			moreInfosSendDonate: {
-				infos1: "Vous pouvez aussi utiliser le virement \nInterac au courriel de l’association : @:modal.modalDonate.moreInfosSendDonate.infos2",
+				infos1: "Vous pouvez aussi utiliser le virement \nInterac au courriel de l’association : ",
 			},
 			paymentInfos:{
 				amountofDonate: "Montant du Don",
-				amount: "100 $",
 				cardNumber: "Numéro de carte",
 				cardExpiry: "Date d'expiration",
 				cardCvc: "CVC",
+				pay:"Faire un Don",
+				amount: "Entrez un montant",
+				processing: "Traitement en cours...",
+				error: "Une erreur est survenue.",
+				valid:"Valider votre don",
+				paymentError: "Erreur : {error}",
+				paymentSuccess: "Paiement réussi ! Merci !",
+				unexpectedError: "Une erreur inattendue est survenue."
 			}
 		},
 		modalEvent:{
 			price: "Tarif:",
 			link: "Inscriptions / réservations",
 		},
+		modalSuccess:{
+			successTitle:"    Nous vous remercions chaleureusement pour votre don.<br />\n" +
+				"         Votre soutien est précieux et aide à financer nos actions. ",
+			cancel:"Fermer"
+		}
 	},
 	menu: {
 		events: "Évènements",
@@ -54,11 +66,9 @@ export const fr = {
 	footer: {
 		socialNetwork: {
 			title: "Nous suivre",
-			linkedin: "https://www.linkedin.com/company/livecook-app/posts/?feedView=all",
-			instagram: "https://www.instagram.com/livecook_fr/",
-			facebook: "https://www.facebook.com/profile.php?id=100094482646609",
-			twitter: "https://twitter.com/livecook_off",
-			tiktok: "https://www.tiktok.com/@livecook_fr"
+			instagram: "",
+			facebook: "",
+			twitter: "",
 		},
 		contact: "Nous contacter",
 		LegalMentions: "Mentions légales",
@@ -352,7 +362,7 @@ export const fr = {
 		partner:{
 			title:"Devenir partenaire",
 			description:"Maecenas vel lorem imperdiet, scelerisque ipsum quis, tincidunt arcu. Vestibulum ut eros ut sem tincidunt finibus. t augue iaculis vitae nullam a bibendum elit.",
-			bottom:"Devenir membre",
+			bottom:"Devenir partenaire",
 		}
 	},
 	partnerIcon:{

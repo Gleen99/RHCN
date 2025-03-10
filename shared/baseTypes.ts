@@ -22,7 +22,10 @@ export interface IError {
     context?: string,
     data?: any
 }
-
+export interface PaymentData {
+    clientSecret: string;
+    publishableKey: string;
+}
 export type ErrorSet = DataSet<IError|IError[]>|null;
 
 export interface AnalyticsData {

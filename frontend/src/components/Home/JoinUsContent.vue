@@ -2,8 +2,16 @@
 import {useI18n} from "vue-i18n";
 import MainButton from "@/components/ui/MainButton.vue";
 import PageTitle from "@/components/ui/PageTitle.vue";
+import router from "@/router";
+import {Routes} from "@/enums";
 
 const {t} = useI18n()
+function goToPartner() {
+  router.push({ name: Routes.partners });
+}
+function goToMember() {
+  router.push({ name: Routes.partners, query: { info: "membersInfos" } });
+}
 </script>
 
 <template>
@@ -26,7 +34,7 @@ const {t} = useI18n()
             <img src="../../assets/MemberJoinUS.png" class="image"/>
           </div>
         </div>
-        <MainButton type="dimmed">{{ t('joinUs.member.bottom') }}</MainButton>
+        <MainButton type="dimmed"  @click="goToMember()">{{ t('joinUs.partner.bottom') }}</MainButton>
       </div>
       <div class="join-us-content">
         <div class="join-us-content-infos">
@@ -42,7 +50,7 @@ const {t} = useI18n()
             <img src="../../assets/PartnerJoinUs.png" class="image"/>
           </div>
         </div>
-        <MainButton type="dimmed">{{ t('joinUs.partner.bottom') }}</MainButton>
+        <MainButton type="dimmed" @click="goToPartner()">{{ t('joinUs.member.bottom') }}</MainButton>
       </div>
     </div>
   </div>
