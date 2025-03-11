@@ -16,70 +16,62 @@ const content = ref<string | Delta>(props.modelValue || "");
 const editorOptions = ref({
   placeholder: "Ajoutez du contenu ici...",
   theme: "snow",
+  formats: [
+    "bold", "italic", "underline", "strike", "header",
+    "list", "bullet", "align", "blockquote", "code-block",
+    "link", "image", "video"
+  ],
   modules: {
     toolbar: [
-      ["bold", "italic", "underline", "strike"],
-      [{ header: 1 }, { header: 2 }],
-      [{ align: [] }],
-      [{ list: "ordered" }, { list: "bullet" }],
-      [{ indent: "-1" }, { indent: "+1" }],
-      [{ script: "sub" }, { script: "super" }],
-      [{ color: [] }, { background: [] }],
-      ["link", "image"],
-      ["clean"],
+      ["bold", "italic", "underline", "strike"], // Gras, Italique, Souligné, Barré
+      [{ header: [1, 2, 3, 4, 5, 6, false] }], // Titres H1-H6
+      [{ align: [] }], // Alignements
+      [{ list: "ordered" }, { list: "bullet" }], // Listes
+      ["link", "image"], // Liens, Images, Vidéos
+      ["clean"], // Nettoyage de mise en forme
     ],
   },
 });
 
 function deltaToCustomFormat(delta: any): any {
-  return delta.ops.map((op: any) => {
+  return delta.ops.reduce((acc: any[], op: any) => {
     if (op.insert && typeof op.insert === "string") {
-      let text = op.insert;
+      let text = op.insert.trim();
+      let attributes = op.attributes || {};
 
-      // Vérifier les styles de texte
-      let formattedText = text;
-      if (op.attributes) {
-        if (op.attributes.bold) {
-          formattedText = `<strong>${formattedText}</strong>`;
-        }
-        if (op.attributes.italic) {
-          formattedText = `<em>${formattedText}</em>`;
-        }
-        if (op.attributes.underline) {
-          formattedText = `<u>${formattedText}</u>`;
-        }
-        if (op.attributes.strike) {
-          formattedText = `<s>${formattedText}</s>`;
-        }
+      // Appliquer les styles de texte correctement en HTML
+      if (attributes.bold) text = `<strong>${text}</strong>`;
+      if (attributes.italic) text = `<em>${text}</em>`;
+      if (attributes.underline) text = `<u>${text}</u>`;
+      if (attributes.strike) text = `<s>${text}</s>`;
+
+      // Gestion des titres (H1-H6)
+      if (attributes.header) {
+        acc.push({ blockName: `block-title${attributes.header}`, text: `<h${attributes.header}>${text}</h${attributes.header}>` });
+        return acc;
       }
 
-      // Gestion des titres
-      if (op.attributes?.header === 1) {
-        return { blockName: "block-title1", text: `<h1>${formattedText}</h1>` };
-      }
-      if (op.attributes?.header === 2) {
-        return { blockName: "block-title2", text: `<h2>${formattedText}</h2>` };
-      }
-
-      // Gestion des listes
-      if (op.attributes?.list === "ordered") {
-        return { blockName: "block-list-ordered", text: `<li>${formattedText}</li>` };
-      }
-      if (op.attributes?.list === "bullet") {
-        return { blockName: "block-list-unordered", text: `<li>${formattedText}</li>` };
+      // Gestion des listes (ordonnées et à puces)
+      if (attributes.list) {
+        const listType = attributes.list === "ordered" ? "ordered" : "unordered";
+        acc.push({ blockName: `block-list-${listType}`, text: `<li>${text}</li>` });
+        return acc;
       }
 
-      // Paragraphe normal
-      return { blockName: "block-paragraph", text: `<p>${formattedText}</p>` };
+      // Ajout des paragraphes normaux avec un balisage `<p>`
+      if (text) {
+        acc.push({ blockName: "block-paragraph", text: `<p>${text}</p>` });
+      }
+      return acc;
     }
 
     // Gestion des images
     if (op.insert && typeof op.insert === "object" && op.insert.image) {
-      return { blockName: "block-image", path: op.insert.image };
+      acc.push({ blockName: "block-image", text: "Image", path: op.insert.image });
     }
 
-    return null;
-  }).filter(Boolean);
+    return acc;
+  }, []);
 }
 watch(
     () => props.modelValue,
@@ -111,10 +103,22 @@ watch(content, (newValue) => {
 
 <template>
   <div>
-    <QuillEditor v-model:content="content" :options="editorOptions" />
+    <QuillEditor v-model:content="content" :options="editorOptions" contentType="html" />
   </div>
 </template>
 
 <style>
 @import "@vueup/vue-quill/dist/vue-quill.snow.css";
+.ql-editor strong {
+  font-weight: bold;
+}
+.ql-editor em {
+  font-style: italic;
+}
+.ql-editor u {
+  text-decoration: underline;
+}
+.ql-editor s {
+  text-decoration: line-through;
+}
 </style>

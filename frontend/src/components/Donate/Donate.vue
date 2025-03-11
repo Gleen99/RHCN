@@ -77,7 +77,7 @@ const handlePaymentSuccess = () => {
 .Donate {
   position: relative;
   overflow: hidden;
-  margin-top: 23px;
+  margin: 23px 0;
 
   .Donate-content {
     .BGDonate {

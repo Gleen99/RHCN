@@ -24,7 +24,7 @@ import PublicFooter from "@/components/layout/PublicFooter.vue";
 
   }
   .container {
-    margin: 0 5.8rem;
+    margin: 0 6.4rem;
     @include desktopMax {
       margin: 0 10rem;
     }

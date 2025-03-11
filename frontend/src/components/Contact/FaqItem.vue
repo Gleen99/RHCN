@@ -76,10 +76,10 @@ onMounted(fetchFaqs);
 
 <style lang="scss">
 .FaqItem {
-  margin-top: 100px;
+
   .FaqItemContent {
 
-
+    margin-top:23px;
     .faq-item-container{
       position: relative;
       border-radius: 30px;

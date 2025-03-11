@@ -15,7 +15,7 @@ function goToHome() {
 <template>
 <public-template>
   <div class="not-found history">
-    <div class="container">
+    <div class="not-foundContainer">
       <h1>404</h1>
       <p>{{ t('notFound') }}</p>
       <MainButton type="dimmed" @click="goToHome()">
@@ -30,7 +30,7 @@ function goToHome() {
 .not-found {
   height: 100vh;
   background-color: $clight-gray;
-  .container{
+  .not-foundContainer{
     padding: 34px;
   }
   h1 {

@@ -203,6 +203,20 @@ const handlePayment = async () => {
             />
           </div>
 
+
+          <!-- Champ Domaine -->
+
+          <div>
+            <div class="infos-wrapper">
+              <span v-html="t('modal.modalDonate.moreInfosSendDonate.infos1').replace(/\n/g, '<br/>')"></span>
+              <span class="bold">don@rhcn.ca</span>
+            </div>
+          </div>
+
+        </FormPlus>
+
+        <!-- Stripe Payment Element -->
+        <div class="stripe-input">
           <div class="form-row">
             <FieldInput
                 name="postalCode"
@@ -217,50 +231,39 @@ const handlePayment = async () => {
                 mandatory
             />
           </div>
-          <!-- Champ Domaine -->
-          <div class="name-fields-Select">
-            <FieldSelect
-                class="input-style"
-                name="domaine"
-                :options="domaineOptions"
-                v-model="contact.domaine"
-                :label="t('user.fields.domain.label')"
-                mandatory
-            />
-          </div>
           <div class="form-row">
-            <FieldInput
-                class="input-style"
-                name="amount"
-                :label="t('modal.modalDonate.paymentInfos.amountofDonate')"
-                v-model="amountString"
-                :placeholder="t('modal.modalDonate.paymentInfos.amount')"
-                mandatory
-            />
-          </div>
-          <div>
-            <div class="infos-wrapper">
-              <span v-html="t('modal.modalDonate.moreInfosSendDonate.infos1').replace(/\n/g, '<br/>')"></span>
-              <span class="bold">don@rhcn.ca</span>
+            <div class="name-fields-Select">
+              <FieldSelect
+                  class="input-style"
+                  name="domaine"
+                  :options="domaineOptions"
+                  v-model="contact.domaine"
+                  :label="t('user.fields.domain.label')"
+                  mandatory
+              />
+              <FieldInput
+                  class="input-style"
+                  name="amount"
+                  :label="t('modal.modalDonate.paymentInfos.amountofDonate')"
+                  v-model="amountString"
+                  :placeholder="t('modal.modalDonate.paymentInfos.amount')"
+                  mandatory
+              />
             </div>
-          </div>
-          <MainButton type="main" :disabled="isLoading || stripeLoading" @click="createPaymentIntent">
-            {{ t("modal.modalDonate.paymentInfos.pay") }}
-          </MainButton>
+            <MainButton type="main" :disabled="isLoading || stripeLoading" @click="createPaymentIntent">
+              {{ t("modal.modalDonate.paymentInfos.pay") }}
+            </MainButton>
 
-          <p
-              v-if="message"
-              :class="{
+            <p
+                v-if="message"
+                :class="{
             error: message.includes('❌'),
             success: message.includes('🎉'),
           }"
-          >
-            {{ message }}
-          </p>
-        </FormPlus>
-
-        <!-- Stripe Payment Element -->
-        <div class="stripe-input">
+            >
+              {{ message }}
+            </p>
+          </div>
           <div v-if="clientSecret">
             <div id="payment-element" class="stripe-input"></div>
             <MainButton type="dimmed" :disabled="isLoading" @click="handlePayment">
@@ -271,7 +274,7 @@ const handlePayment = async () => {
       </div>
     </template>
     <template #footer>
-      <MainButton type="dimmed"   @close="emit('close')">
+      <MainButton type="dimmed"   @click="emit('close')">
         {{ t("modal.modalSuccess.cancel") }}
       </MainButton>
     </template>
@@ -293,7 +296,7 @@ const handlePayment = async () => {
 
     }
 
-    .FormPlus {
+    .FormPlus, .stripe-input {
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -307,6 +310,9 @@ const handlePayment = async () => {
           flex-direction: column;
           gap: 15px;
         }
+      }
+      .name-fields-Select{
+        flex: 1;
       }
     }
   }

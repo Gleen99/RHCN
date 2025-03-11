@@ -10,7 +10,9 @@ const emit = defineEmits<{
 
 <template>
 	<div class="Blog">
+    <public-template>
       <router-view/>
+    </public-template>
 	</div>
 </template>
 
