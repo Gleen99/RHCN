@@ -17,6 +17,7 @@ export enum Routes {
     collaborateurs="collaborateurs",
     profil="profil",
     login ='login',
+    register="register",
     DashboardLayout= "DashboardLayout",
     forgotPassword="forgotPassword",
     resetPassword="resetPassword",
