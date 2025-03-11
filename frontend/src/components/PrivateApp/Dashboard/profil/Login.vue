@@ -25,7 +25,7 @@ const handleLogin = async () => {
     errorMessage.value = '';
 
     const response = await login({ email: email.value, password: password.value });
-    const user = response; 
+    const user = response;
 
     authStore.setUser({
       email: user.email,
@@ -48,7 +48,7 @@ const handleForgotPassword = () => {
 };
 
 const handleRegister = () => {
-  router.push({ name: Routes.ChangeProfile }); // Remplacez par votre route d'inscription
+  router.push({ name: Routes.register }); // Remplacez par votre route d'inscription
 };
 </script>
 

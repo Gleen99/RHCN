@@ -33,6 +33,7 @@ import BlogArticle from "@/components/Article/BlogArticle.vue";
 import Blog from "@/components/Article/Blog.vue";
 
 import NotFoundPage from "@/components/NotFoundPage.vue";
+import ChangeProfile from "@/views/PrivateApp/Login/ChangeProfile.vue";
 
 const routes: Array<RouteRecordRaw> = [
   // Pages publiques
@@ -124,6 +125,12 @@ const routes: Array<RouteRecordRaw> = [
         meta: { requiresAuth: false },
       },
       {
+        path: "register",
+        name: Routes.register,
+        component: ChangeProfile,
+        meta: { requiresAuth: false },
+      },
+      {
         path: "forgotPassword",
         name: Routes.forgotPassword,
         component: ForgotPassword,
@@ -139,7 +146,7 @@ const routes: Array<RouteRecordRaw> = [
         path: "acceptInvitation",
         name: Routes.acceptInvitation,
         component: AcceptInvitation,
-        meta: { requiresAuth: true, roles: ["admin"] },
+        meta: { requiresAuth: false },
       },
       {
         path: "dashboard",
