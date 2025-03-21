@@ -17,29 +17,46 @@ interface MongoOptions {
     serverSelectionTimeoutMS?: number;
     [key: string]: any;
   }
-  
-  export const connectToDatabase = async (): Promise<void> => {
+
+export const connectToDatabase = async (): Promise<void> => {
     try {
-      const host = config.get<string>('database.mongo.host');
-      const dbName = config.get<string>('database.mongo.database');
-      const mongoOptions = config.get<MongoOptions>('database.mongo.mongoOptions');
+        const host = config.get<string>('database.mongo.host');
+        const dbName = config.get<string>('database.mongo.database');
+        const user = config.get<string>('database.mongo.user');
+        const password = config.get<string>('database.mongo.password');
+        const mongoOptions = config.get<any>('database.mongo.mongoOptions');
 
-      const connectionString = `${host}${dbName}`;
-      console.log('Tentative de connexion à:', connectionString);
+        let connectionString = '';
 
-      await mongoose.connect(connectionString, {
-        ...mongoOptions,
-        dbName: dbName
-      });
+        if (user && password) {
+            // 🛡️ Connexion avec authentification (prod)
+            const encodedPassword = encodeURIComponent(password);
+            connectionString = `${host.replace('mongodb://', `mongodb://${user}:${encodedPassword}@`)}${dbName}`;
 
-      if (db.name !== dbName) {
-        console.warn(`Attention : Le nom de la base de données (${db.name}) ne correspond pas à celui configuré (${dbName})`);
-      }
+            // Ajouter authSource si pas déjà dans l’URL
+            if (!connectionString.includes('authSource')) {
+                connectionString += '?authSource=admin';
+            }
+        } else {
+            // 🚀 Connexion sans authentification (dev)
+            connectionString = `${host}${dbName}`;
+        }
+
+        console.log('📡 Connexion MongoDB à :', connectionString);
+
+        await mongoose.connect(connectionString, {
+            ...mongoOptions,
+            dbName,
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+
+        console.log('✅ Connexion MongoDB réussie.');
     } catch (err) {
-      console.error('Could not connect to MongoDB:', err);
-      throw err;
+        console.error('❌ Échec connexion MongoDB :', err);
+        throw err;
     }
-  };
+};
 
 export async function standardExpressRun(authConfiguration?: any, callback?: (app: Application) => Promise<void>): Promise<Application|null> {
     try {
