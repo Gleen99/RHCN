@@ -14,6 +14,7 @@ export function expressInit(): Application {
     app.use('/public', express.static('public'));
     app.use(helmet());
     app.disable("etag");
+
     app.use((req, res, next) => {
         res.setHeader(
             "Content-Security-Policy",
