@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useApi } from '@/composition/api';
 import { Routes } from '@/enums';
+import PasswordInput from "@/components/forms/PasswordInput.vue";
 
 const { resetPassword } = useApi();
 const route = useRoute();
@@ -13,6 +14,8 @@ const confirmPassword = ref('');
 const successMessage = ref('');
 const errorMessage = ref('');
 const loading = ref(false);
+const showPasswordnewPassword = ref(false);
+const showPasswordconfirmPassword = ref(false);
 
 const handleResetPassword = async () => {
   if (!newPassword.value || !confirmPassword.value) {
@@ -50,44 +53,55 @@ const handleResetPassword = async () => {
 
 <template>
   <div class="reset-password">
-    <h1>Réinitialiser le mot de passe</h1>
-    <form @submit.prevent="handleResetPassword" class="reset-password-form">
-      <div class="form-group">
-        <label for="new-password">Nouveau mot de passe :</label>
-        <input
-          id="new-password"
-          v-model="newPassword"
-          type="password"
-          placeholder="Entrez un nouveau mot de passe"
-        />
-      </div>
-      <div class="form-group">
-        <label for="confirm-password">Confirmer le mot de passe :</label>
-        <input
-          id="confirm-password"
-          v-model="confirmPassword"
-          type="password"
-          placeholder="Confirmez votre nouveau mot de passe"
-        />
-      </div>
-      <div v-if="successMessage" class="success">{{ successMessage }}</div>
-      <div v-if="errorMessage" class="error">{{ errorMessage }}</div>
-      <button type="submit" :disabled="loading">
-        {{ loading ? "Réinitialisation en cours..." : "Réinitialiser" }}
-      </button>
-    </form>
+ <div class="reset-password-wrapper">
+   <h1>Réinitialiser le mot de passe</h1>
+   <div class="header__logo">
+     <img src="../../../../assets/Logo.jpeg" class="Logo" />
+   </div>
+   <form @submit.prevent="handleResetPassword" class="reset-password-form">
+     <div class="form-group">
+       <PasswordInput
+           v-model:value="newPassword"
+           v-model:showPassword="showPasswordnewPassword"
+           label="Nouveau mot de passe"
+       />
+     </div>
+     <div class="form-group">
+       <PasswordInput
+           v-model:value="confirmPassword"
+           v-model:showPassword="showPasswordconfirmPassword"
+           label="Confirmez votre nouveau mot de passe"
+       />
+
+     </div>
+     <div v-if="successMessage" class="success">{{ successMessage }}</div>
+     <div v-if="errorMessage" class="error">{{ errorMessage }}</div>
+     <button type="submit" :disabled="loading">
+       {{ loading ? "Réinitialisation en cours..." : "Réinitialiser" }}
+     </button>
+   </form>
+ </div>
   </div>
 </template>
 
 <style lang="scss">
 .reset-password {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #6fb1fc 0%, #4364f7 100%);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+.reset-password-wrapper{
   max-width: 400px;
-  margin: 0 auto;
+  width: 100%;
   padding: 20px;
-  background: #f9f9f9;
+  background: #F7F7F7;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-
+  text-align: center;
+}
   h1 {
     text-align: center;
     margin-bottom: 20px;

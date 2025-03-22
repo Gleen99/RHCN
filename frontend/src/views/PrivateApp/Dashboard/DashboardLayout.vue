@@ -10,10 +10,9 @@ const userRole = computed(() => authStore.user?.role || "guest");
 // Définition des routes avec les rôles associés
 const sidebarLinks = computed(() => {
   const links = [
-    { name: Routes.dashboard, label: "Accueil", roles: ["admin", "editor"] },
+    { name: Routes.profil, label: "Accueil", roles: ["admin", "editor", "contributor"] },
     { name: Routes.collaborateurs, label: "Collaborateurs", roles: ["admin"] },
     { name: Routes.invitation, label: "Invitation", roles: ["admin"] },
-    { name: Routes.profil, label: "Profil", roles: ["admin", "editor", "contributor"] },
     { name: Routes.faq, label: "FAQ", roles: ["admin", "editor", "contributor"] },
     { name: Routes.members, label: "Members", roles: ["admin"] },
     { name: Routes.articles, label: "Articles", roles: ["admin", "editor", "contributor"] },
@@ -29,9 +28,13 @@ const sidebarLinks = computed(() => {
 </script>
 
 <template>
-  <div class="dashboard">
+  <div class="dashboardLayout">
     <div class="sidebar">
+
       <div class="sidebar-link-content">
+        <div class="header__logo">
+          <img src="../../../assets/Footer.png" class="Logoimg"/>
+        </div>
         <router-link
             v-for="link in sidebarLinks"
             :key="link.name"
@@ -50,7 +53,7 @@ const sidebarLinks = computed(() => {
 </template>
 
 <style lang="scss">
-.dashboard {
+.dashboardLayout {
   display: flex;
   height: 100vh;
 }
@@ -66,6 +69,10 @@ const sidebarLinks = computed(() => {
 }
 
 .sidebar-link-content {
+  .Logoimg {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
   .link {
     display: block;
     margin: 20px 0;
@@ -77,6 +84,9 @@ const sidebarLinks = computed(() => {
   .link:hover {
     background-color: #34495e;
     padding-left: 10px;
+    border-radius: 4px;
+    color: #f1c40f;
+    transition: all 0.3s ease;
   }
 }
 

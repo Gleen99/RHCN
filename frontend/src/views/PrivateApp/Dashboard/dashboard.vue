@@ -1,52 +1,75 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useAuthStore } from "@/composition/authStore";
+import Profil from "@/components/PrivateApp/Dashboard/profil/Profil.vue";
+import { useRouter } from "vue-router";
 
 const authStore = useAuthStore();
 
 const userFirstname = computed(() => authStore.user?.firstname || "");
 const userLastname = computed(() => authStore.user?.lastname || "");
-const userRole = computed(() => authStore.user?.role || "guest"); // Récupérer le rôle
+const userRole = computed(() => authStore.user?.role || "guest");
+
+const router = useRouter();
+const today = new Date().toLocaleDateString("fr-FR", {
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
+function goHome() {
+  router.push("/");
+}
 </script>
 
 <template>
   <div class="dashboard">
     <div class="header">
-      <h1>{{ userFirstname }} {{ userLastname }}</h1>
-      <h2>Tableau de bord</h2>
-      <p>Rôle: <strong>{{ userRole }}</strong></p>
+      <h1 class="dashboard-title">Dashboard de RHCN</h1>
+      <div class="dashboard-header">
+        <div @click="goHome">🌐 Allez sur le Site web</div>
+        <span class="date">{{ today }}</span>
+      </div>
     </div>
-
+    <Profil/>
     <router-view />
   </div>
 </template>
 
 <style lang="scss">
 .dashboard {
-  display: flex;
-  height: 100vh;
-}
+  .dashboard-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px;
+  }
+  .dashboard-header{
+    display: flex;
+    gap:23px
+  }
 
-.main-content {
-  flex: 1;
-  background-color: #ecf0f1;
-  padding: 20px;
-  overflow-y: auto;
-}
+  .main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+  }
 
-.header {
-  background-color: #ffffff;
-  padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
+  .header {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-.header h1 {
-  margin: 0;
-  font-size: 24px;
-  color: #2c3e50;
-}
+    button {
+      margin-right: 20px;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
 
-.header p {
-  color: #7f8c8d;
+    .date {
+      font-weight: bold;
+    }
+  }
 }
 </style>

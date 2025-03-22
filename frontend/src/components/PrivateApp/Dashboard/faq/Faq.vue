@@ -97,7 +97,7 @@ onMounted(fetchFaqs);
 
     <!-- Formulaires dynamiques pour créer de nouvelles FAQ -->
     <div class="faq-form">
-      <h2>Créer des FAQs</h2>
+      <h2>Création des FAQs</h2>
       <div v-for="(form, index) in faqForms" :key="index" class="FomFAQ">
         <div>
           <label :for="'fr-question-' + index">Question en Français :</label>
@@ -214,15 +214,13 @@ onMounted(fetchFaqs);
 <style lang="scss">
 .faq {
   padding: 20px;
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
   color: #333;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px white;
 
   h1,
   h2 {
-    color: #007bff;
+    color: #2c3e50;
     margin-bottom: 10px;
     text-transform: uppercase;
     font-size: 24px;
@@ -235,10 +233,9 @@ onMounted(fetchFaqs);
   }
 
   .faq-form {
-    background: #fff;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 5px white;
     transition: transform 0.3s, box-shadow 0.3s;
 
     &:hover {
@@ -257,12 +254,13 @@ onMounted(fetchFaqs);
     input {
       display: block;
       margin-bottom: 15px;
+      font-family: $Arial;
       padding: 10px;
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
       font-size: 14px;
-      background: #f7f7f7;
+      box-shadow: 0 2px 5px white;
       transition: border-color 0.3s, box-shadow 0.3s;
 
       &:focus {
@@ -274,7 +272,7 @@ onMounted(fetchFaqs);
     }
 
     button {
-      background-color: #007bff;
+      background-color: $cyellow;
       color: white;
       padding: 12px 20px;
       border: none;
@@ -286,9 +284,9 @@ onMounted(fetchFaqs);
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
       margin-top: 20px;
       margin-right: 20px;
-
+      font-family: $Arial;
       &:hover {
-        background-color: #0056b3;
+        background-color: $cyellow;
         transform: translateY(-2px);
       }
 
@@ -300,11 +298,10 @@ onMounted(fetchFaqs);
   }
 
   .faq-item {
-    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    box-shadow: 0 2px 5px white;
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 15px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
 
     &:hover {
@@ -314,7 +311,7 @@ onMounted(fetchFaqs);
 
     h3 {
       margin: 0;
-      color: #007bff;
+      color: #2c3e50;
       font-size: 18px;
       font-weight: bold;
     }
@@ -327,11 +324,12 @@ onMounted(fetchFaqs);
     }
 
     button {
-      background-color: #28a745;
-      color: white;
+      background-color: #2c3e50;
+      color: $cyellow;
       border: none;
       padding: 10px 15px;
       border-radius: 8px;
+      font-family: $Arial;
       cursor: pointer;
       font-size: 14px;
       font-weight: bold;
@@ -339,7 +337,7 @@ onMounted(fetchFaqs);
       transition: background-color 0.3s, transform 0.3s;
 
       &:hover {
-        background-color: #218838;
+        background-color: #2c3e50;
         transform: translateY(-2px);
       }
 
@@ -374,7 +372,7 @@ onMounted(fetchFaqs);
       transition: border-color 0.3s, background-color 0.3s;
 
       &:focus {
-        border-color: #007bff;
+        border-color: #2c3e50;
         background: #fff;
       }
     }
@@ -384,7 +382,7 @@ onMounted(fetchFaqs);
       gap: 10px;
 
       button {
-        background-color: #007bff;
+        background-color: #2c3e50;
         color: white;
         padding: 10px 20px;
         border: none;
@@ -395,7 +393,7 @@ onMounted(fetchFaqs);
         transition: background-color 0.3s, transform 0.3s;
 
         &:hover {
-          background-color: #0056b3;
+          background-color: #2c3e50;
           transform: translateY(-2px);
         }
 

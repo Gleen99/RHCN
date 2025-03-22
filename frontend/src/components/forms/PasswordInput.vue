@@ -10,6 +10,10 @@ const props = defineProps({
   showPassword: {
     type: Boolean,
     default: false
+  },
+  label: {
+    type: String,
+    default: 'Mot de Passe'
   }
 });
 
@@ -29,7 +33,7 @@ const handleInputChange = (event: Event) => {
 <template>
     <div>
         <div>
-            <label for="password">Mot de Passe</label>
+            <label for="password">{{ props.label }}</label>
         </div>
         <div class="password-input">
     <input

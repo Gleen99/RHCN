@@ -113,12 +113,6 @@ const routes: Array<RouteRecordRaw> = [
         meta: { requiresAuth: true, roles: ["admin"] },
       },
       {
-        path: "profil",
-        name: Routes.profil,
-        component: Profil,
-        meta: { requiresAuth: true, roles: ["admin", "editor", "contributor"] },
-      },
-      {
         path: "login",
         name: Routes.login,
         component: Login,
@@ -183,6 +177,12 @@ const routes: Array<RouteRecordRaw> = [
             name: Routes.members,
             component: Members,
             meta: { requiresAuth: true, roles: ["admin"] },
+          },
+          {
+            path: "profil",
+            name: Routes.profil,
+            component: Dashboard,
+            meta: { requiresAuth: true, roles: ["admin", "editor", "contributor"] },
           },
           {
             path: "articles",

@@ -36,41 +36,60 @@ const handleForgotPassword = async () => {
 
 <template>
   <div class="forgot-password">
-    <h1>Mot de passe oublié</h1>
-    <form @submit.prevent="handleForgotPassword" class="forgot-password-form">
-      <div class="form-group">
-        <label for="email">Email :</label>
-        <input
+<div class="forgot-password-wrapper">
+  <h1>Mot de passe oublié</h1>
+  <div class="header__logo">
+    <img src="../../../../assets/Logo.jpeg" class="Logoimg"/>
+  </div>
+  <form @submit.prevent="handleForgotPassword" class="forgot-password-form">
+    <div class="form-group">
+      <label for="email">Email :</label>
+      <input
           id="email"
           v-model="email"
           type="email"
           placeholder="Votre adresse e-mail"
-        />
-      </div>
-      <div v-if="successMessage" class="success">{{ successMessage }}</div>
-      <div v-if="errorMessage" class="error">{{ errorMessage }}</div>
-      <button type="submit" :disabled="loading">
-        {{ loading ? "Envoi en cours..." : "Envoyer" }}
-      </button>
-    </form>
+      />
+    </div>
+    <div v-if="successMessage" class="success">{{ successMessage }}</div>
+    <div v-if="errorMessage" class="error">{{ errorMessage }}</div>
+    <button type="submit" :disabled="loading">
+      {{ loading ? "Envoi en cours..." : "Envoyer" }}
+    </button>
+  </form>
+</div>
   </div>
 </template>
 
 <style lang="scss">
 .forgot-password {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  background: linear-gradient(135deg, #6fb1fc 0%, #4364f7 100%);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+
+.forgot-password-wrapper{
   max-width: 400px;
-  margin: 0 auto;
+  width: 100%;
   padding: 20px;
-  background: #f9f9f9;
+  background: #F7F7F7;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-
+  text-align: center;
+}
   h1 {
     text-align: center;
     margin-bottom: 20px;
     color: #2c3e50;
   }
-
+  .Logoimg {
+    width: 30%;
+    margin-bottom: 1rem;
+  }
   .forgot-password-form {
     display: flex;
     flex-direction: column;

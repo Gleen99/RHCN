@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import { useApi } from '@/composition/api';
 import { Routes } from '@/enums';
 import { useAuthStore } from '@/composition/authStore';
+import PasswordInput from "@/components/forms/PasswordInput.vue";
 
 const { login } = useApi();
 const router = useRouter();
@@ -13,6 +14,7 @@ const email = ref('');
 const password = ref('');
 const errorMessage = ref('');
 const loading = ref(false);
+const showPassword = ref(false);
 
 const handleLogin = async () => {
   if (!email.value || !password.value) {
@@ -56,17 +58,24 @@ const handleRegister = () => {
   <div class="login-container">
     <div class="login">
       <h1>Connexion</h1>
+      <div class="header__logo">
+        <img src="../../../../assets/Logo.jpeg" class="Logoimg" />
+      </div>
       <form @submit.prevent="handleLogin" class="login-form">
         <div class="form-group">
           <label for="email">Email :</label>
           <input id="email" v-model="email" type="email" placeholder="Votre email" />
         </div>
+
+
         <div class="form-group">
-          <label for="password">Mot de passe :</label>
-          <input id="password" v-model="password" type="password" placeholder="Votre mot de passe" />
+          <PasswordInput
+              v-model:value="password"
+              v-model:showPassword="showPassword"
+          />
         </div>
-        <div v-if="errorMessage" class="error">{{ errorMessage }}</div>
-        <button type="submit" :disabled="loading">
+        <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
+        <button type="submit" :disabled="loading" class="btn-submit">
           {{ loading ? 'Connexion en cours...' : 'Se connecter' }}
         </button>
       </form>
@@ -84,21 +93,28 @@ const handleRegister = () => {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f5f5f5;
+  background: linear-gradient(135deg, #6fb1fc 0%, #4364f7 100%);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
 }
 
 .login {
   max-width: 400px;
   width: 100%;
   padding: 20px;
-  background: #fff;
+  background: #F7F7F7;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   text-align: center;
 
   h1 {
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
     color: #2c3e50;
+    font-size: 2rem;
+    font-weight: 600;
+  }
+  .Logoimg{
+    width: 30%;
   }
 
   .login-form {
@@ -122,16 +138,28 @@ const handleRegister = () => {
         border: 1px solid #ccc;
         border-radius: 4px;
         font-size: 16px;
+        transition: all 0.3s ease;
+
+        &:focus {
+          outline: none;
+          border-color: #007bff;
+          box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+        }
       }
     }
 
-    .error {
-      color: red;
+    .error-message {
       margin-bottom: 15px;
+      padding: 0.75rem;
+      border-radius: 4px;
       font-size: 14px;
+      font-weight: 500;
+      background-color: #ffe6e6;
+      color: #d9534f;
+      border: 1px solid #f5c6cb;
     }
 
-    button {
+    button.btn-submit {
       padding: 10px 15px;
       background-color: #3498db;
       border: none;
@@ -139,14 +167,22 @@ const handleRegister = () => {
       color: white;
       font-size: 16px;
       cursor: pointer;
+      width: 100%;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+
+      &:hover {
+        background-color: #2980b9;
+        transform: scale(1.02);
+      }
 
       &:disabled {
         background-color: #95a5a6;
         cursor: not-allowed;
       }
 
-      &:hover:not(:disabled) {
-        background-color: #2980b9;
+      &:active {
+        transform: scale(0.98);
       }
     }
   }
