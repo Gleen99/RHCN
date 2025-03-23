@@ -103,7 +103,12 @@ export interface IArticle {
 	author?: string;
 }
 export interface IArticleDB extends IArticle, DB {}
-
+export interface ICategoryResponse {
+	categories: {
+		fr: string[];
+		en: string[];
+	}[];
+}
 export interface IEventContent {
 	title: string;
 	description: string;

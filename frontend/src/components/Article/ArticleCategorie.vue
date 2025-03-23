@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from "vue";
 import { useApi } from "@/composition/api";
 import { useI18n } from "vue-i18n";
+import {ICategoryResponse} from "@shared/crudTypes";
 
 const emit = defineEmits(["selectCategory"]);
 const { GetCategoryArticles } = useApi();
@@ -9,9 +10,8 @@ const { locale } = useI18n();
 
 const rawCategories = ref<{ fr: string[]; en: string[] }[]>([]);
 
-// Catégories en fonction de la langue, avec "Tous"/"All" en tête
 const categories = computed(() => {
-  const lang = locale.value;
+  const lang = locale.value as "fr" | "en";
   const all = rawCategories.value.flatMap((c) => c[lang] || []);
   const unique = Array.from(new Set(all));
   return [lang === "fr" ? "Tous les catégories" : "All categories", ...unique];
@@ -20,6 +20,7 @@ const categories = computed(() => {
 onMounted(async () => {
   try {
     const response = await GetCategoryArticles();
+
     rawCategories.value = Array.isArray(response.categories)
         ? response.categories.map((cat) => ({
           fr: Array.isArray(cat.fr) ? cat.fr : [],
@@ -30,6 +31,7 @@ onMounted(async () => {
     console.error("Failed to fetch categories:", error);
   }
 });
+
 function select(cat: string) {
   emit("selectCategory", cat === "All categories" || cat === "Tous les catégories" ? null : cat);
 }

@@ -16,7 +16,7 @@ import {
     IMemberDB,
     IMembersPartnerDB, IPartnerIcon, IPartnerIconDB,
     IUserDB,
-    IDonateUserDB
+    IDonateUserDB, ICategoryResponse
 } from "@shared/crudTypes";
 import {PaymentData} from "@shared/baseTypes";
 export type UseApiResult = {
@@ -80,7 +80,7 @@ export type UseApiResult = {
     createArticle: (data: any) => Promise<IArticleDB>
     getArticles: () => Promise<IArticleDB>
     getArticle: (slug: string) => Promise<IArticleDB>
-    GetCategoryArticles: () => Promise<IArticleDB>
+    GetCategoryArticles: () => Promise<ICategoryResponse>
     deleteArticle: (articleId: objectId) => Promise<IArticleDB>
     updateArticle: (data: any, articleId: ObjectId) => Promise<IArticleDB>
 
@@ -448,7 +448,7 @@ async function getArticles(): Promise<IArticleDB> {
     const response = await axios.get(buildUrl("/bo/articles"));
     return response.data;
 }
-async function GetCategoryArticles(): Promise<IArticleDB> {
+async function GetCategoryArticles(): Promise<ICategoryResponse> {
     const response = await axios.get(buildUrl("/categoriesArticles"));
     return response.data;
 }
