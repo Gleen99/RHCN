@@ -5,9 +5,10 @@ import { useI18n } from "vue-i18n";
 import Filters from "@/components/Filters/Filters.vue";
 import Pagination from "@/components/Filters/Pagination.vue";
 import PageTitle from "@/components/ui/PageTitle.vue";
+import { watch } from "vue";
 
-const { t } = useI18n();
-const { GetListImage, GetCategoriesByType } = useApi();
+const { t, locale } = useI18n();
+const { GetListImage } = useApi();
 
 // State
 const categoriesList = ref<string[]>([t("events.filters.allCategories") || "All Categories"]);
@@ -20,36 +21,13 @@ const isLoading = ref(false);
 const error = ref<string | null>(null);
 const images = ref<any[]>([]);
 
-// Fetch categories
-const fetchCategories = async () => {
-  isLoading.value = true;
-  error.value = null;
-  try {
-    const rawCategories = await GetCategoriesByType(selectedType.value);
-    if (!Array.isArray(rawCategories)) {
-      console.error("Error: rawCategories is not an array", rawCategories);
-      return;
-    }
-    const categories = rawCategories.flatMap((item: any) =>
-        typeof item.fr.category === "string"
-            ? item.fr.category.split(",").map((cat: string) => cat.trim())
-            : item.fr.category
-    );
-    categoriesList.value = [t("events.filters.allCategories"), ...categories];
-  } catch (err) {
-    console.error("Error fetching categories:", err);
-    error.value = t("events.filters.errorLoadingCategories");
-  } finally {
-    isLoading.value = false;
-  }
-};
 
-// Fetch images
 const fetchImages = async () => {
   isLoading.value = true;
   try {
     const result = await GetListImage();
     images.value = Array.isArray(result) ? result : [];
+    generateCategoriesFromImages();
   } catch (err) {
     console.error("Error fetching images:", err);
     images.value = [];
@@ -58,34 +36,66 @@ const fetchImages = async () => {
     isLoading.value = false;
   }
 };
+const generateCategoriesFromImages = () => {
+  const categoriesSet = new Set<string>();
 
-// Filter images
+  images.value.forEach((img: any) => {
+    const raw = locale.value === "fr" ? img.fr?.categories : img.en?.categories;
+
+    if (typeof raw === "string") {
+      raw.split(",").forEach((cat) => {
+        const trimmed = cat.trim();
+        if (trimmed) categoriesSet.add(trimmed);
+      });
+    }
+  });
+
+  const uniqueSorted = Array.from(categoriesSet).sort();
+
+  categoriesList.value = [
+    t("events.filters.allCategories") || "All Categories",
+    ...uniqueSorted
+  ];
+};
+watch(locale, () => {
+  generateCategoriesFromImages(); // 💡 ici aussi
+  selectedCategory.value = t("events.filters.allCategories");
+  currentPage.value = 1;
+});
 const filteredImages = computed(() => {
   let result = images.value || [];
 
-  // Filter by category
-  if (selectedCategory.value && selectedCategory.value !== t("events.filters.allCategories")) {
-    result = result.filter((image: any) =>
-        Array.isArray(image.categories) && image.categories.includes(selectedCategory.value)
-    );
+  // Filtrage par catégorie
+  if (
+      selectedCategory.value &&
+      selectedCategory.value !== t("events.filters.allCategories")
+  ) {
+    result = result.filter((image: any) => {
+      const langCategories =
+          locale.value === "fr" ? image.fr?.categories : image.en?.categories;
+
+      const imageCategories =
+          typeof langCategories === "string"
+              ? langCategories.split(",").map((cat: string) => cat.trim())
+              : [];
+
+      return imageCategories.includes(selectedCategory.value);
+    });
   }
 
-  // Filter by date
+  // Filtrage par date
   if (selectedDate.value) {
-    const selectedDateObj = new Date(selectedDate.value);
+    const selectedDateObj = new Date(Number(selectedDate.value));
+    const selectedDateStr = selectedDateObj.toLocaleDateString("fr-CA"); // "YYYY-MM-DD"
     result = result.filter((image: any) => {
       const imageDateObj = new Date(image.date);
-      return (
-          imageDateObj.getFullYear() === selectedDateObj.getFullYear() &&
-          imageDateObj.getMonth() === selectedDateObj.getMonth() &&
-          imageDateObj.getDate() === selectedDateObj.getDate()
-      );
+      const imageDateStr = imageDateObj.toLocaleDateString("fr-CA");
+      return imageDateStr === selectedDateStr;
     });
   }
 
   return result;
 });
-
 // Paginate images
 const paginatedImages = computed(() => {
   const startIndex = (currentPage.value - 1) * itemsPerPage;
@@ -110,7 +120,6 @@ const updateSelectedCategory = (category: string) => {
 
 // On component mount
 onMounted(() => {
-  fetchCategories();
   fetchImages();
 });
 </script>

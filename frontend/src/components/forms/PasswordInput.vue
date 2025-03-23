@@ -76,6 +76,7 @@ const handleInputChange = (event: Event) => {
   border-radius: 4px;
   font-size: 1rem;
   color: #333;
+  font-family: $Arial;
 }
 
 .toggle-password {

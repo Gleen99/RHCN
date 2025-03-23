@@ -1,18 +1,29 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useApi } from "@/composition/api";
-import { IMember, IMemberDB } from "@shared/crudTypes";
+import { IMember, IMemberDB, } from "@shared/crudTypes";
 import PictureLoader from "@/components/ui/PictureLoader.vue";
 
 const { createMember, getMembers, deleteMember, updateMember } = useApi();
 
 const membres = ref<IMemberDB[]>([]);
+
 const nouveauMembre = ref<IMember>({
-  firstname: "",
-  lastname: "",
-  titre: "",
-  picture: { path: "", mimetype: "", thumbnail: "" },
+  picture: {
+    path: '',
+    mimetype: '',
+    thumbnail: '',
+  },
+  firstname: '',
+  lastname: '',
+  fr: {
+    titre: '',
+  },
+  en: {
+    titre: '',
+  },
 });
+
 const idEdition = ref<string | null>(null);
 const chargement = ref(false);
 const afficherModalSuppression = ref(false);
@@ -45,7 +56,7 @@ async function ajouterMembre() {
   try {
     const membreCree = await createMember(nouveauMembre.value);
     if (membreCree) {
-      membres.value.push(membreCree); // Mise à jour locale sans rechargement
+      membres.value.push(membreCree);
       reinitialiserFormulaire();
     }
   } catch (error) {
@@ -83,16 +94,17 @@ async function supprimerMembre() {
 
 // Valider le membre
 function validerMembre(membre: IMember) {
-  return membre.firstname && membre.lastname && membre.titre && membre.picture.path;
+  return membre.firstname && membre.lastname && membre.fr.titre && membre.en.titre && membre.picture.path;
 }
 
 // Réinitialiser le formulaire
 function reinitialiserFormulaire() {
   nouveauMembre.value = {
-    firstname: "",
-    lastname: "",
-    titre: "",
-    picture: { path: "", mimetype: "", thumbnail: "" },
+    picture: { path: '', mimetype: '', thumbnail: '' },
+    firstname: '',
+    lastname: '',
+    fr: { titre: '' },
+    en: { titre: '' },
   };
 }
 
@@ -118,7 +130,7 @@ onMounted(fetchMembres);
 
     <!-- Formulaire -->
     <div class="formulaire-membre">
-      <h2>{{ idEdition ? "Modifier un Membre" : "Créer un Membre" }}</h2>
+      <h1>{{ idEdition ? "Modifier un Membre" : "Créer un Membre" }}</h1>
       <div class="groupe-formulaire">
         <label>Prénom</label>
         <input v-model="nouveauMembre.firstname" placeholder="Entrez le prénom" />
@@ -128,8 +140,12 @@ onMounted(fetchMembres);
         <input v-model="nouveauMembre.lastname" placeholder="Entrez le nom" />
       </div>
       <div class="groupe-formulaire">
-        <label>Titre</label>
-        <input v-model="nouveauMembre.titre" placeholder="Entrez le titre" />
+        <label>Titre (Français)</label>
+        <input v-model="nouveauMembre.fr.titre" placeholder="Entrez le titre en Français" />
+      </div>
+      <div class="groupe-formulaire">
+        <label>Titre (Anglais)</label>
+        <input v-model="nouveauMembre.en.titre" placeholder="Entrez le titre en Anglais" />
       </div>
       <div class="groupe-formulaire">
         <label>Photo</label>
@@ -151,11 +167,14 @@ onMounted(fetchMembres);
     <!-- Liste des Membres -->
     <div v-if="chargement" class="chargement">Chargement...</div>
     <div v-else class="liste-membres">
-      <h2>Liste des Membres</h2>
+      <h1>Liste des Membres</h1>
       <div v-for="membre in membres" :key="membre._id" class="carte-membre">
-        <h3>{{ membre.firstname }} {{ membre.lastname }}</h3>
-        <p>{{ membre.titre }}</p>
         <img v-if="membre.picture.thumbnail" :src="membre.picture.thumbnail" alt="Photo" />
+        <h3>{{ membre.firstname }} {{ membre.lastname }}</h3>
+       <div class="carte-membre-title">
+         <p><strong>Fr :</strong> {{ membre.fr.titre }}</p>
+         <p><strong>En :</strong> {{ membre.en.titre }}</p>
+       </div>
         <div class="actions-carte">
           <button @click="activerEdition(membre)" class="btn">Modifier</button>
           <button @click="() => { membreASupprimer = membre._id; afficherModalSuppression = true; }" class="btn btn-danger">Supprimer</button>
@@ -175,13 +194,10 @@ onMounted(fetchMembres);
 </template>
 <style  lang="scss">
 .gestion-membres {
-  max-width: 800px;
   margin: auto;
   padding: 20px;
-  font-family: Arial, sans-serif;
-  background: #f4f4f9;
+  box-shadow: 0 2px 5px white;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
   .titre-page {
     text-align: center;
@@ -197,10 +213,7 @@ onMounted(fetchMembres);
     border-radius: 8px;
     margin-bottom: 30px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    h2 {
-      color: #2c3e50;
-      margin-bottom: 10px;
-    }
+
 
     .groupe-formulaire {
       margin-bottom: 15px;
@@ -216,7 +229,8 @@ onMounted(fetchMembres);
         width: 100%;
         padding: 10px;
         border-radius: 5px;
-        border: 1px solid #2c3e50;
+        border: 1px solid #ddd;
+        font-family: $Arial;
         transition: border-color 0.3s;
       }
       input:focus {
@@ -229,74 +243,76 @@ onMounted(fetchMembres);
       display: flex;
       gap: 10px;
 
-      .btn {
-        background: #2c3e50;
+      .btn, .btn-secondaire  {
+        background-color: $cyellow;
         color: white;
-        padding: 10px 15px;
+        padding: 12px 20px;
         border: none;
-        border-radius: 5px;
+        border-radius: 8px;
         cursor: pointer;
-        transition: background 0.3s ease, transform 0.2s;
+        font-size: 14px;
         font-weight: bold;
-
-        &.btn-secondaire {
-          background: #6c757d;
-        }
-
-        &.btn-danger {
-          background: #dc3545;
-        }
-
+        transition: background-color 0.3s, transform 0.3s;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+        margin-right: 20px;
+        font-family: $Arial;
         &:hover {
+          background-color: $cyellow;
           transform: translateY(-2px);
-          opacity: 0.9;
-          background:#2c3e50;
         }
       }
     }
   }
 
   .liste-membres {
-    h2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+
+    h1 {
+      grid-column: 1 / -1;
       color: #2c3e50;
       margin-bottom: 5px;
     }
+    .carte-membre-title{
+      display: flex;
+      justify-content: center;
+      gap: 23px;
+    }
+
 
     .carte-membre {
+      text-align: center;
+      padding: 20px;
       background: white;
+      border-radius: 12px;
       border: 2px solid #2c3e50;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-      h2 {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      h3 {
         color: #2c3e50;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
       }
 
       p {
+        font-size: 14px;
         color: #555;
       }
 
-      &:hover {
-        transform: scale(1.02);
-      }
-
       img {
+        margin: 10px auto;
+        display: block;
         max-width: 100px;
-        margin: 10px 0;
         border-radius: 50%;
-        border: 2px solid #2c3e50;
-      }
-
-      .actions-carte {
-        display: flex;
-        gap: 10px;
-
-        .btn {
-          padding: 8px 12px;
-        }
+        border: 3px solid $cyellow;
       }
     }
   }
@@ -326,20 +342,51 @@ onMounted(fetchMembres);
         margin-bottom: 15px;
       }
 
-      .btn {
-        background: white;
-        color: #2c3e50;
-        font-weight: bold;
-      }
+    }
+  }
+  .actions-carte {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
 
-      .btn-danger {
-        background: #dc3545;
-        color: white;
-      }
+    .btn {
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: $Arial;
+      transition: background-color 0.3s ease, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    }
 
-      .btn-secondaire {
-        background: #6c757d;
-        color: white;
+    .btn:hover {
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn:active {
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-danger {
+      background-color: #dc3545;
+      color: white;
+
+      &:hover {
+          filter: brightness(0.9); // rend la couleur plus sombre
+
+      }
+    }
+
+    .btn-edit {
+      background-color: #2c3e50;
+      color: white;
+
+      &:hover {
+        filter: brightness(0.9);
       }
     }
   }

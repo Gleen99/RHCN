@@ -11,27 +11,12 @@ const userLastname = computed(() => authStore.user?.lastname || "");
 const userRole = computed(() => authStore.user?.role || "guest");
 
 const router = useRouter();
-const today = new Date().toLocaleDateString("fr-FR", {
-  weekday: "long",
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-});
 
-function goHome() {
-  router.push("/");
-}
 </script>
 
 <template>
   <div class="dashboard">
-    <div class="header">
-      <h1 class="dashboard-title">Dashboard de RHCN</h1>
-      <div class="dashboard-header">
-        <div @click="goHome">🌐 Allez sur le Site web</div>
-        <span class="date">{{ today }}</span>
-      </div>
-    </div>
+
     <Profil/>
     <router-view />
   </div>
@@ -44,10 +29,7 @@ function goHome() {
     font-weight: bold;
     margin: 20px;
   }
-  .dashboard-header{
-    display: flex;
-    gap:23px
-  }
+
 
   .main-content {
     flex: 1;
@@ -55,21 +37,6 @@ function goHome() {
     overflow-y: auto;
   }
 
-  .header {
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 
-    button {
-      margin-right: 20px;
-      padding: 10px 15px;
-      cursor: pointer;
-    }
-
-    .date {
-      font-weight: bold;
-    }
-  }
 }
 </style>

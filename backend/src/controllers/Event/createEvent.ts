@@ -1,38 +1,58 @@
 import { Request, Response } from "express";
 import { AuthMode, Controller, HttpMethod } from "../../helpers/controller";
 import { db } from "../../../src/helpers/IDatabase";
+import { ObjectId } from "mongodb";
 
-export default class CreateEvent extends Controller {
-    public method = HttpMethod.post;
-    public route = "/bo/event";
+export default class UpdateEvent extends Controller {
+    public method = HttpMethod.put;
+    public route = "/bo/event/:id";
     private auth = AuthMode.authenticated;
 
     public async handler(req: Request, res: Response): Promise<any> {
         try {
-            const { title, date, time, address, description, price, categories, mainPicture } = req.body;
+            const { id } = req.params;
+            const eventId = new ObjectId(id);
+            const { fr, en, date, time, address, price, mainPicture } = req.body;
 
-            if (!title || !date || !time || !categories) {
+            if (
+                !fr?.title || !en?.title ||
+                !fr?.categories || !en?.categories ||
+                !date || !time
+            ) {
                 return res.status(400).json({
-                    error: "Title, date, time, and categories are required fields.",
+                    error: "Missing required fields: fr.title, en.title, categories, date or time.",
                 });
             }
 
-            const newEvent = {
-                title,
-                date: new Date(date),
-                time,
-                address,
-                description,
-                price,
-                categories,
-                mainPicture,
+            const updatedEvent = {
+                fr: {
+                    title: fr.title,
+                    description: fr.description || "",
+                    categories: Array.isArray(fr.categories) ? fr.categories : [],
+                },
+                en: {
+                    title: en.title,
+                    description: en.description || "",
+                    categories: Array.isArray(en.categories) ? en.categories : [],
+                },
+                date: new Date(date).getTime(),
+                time: new Date(time).getTime(),
+                address: address || "",
+                price: price || "",
+                mainPicture: mainPicture || { path: "" },
             };
 
-            const createdEvent = await db.collection("events").insertOne(newEvent);
-            return res.status(201).json(createdEvent);
+            const result = await db.collection("events").findOneAndUpdate(
+                { _id: eventId },
+                { $set: updatedEvent },
+                { returnDocument: "after" }
+            );
+
+
+            return res.status(200).json(result?.value);
         } catch (error) {
-            console.error("Error creating event:", error);
-            return res.status(500).json({ error: "Failed to create event." });
+            console.error("Error updating event:", error);
+            return res.status(500).json({ error: "Failed to update event." });
         }
     }
 }

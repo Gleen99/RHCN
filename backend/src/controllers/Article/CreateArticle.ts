@@ -9,50 +9,51 @@ export default class CreateArticle extends Controller {
 
     public async handler(req: Request, res: Response): Promise<any> {
         try {
-            const { title, slug, mainPicture, author, categories, published, content } = req.body;
+            const { fr, en, author, mainPicture } = req.body;
 
-            if (!title || !categories) {
+            if (!fr?.title || !en?.title || !fr?.categories?.length || !en?.categories?.length) {
                 return res.status(400).json({
-                    error: "Title, and at least one category (as an array) are required fields.",
+                    error: "Les champs 'title' et 'categories' doivent être renseignés en FR et EN.",
                 });
             }
 
-            // Vérifier si un article avec le même slug existe déjà
-            const existingArticle = await db.collection("articles").findOne({ slug });
+            const slug = fr.slug || en.slug || fr.title.trim().toLowerCase().replace(/\s+/g, "-");
+
+            const existingArticle = await db.collection("articles").findOne({ "fr.slug": slug });
             if (existingArticle) {
-                return res.status(409).json({ error: "An article with this slug already exists." });
+                return res.status(409).json({ error: "Un article avec ce slug existe déjà." });
             }
 
-            // Assurer que categories est bien un tableau
-            const categoryArray = typeof categories === "string" ? categories.split(",").map(c => c.trim()) : Array.isArray(categories) ? categories : [];
-
-            // Création de l'objet article
             const newArticle = {
-                title,
-                slug: title,
-                mainPicture: mainPicture || null,
+                fr: {
+                    title: fr.title,
+                    categories: Array.isArray(fr.categories) ? fr.categories : [],
+                    content: Array.isArray(fr.content) ? fr.content : [],
+                    slug,
+                },
+                en: {
+                    title: en.title,
+                    categories: Array.isArray(en.categories) ? en.categories : [],
+                    content: Array.isArray(en.content) ? en.content : [],
+                    slug,
+                },
                 author: author || "RHCN",
-                categories: categoryArray,
-                published: !!published,
-                content: Array.isArray(content) ? content : [],
+                mainPicture: mainPicture || null,
                 date: new Date(),
             };
 
-            // Insertion dans la base de données
             const result = await db.collection("articles").insertOne(newArticle);
 
             if (!result.acknowledged) {
-                throw new Error("Database insertion failed");
+                throw new Error("Échec de l'insertion en base de données");
             }
 
-            // Récupérer l'article inséré pour renvoyer une réponse complète
             const createdArticle = await db.collection("articles").findOne({ _id: result.insertedId });
-
-            // Retourner l'article créé
             return res.status(201).json(createdArticle);
+
         } catch (error) {
-            console.error("Error creating article:", error);
-            return res.status(500).json({ error: "Failed to create article." });
+            console.error("Erreur lors de la création de l'article :", error);
+            return res.status(500).json({ error: "Erreur serveur lors de la création de l'article." });
         }
     }
 }

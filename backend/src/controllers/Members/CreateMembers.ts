@@ -9,28 +9,28 @@ export default class CreateMembers extends Controller {
 
     public async handler(req: Request, res: Response): Promise<any> {
         try {
-            const { firstname,
-                lastname,
-                titre,
-                picture } = req.body;
+            const { firstname, lastname, fr, en, picture } = req.body;
 
             if (!firstname ||
                 !lastname ||
-                !titre ||
+                !fr?.titre ||
+                !en?.titre ||
                 !picture) {
                 return res.status(400).json({ error: "All content are required." });
             }
-            const newFaq = await db.collection('member').insertOne({
+            const newMember = await db.collection('member').insertOne({
                 firstname,
                 lastname,
-                titre,
-                picture
+                fr,
+                en,
+                picture,
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             });
 
-
-            return res.status(201).json(newFaq);
+            return res.status(201).json(newMember);
         } catch (error) {
-            return res.status(500).json({ error: "Failed to create FAQ." });
+            return res.status(500).json({ error: "Failed to create member." });
         }
     }
 }

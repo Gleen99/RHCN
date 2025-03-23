@@ -10,7 +10,11 @@ import {
 	InvitationStatus,
 	confirmationPaiementsStatus
 } from "./enums";
-
+export interface Picture {
+	path: string
+	thumbnail?: string
+	mimetype?: string
+}
 export interface IBouser {
 	username: string
 	password: string
@@ -66,58 +70,52 @@ export interface  IFaq {
 	en: IFaqContent;
 	fr:IFaqContent;
 }
-
 export interface IFaqDB extends IFaq, DB {}
 
-export interface Picture {
-	path: string
-	thumbnail?: string
-	mimetype?: string
+export interface IMemberTitle {
+	titre: string;
 }
-
 export interface  IMember {
+	picture: Picture
 	firstname: string;
 	lastname:string;
-	titre: string; 
-	picture: Picture
+	en :IMemberTitle
+	fr:IMemberTitle
 }
-
 export interface IMemberDB extends IMember, DB {}
 
-
-export interface BlogImage {
-	path: string
-	size?: number
-	mimetype?: string
-}
 export interface ArticleContent {
 	blockName: string;
 	text?: string;
-	image?: BlogImage;
+	image?: Picture;
 }
-
-export interface IArticle {
+export interface ArticleInfos {
 	title: string;
 	slug: string;
-	excerpt?: string;
-	date?: string;
-	mainPicture?: Picture;
-	author?: string;
 	categories: string[];
-	published: boolean;
 	content: ArticleContent[];
 }
-
+export interface IArticle {
+	en: ArticleInfos;
+	fr: ArticleInfos;
+	mainPicture?: Picture;
+	date?: timestamp;
+	author?: string;
+}
 export interface IArticleDB extends IArticle, DB {}
 
-export interface IEvent {
+export interface IEventContent {
 	title: string;
+	description: string;
+	categories: string[];
+}
+export interface IEvent {
+	en: IEventContent;
+	fr:IEventContent;
 	date: timestamp
 	time: timestamp
 	address: string;
-	description: string;
 	price: string;
-	categories: ICategoryContent[]
 	mainPicture?: Picture
 }
 export interface  IEventDB extends IEvent, DB {}
@@ -131,16 +129,18 @@ export interface ICategorie{
 	fr:ICategoryContent;
 }
 export interface  ICategorieDB extends ICategorie, DB {}
+
+export interface IListImageContent {
+	categories: string
+}
 export interface IListImage{
-	title: string
+	en: IListImageContent
+	fr: IListImageContent
 	date: timestamp
 	mainPicture: Picture
-	author?: string
-	categories: string
 	published: boolean
 }
 export interface IListImageDB extends IListImage, DB {}
-
 
 export interface IContact {
 	name: string
@@ -175,13 +175,11 @@ export interface LegalImage {
 	size?: number
 	mimetype?: string
 }
-
 export interface LegalBlock {
 	blockName: string
 	text?: string
 	image?: LegalImage
 }
-
 export interface ILegals {
 	type: LegalType
 	blocks: LegalBlock[]
@@ -191,7 +189,6 @@ export interface ILegalsDB extends ILegals, DB {}
 export interface INotificationItem {
 	userId?: objectId
 }
-
 export interface INotification {
 	title?: string
 	text?: string
@@ -205,12 +202,6 @@ export interface INotification {
 }
 export interface INotificationDB extends INotification, DB {}
 
-
-export interface Picture {
-	path: string
-	thumbnail?: string
-	mimetype?: string
-}
 export interface IMembersPartner {
 	firstName: string,
 	lastName: string,
@@ -229,6 +220,7 @@ export interface loader {
 	mimetype?: string
 	uploaderName: string,
 }
+
 export interface IBecomePartner {
 	name: string,
 	reference: string,
@@ -240,27 +232,9 @@ export interface IBecomePartner {
 export interface IBecomePartnerDB extends IBecomePartner, DB {}
 
 export interface IPartnerIcon {
-	title: string;
 	mainPicture?: Picture
 }
-
 export interface IPartnerIconDB extends IPartnerIcon, DB {}
-
-
-export interface NotificationItem {
-	userId?: objectId
-}
-export interface INotification {
-	text?: string
-	title?: string
-	link?: string
-	type: NotificationType
-	data: any
-	level: NotificationLevel
-	status: NotificationStatus
-	terminationTimestamp?: timestamp
-}
-export interface INotificationDB extends INotification, DB {}
 
 export interface INewsletter {
 	email: string;
@@ -269,6 +243,5 @@ export interface INewsletter {
 	isConfirmed: boolean;
 	source?: string;
 }
-
 export interface INewsletterDB extends INewsletter, DB {}
 

@@ -11,7 +11,7 @@ import IllusIconOpen from "@/components/images/IllusIconOpen.vue";
 import ModalEvent from "@/components/ListEvents/ModalEvent.vue";
 import { IEventDB } from "@shared/crudTypes";
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const { getEvents } = useApi();
 
 const eventList = ref<string[]>([]);
@@ -39,12 +39,8 @@ const fetchEvents = async () => {
   error.value = null;
   try {
     const response = await getEvents();
-    if (Array.isArray(response)) {
-      events.value = response;
-    } else {
-      events.value = [];
-      console.warn("Le retour de l'API n'est pas un tableau :", response);
-    }
+    events.value = Array.isArray(response) ? response : [];
+    generateCategoriesFromImages();
   } catch (err) {
     console.error("Erreur lors de la récupération des événements :", err);
     error.value = "Impossible de récupérer les événements.";
@@ -52,15 +48,53 @@ const fetchEvents = async () => {
     isLoading.value = false;
   }
 };
+const generateCategoriesFromImages = () => {
+  const categoriesSet = new Set<string>();
 
+  events.value.forEach((event) => {
+    const raw = locale.value === "fr" ? event.fr?.categories : event.en?.categories;
+    if (Array.isArray(raw)) {
+      raw.forEach((cat: string) => {
+        const trimmed = cat.trim();
+        if (trimmed) categoriesSet.add(trimmed);
+      });
+    }
+  });
+
+  eventList.value = [
+    t("events.filters.allCategories") || "All Categories",
+    ...Array.from(categoriesSet).sort()
+  ];
+};
 const filteredEvents = computed(() => {
-  let result = events.value;
+  let result = events.value || [];
 
-  if (selectedCategory.value && selectedCategory.value !== t("events.filters.allCategories")) {
-    result = result.filter(event =>
-        event.categories.some(cat => typeof cat === "string" && cat === selectedCategory.value)
-    );
+  // Filtrage par catégorie
+  if (
+      selectedCategory.value &&
+      selectedCategory.value !== t("events.filters.allCategories")
+  ) {
+    result = result.filter((event: IEventDB) => {
+      const langCategories = locale.value === "fr" ? event.fr?.categories : event.en?.categories;
+      const imageCategories = Array.isArray(langCategories)
+          ? langCategories.map((cat: string) => cat.trim())
+          : [];
+
+      return imageCategories.includes(selectedCategory.value);
+    });
   }
+
+  // Filtrage par date
+  if (selectedDate.value) {
+    const selectedDateObj = new Date(Number(selectedDate.value));
+    const selectedDateStr = selectedDateObj.toLocaleDateString("fr-CA"); // "YYYY-MM-DD"
+    result = result.filter((event: IEventDB) => {
+      const imageDateObj = new Date(event.date);
+      const imageDateStr = imageDateObj.toLocaleDateString("fr-CA");
+      return imageDateStr === selectedDateStr;
+    });
+  }
+
   return result;
 });
 
@@ -83,6 +117,10 @@ const formatDate = (dateInput: string | number): string => {
       )
       .join(" ");
 };
+const updateSelectedCategory = (category: string) => {
+  selectedCategory.value = category;
+  currentPage.value = 1;
+};
 
 onMounted(() => {
   fetchEvents();
@@ -99,8 +137,8 @@ onMounted(() => {
         :categories="eventList.map(cat => ({ label: cat, value: cat }))"
         :selectedCategory="selectedCategory"
         :selectedDate="selectedDate"
-        @update:selectedCategory="value => (selectedCategory = value)"
-        @update:selectedDate="value => (selectedDate = value ?? '')"
+        @update:selectedCategory="updateSelectedCategory"
+        @update:selectedDate="(value: any) => (selectedDate = value)"
     />
 
     <div v-if="isLoading" class="loading-message">
@@ -115,7 +153,7 @@ onMounted(() => {
       <div v-for="event in paginatedEvents" :key="event._id" class="event-card" @click="openModal(event)">
         <img :src="event.mainPicture?.thumbnail || '/Logo.jpeg'" alt="Event Image" class="event-image" />
         <div class="event-details">
-          <h2 class="event-title">{{ event.title }}</h2>
+          <h2 class="event-title">{{ locale === 'fr' ? event.fr.title : event.en.title }}</h2>
           <div class="event-info">
             <div class="event-infosContent">
               <div class="icon"><IAgenda /></div>
@@ -123,7 +161,7 @@ onMounted(() => {
             </div>
             <div class="event-infosContent">
               <div class="icon"><ITime /></div>
-              <div class="infos">{{ event.time }}</div>
+              <div class="infos">{{ new Date(event.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }}</div>
             </div>
             <div class="event-infosContent">
               <div class="icon"><ILocation /></div>
@@ -168,23 +206,27 @@ onMounted(() => {
 
   .events-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, 30%);
+    justify-content: space-between;
     gap: 1.4rem;
+    @include desktopMax {
+      grid-template-columns: repeat(auto-fill, 20%);
+    }
     @include mobile {
+      grid-template-columns: repeat(auto-fill, 100%);
       margin: 0 5rem;
     }
   }
 
   .event-card {
     background-color: #fff;
-    border-radius: 12px;
+    border-radius: 29px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     transition: box-shadow 0.3s;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 1rem;
-
     &:hover {
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }

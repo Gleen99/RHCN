@@ -35,7 +35,7 @@ export default class ForgotPassword extends Controller {
             const url = config.get("services.front");
             const resetLink = `${url}/app/resetPassword?token=${resetToken}`;
 
-            const subject = "🔒 Réinitialisation de votre mot de passe";
+            const subject = "Réinitialisation de votre mot de passe";
 
             // Génération du template d'email avec header/footer stylés
             const message = generateEmailTemplate(

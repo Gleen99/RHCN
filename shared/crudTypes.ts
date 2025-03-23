@@ -59,8 +59,8 @@ export interface IInvitation{
 export interface IInvitationDB extends IInvitation, DB {}
 
 export interface  IFaqContent {
-    question: string;
-    answer: string;
+	question: string;
+	answer: string;
 }
 export interface  IFaq {
 	en: IFaqContent;
@@ -74,13 +74,17 @@ export interface Picture {
 	thumbnail?: string
 	mimetype?: string
 }
-
+export interface IMemberTitle {
+	titre: string;
+}
 export interface  IMember {
+	picture: Picture
 	firstname: string;
 	lastname:string;
-	titre: string; 
-	picture: Picture
+	en :IMemberTitle
+	fr:IMemberTitle
 }
+
 
 export interface IMemberDB extends IMember, DB {}
 
@@ -98,7 +102,7 @@ export interface ArticleContent {
 
 export interface IArticle {
 	title: string;
-	slug?: string;
+	slug: string;
 	excerpt?: string;
 	date?: string;
 	mainPicture?: Picture;
@@ -131,12 +135,14 @@ export interface ICategorie{
 	fr:ICategoryContent;
 }
 export interface  ICategorieDB extends ICategorie, DB {}
+export interface IListImageContent {
+	categories: string
+}
 export interface IListImage{
-	title: string
+	en: IListImageContent
+	fr: IListImageContent
 	date: timestamp
 	mainPicture: Picture
-	author?: string
-	categories: string
 	published: boolean
 }
 export interface IListImageDB extends IListImage, DB {}

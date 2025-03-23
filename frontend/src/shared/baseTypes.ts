@@ -39,5 +39,15 @@ export interface AnalyticsData {
 export interface GetAllUsersResponse {
     success: boolean;
     users: IUserDB[];
-  }
-  
+}
+
+export interface IMemberDB {
+    _id: ObjectId;
+    createdAt: timestamp;
+    updatedAt: timestamp;
+    picture: { path: string; mimetype: string; thumbnail: string; };
+    firstname: string;
+    lastname: string;
+    fr: { titre: string; };
+    en: { titre: string; };
+}

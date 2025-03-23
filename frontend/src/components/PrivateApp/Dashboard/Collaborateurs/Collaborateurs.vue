@@ -4,7 +4,7 @@ import { useApi } from '@/composition/api';
 import { IUserDB } from '@shared/crudTypes';
 import { useAuthStore } from '@/composition/authStore';
 
-const { GetAllUsers, PutUser } = useApi();
+const { GetAllUsers, PutUser, DeleteUser } = useApi();
 const authStore = useAuthStore();
 
 const users = ref<IUserDB[]>([]);
@@ -35,8 +35,10 @@ const fetchUsers = async () => {
 const deleteUser = async (userId: string) => {
   try {
     if (confirm('Voulez-vous vraiment supprimer cet utilisateur ?')) {
-      authStore.deleteUser();
+      await DeleteUser(userId); // Appel API
       users.value = users.value.filter(user => user._id !== userId);
+      successMessage.value = 'Utilisateur supprimé avec succès.';
+      setTimeout(() => (successMessage.value = ''), 3000);
     }
   } catch {
     alert('Erreur lors de la suppression de l\'utilisateur.');
@@ -58,7 +60,7 @@ const saveUserRole = async () => {
       users.value[userIndex].role = updatedRole.value;
     }
     successMessage.value = 'Rôle mis à jour avec succès !';
-    setTimeout(() => successMessage.value = '', 3000);
+    setTimeout(() => (successMessage.value = ''), 3000);
     editingUserId.value = null;
     updatedRole.value = '';
   } catch {

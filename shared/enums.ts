@@ -34,6 +34,7 @@ export enum InvitationStatus {
     PENDING = "pending", 
     ACCEPTED = "accepted", 
     CANCELLED = "cancelled",
+	DELETED = "deleted",
 }
 
 

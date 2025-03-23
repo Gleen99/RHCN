@@ -97,7 +97,18 @@ watch([errorMessage, successMessage], () => {
     }, 4000);
   }
 });
-
+const translateRole = (role: string) => {
+  switch (role) {
+    case 'editor':
+      return 'Éditeur';
+    case 'contributor':
+      return 'Contributeur';
+    case 'admin':
+      return 'Administrateur';
+    default:
+      return role;
+  }
+};
 onMounted(fetchInvitations);
 </script>
 
@@ -114,8 +125,9 @@ onMounted(fetchInvitations);
         <input v-model="lastname" placeholder="Nom de famille" />
         <input v-model="email" placeholder="Email" type="email" />
         <select v-model="role">
-          <option value="user">Utilisateur</option>
-          <option value="admin">Admin</option>
+          <option value="editor">Éditeur</option>
+          <option value="contributor">Contributeur</option>
+          <option value="admin">Administrateur</option>
         </select>
         <button @click="handleCreateInvitation" class="handleCreateInvitation">Envoyer</button>
       </div>
@@ -124,13 +136,20 @@ onMounted(fetchInvitations);
     <div class="invitations-content">
       <ul v-if="invitations.length > 0" class="invitation-list">
         <li v-for="invitation in invitations" :key="invitation._id">
-          <span class="invitation-list-item">
-            {{ invitation.firstname }} {{ invitation.lastname }}
-            <em> {{ invitation.email }} </em>
-            <em class="role"> {{ invitation.role }} </em>
-            <span :class="['badge', invitation.status]">{{ invitation.status }}</span>
-          </span>
-          <button @click="confirmDeleteInvitation(invitation._id)">Supprimer</button>
+  <span class="invitation-list-item">
+    {{ invitation.firstname }} {{ invitation.lastname }}
+    <em> {{ invitation.email }} </em>
+ <em class="role"> {{ translateRole(invitation.role) }} </em>
+    <span :class="['badge', invitation.status]">{{ invitation.status }}</span>
+  </span>
+
+          <!-- ✅ Ne s'affiche que si le statut n'est pas "accepted" -->
+          <button
+              v-if="invitation.status !== 'accepted'"
+              @click="confirmDeleteInvitation(invitation._id)"
+          >
+            Supprimer
+          </button>
         </li>
       </ul>
 

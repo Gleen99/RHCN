@@ -560,12 +560,12 @@ async function CreatePartnerIcon(data: IPartnerIcon): Promise<IPartnerIconDB> {
 }
 
 async function UpdatePartnerIcon(data: any, PartnerIconId: ObjectId): Promise<IPartnerIconDB> {
-    const response = await axios.put(buildUrl(`bo/PartnerIcon/${PartnerIconId}`), data);
+    const response = await axios.put(buildUrl(`/bo/partnerIcon/${PartnerIconId}`), data);
     return response.data;
 }
 
 async function DeletePartnerIcon(PartnerIconId: ObjectId): Promise<IPartnerIconDB> {
-    const response = await axios.delete(buildUrl(`bo/PartnerIcon/${PartnerIconId}`));
+    const response = await axios.delete(buildUrl(`/bo/PartnerIcon/${PartnerIconId}`));
     return response.data;
 }
 

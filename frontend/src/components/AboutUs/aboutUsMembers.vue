@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 import PageTitle from "../ui/PageTitle.vue";
-import { onMounted, ref } from "vue";
+import {computed, onMounted, ref} from "vue";
 import { useApi } from "@/composition/api";
-import { IMemberDB } from "@shared/crudTypes";
+import {IFaqDB, IMemberDB} from "@shared/crudTypes";
 import IBGMember from "@/components/images/IBGMember.vue";
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const { getMembers } = useApi();
 const members = ref<IMemberDB[]>([]);
 const isLoading = ref(false);
@@ -23,6 +23,12 @@ const fetchMembers = async () => {
     isLoading.value = false;
   }
 };
+const localizedMembers = computed(() =>
+    members.value.map((member) => ({
+      ...member,
+      titre: member[locale.value as "fr" | "en"].titre,
+    }))
+);
 
 onMounted(() => {
   fetchMembers();
@@ -37,7 +43,7 @@ onMounted(() => {
       </PageTitle>
     </div>
     <div class="aboutUsMembersinfos">
-      <div v-for="member in members" :key="member._id" class="event-item">
+        <div v-for="member in localizedMembers" :key="member._id" class="event-item">
         <div class="image-preview">
           <img :src="member.picture?.thumbnail || member.picture?.path" alt="Preview" class="member-image" />
           <IBGMember class="ibg-member" />

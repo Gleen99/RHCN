@@ -33,25 +33,25 @@ export default class Login extends Controller {
             if (!email || !password) {
                 return res.status(400).json({ message: "Email et mot de passe sont requis" });
             }
-            console.log(email, password)
 
-            // Rechercher l'utilisateur par email
-            const user = await db.collection('user').findOne({ email, status: { $ne: InvitationStatus.CANCELLED }});
+            const user = await db.collection('user').findOne({ email });
 
             if (!user) {
                 return res.status(404).json({ message: "Utilisateur non trouvé" });
             }
 
-            // Comparer les mots de passe
+            // Vérifie si l'utilisateur est annulé
+            if (user.status === InvitationStatus.CANCELLED) {
+                return res.status(403).json({ message: "Votre accès a été annulé. Contactez un administrateur." });
+            }
+
             const isPasswordValid = await bcrypt.compare(password, user.password);
             if (!isPasswordValid) {
                 return res.status(401).json({ message: "Mot de passe incorrect" });
             }
 
-            // Générer les tokens
             const { token, refreshToken } = this.generateTokens(user._id.toString(), user.email, user.role);
 
-            // Mettre à jour le refresh token dans la base de données
             await db.collection('user').updateOne(
                 { _id: user._id },
                 { $set: { refreshToken } }

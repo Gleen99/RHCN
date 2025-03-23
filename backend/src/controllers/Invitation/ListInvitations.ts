@@ -9,7 +9,7 @@ export default class ListInvitations extends Controller {
 
     public async handler(req: Request, res: Response): Promise<any> {
         try {
-            const cancelledUsers = await db.collection('user').find({ status: "cancelled" }).toArray();
+            const cancelledUsers = await db.collection('user').find({}).toArray();
             const invitations = await db.collection('invitation').find({}).toArray();
 
             const invitationEmails = invitations.map(invitation => invitation.email);

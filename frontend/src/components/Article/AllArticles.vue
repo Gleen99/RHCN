@@ -1,43 +1,54 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useApi } from "@/composition/api";
-import { IArticleDB, IArticle } from "@shared/crudTypes";
+import { IArticleDB } from "@shared/crudTypes";
 import { useI18n } from "vue-i18n";
-import { Routes } from "@/enums";
 import { useRouter } from "vue-router";
+import { Routes } from "@/enums";
+
+const props = defineProps<{ selectedCategory: string | null }>();
 
 const { getArticles } = useApi();
 const articles = ref<IArticleDB[]>([]);
-const { t } = useI18n();
+const { locale, t } = useI18n();
 const router = useRouter();
 
 onMounted(async () => {
   try {
     const response = await getArticles();
-    console.log(response);
     articles.value = Array.isArray(response) ? response : [response];
   } catch (error) {
     console.error("Failed to fetch articles:", error);
   }
 });
 
-const formatDate = (dateInput?: string | number | Date): string => {
+const localizedArticle = (article: IArticleDB) =>
+    locale.value === "en" ? article.en : article.fr;
+
+const filteredArticles = computed(() => {
+  if (!props.selectedCategory) return articles.value;
+  return articles.value.filter((article) =>
+      localizedArticle(article).categories.includes(props.selectedCategory!)
+  );
+});
+
+function formatDate(dateInput?: string | number | Date): string {
   if (!dateInput) return "";
   const date = new Date(dateInput);
-  return new Intl.DateTimeFormat("fr-FR", {
+  return new Intl.DateTimeFormat(locale.value, {
     weekday: "long",
     day: "numeric",
     month: "long",
     year: "numeric",
   })
       .format(date)
-      .replace(/\b\w/g, (char) => char.toUpperCase());
-};
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+}
 
-function goToArticle(article: IArticle) {
-  if (!article?.slug) return;
-  console.log("article:", article);
-  router.push({ name: Routes.blog, params: { articleSlug: article.slug } });
+function goToArticle(article: IArticleDB) {
+  const slug = localizedArticle(article).slug;
+  if (!slug) return;
+  router.push({ name: Routes.blog, params: { articleSlug: slug } });
 }
 </script>
 
@@ -46,14 +57,14 @@ function goToArticle(article: IArticle) {
     <div class="articles-grid">
       <div
           class="article-card"
-          v-for="(article, index) in articles"
+          v-for="(article, index) in filteredArticles"
           :key="index"
           @click="goToArticle(article)"
       >
         <img
             class="article-image"
             :src="article.mainPicture?.thumbnail || '/Logo.jpeg'"
-            alt="Event Image"
+            alt="Image de l'article"
         />
         <div class="article-details">
           <div class="article-info">
@@ -61,35 +72,44 @@ function goToArticle(article: IArticle) {
               <div class="date">{{ formatDate(article.date) }}</div>
             </div>
             <div class="article-infosContent">
-              <div class="title">{{ article.title }}</div>
+              <div class="title">{{ localizedArticle(article).title }}</div>
             </div>
           </div>
           <div class="readMore">
-            <div class="readMoreContent">
-              {{ t('articles.readMore') }}
-            </div>
+            <div class="readMoreContent">{{ t("articles.readMore") }}</div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
 <style scoped lang="scss">
 .AllArticles {
   margin: -12rem 5.8rem 0 5.8rem;
+
   @include desktopMax {
     margin: -16rem 10rem 0 10rem;
   }
+
   .articles-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, 30%);
+    justify-content: space-between;
     gap: 1.4rem;
+
+    @include desktopMax {
+      grid-template-columns: repeat(auto-fill, 20%);
+    }
+
+    @include mobile {
+      grid-template-columns: repeat(auto-fill, 100%);
+      margin: 0 5rem;
+    }
   }
 
   .article-card {
     background-color: #fff;
-    border-radius: 12px;
+    border-radius: 29px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -120,6 +140,7 @@ function goToArticle(article: IArticle) {
           font-size: 18px;
           color: $cyellow;
         }
+
         .title {
           font-size: 20px;
           color: $cdeep-blue;
@@ -128,6 +149,7 @@ function goToArticle(article: IArticle) {
           text-align: center;
           padding: 10px;
         }
+
         .slug {
           font-size: 18px;
           padding-bottom: 10px;

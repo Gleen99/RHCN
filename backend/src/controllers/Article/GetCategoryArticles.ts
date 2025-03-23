@@ -9,22 +9,30 @@ export default class GetCategoryArticles extends Controller {
 
     public async handler(req: Request, res: Response): Promise<any> {
         try {
-            const articles = await db.collection("articles").find({}, { projection: { categories: 1 } }).toArray();
+            const articles = await db
+                .collection("articles")
+                .find({}, { projection: { "fr.categories": 1, "en.categories": 1 } })
+                .toArray();
 
-            if (!articles || articles.length === 0) {
-                return res.status(404).json({ error: "No articles found." });
-            }
+            const frSet = new Set<string>();
+            const enSet = new Set<string>();
 
-            // Extraire toutes les catégories et les rendre uniques
-            const categoriesSet = new Set<string>();
-            articles.forEach(article => {
-                if (article.categories && Array.isArray(article.categories)) {
-                    article.categories.forEach(category => categoriesSet.add(category));
-                }
+            articles.forEach((article) => {
+                const frCats = article?.fr?.categories || [];
+                const enCats = article?.en?.categories || [];
+
+                frCats.forEach((cat: string) => frSet.add(cat));
+                enCats.forEach((cat: string) => enSet.add(cat));
             });
 
-            const categories = Array.from(categoriesSet);
-            return res.status(200).json({ categories });
+            return res.status(200).json({
+                categories: [
+                    {
+                        fr: Array.from(frSet),
+                        en: Array.from(enSet),
+                    },
+                ],
+            });
         } catch (error) {
             console.error("Error fetching article categories:", error);
             return res.status(500).json({ error: "Failed to retrieve article categories." });

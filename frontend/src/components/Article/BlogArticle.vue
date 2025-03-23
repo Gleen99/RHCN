@@ -1,47 +1,60 @@
 <script setup lang="ts">
-import {ref, computed, onMounted} from "vue";
-import {useApi} from "@/composition/api";
-import {useRoute} from "vue-router";
-import {IArticleDB} from "@shared/crudTypes";
+import { ref, computed, onMounted } from "vue";
+import { useApi } from "@/composition/api";
+import { useRoute } from "vue-router";
+import { useI18n } from "vue-i18n";
+import { IArticleDB } from "@shared/crudTypes";
 
-const {getArticles} = useApi();
+const { getArticles } = useApi();
 const route = useRoute();
+const { locale } = useI18n();
+
 const article = ref<IArticleDB | null>(null);
 
 const slug = computed<string>(() => route.params.articleSlug as string);
+
+// Récupère les données localisées dynamiquement
+const localized = computed(() => {
+  if (!article.value) return null;
+  return locale.value === "en" ? article.value.en : article.value.fr;
+});
+
 const parsedContent = computed(() => {
-  if (Array.isArray(article.value?.content)) {
-    return article.value.content
-        .map(block => block.text) // Prend seulement le texte HTML
-        .join(' '); // Ajoute un espace pour éviter qu'ils se collent
+  const content = localized.value?.content;
+  if (Array.isArray(content)) {
+    return content.map(block => block.text).join(" ");
   }
-  return typeof article.value?.content === "string" ? article.value.content : "";
+  return typeof content === "string" ? content : "";
 });
 
 async function loadArticle() {
   try {
     const articles = await getArticles();
-    article.value = Array.isArray(articles) ? articles.find((a) => a.slug === slug.value) || null : null;
+    article.value = Array.isArray(articles)
+        ? articles.find((a) =>
+        locale.value === "en"
+            ? a.en.slug === slug.value
+            : a.fr.slug === slug.value
+    ) || null
+        : null;
   } catch (error) {
     console.error("Erreur lors du chargement de l'article :", error);
   }
 }
 
-
 onMounted(loadArticle);
 </script>
 
 <template>
-  <div class="blog-article" v-if="article">
+  <div class="blog-article" v-if="article && localized">
     <img
         class="article-image"
         :src="article.mainPicture?.thumbnail || '/Logo.jpeg'"
-        alt="Event Image"
+        alt="Image de l'article"
     />
     <div class="blog-article-infos">
-      <div class="author">{{ article.author }}
-      </div>
-      <div class="title">{{ article.title }}</div>
+      <div class="author">{{ article.author }}</div>
+      <div class="title">{{ localized.title }}</div>
     </div>
     <div class="content">
       <div class="article-content container" v-html="parsedContent"></div>
@@ -49,7 +62,6 @@ onMounted(loadArticle);
   </div>
   <div v-else class="loading">Chargement de l'article...</div>
 </template>
-
 
 <style lang="scss">
 .blog-article {

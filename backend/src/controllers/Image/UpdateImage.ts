@@ -1,14 +1,16 @@
 import { Request, Response } from "express";
 import { AuthMode, Controller, HttpMethod } from "../../helpers/controller";
 import { db } from "../../../src/helpers/IDatabase";
+import { ObjectId } from "mongodb";
 
-export default class CreateImage extends Controller {
-    public method = HttpMethod.post;
-    public route = "/bo/image";
+export default class UpdateImage extends Controller {
+    public method = HttpMethod.put;
+    public route = "/bo/image/:id";
     private auth = AuthMode.authenticated;
 
     public async handler(req: Request, res: Response): Promise<any> {
         try {
+            const { id } = req.params;
             const {
                 fr,
                 en,
@@ -17,7 +19,10 @@ export default class CreateImage extends Controller {
                 published
             } = req.body;
 
-            // Vérification des champs requis
+            if (!ObjectId.isValid(id)) {
+                return res.status(400).json({ error: "ID invalide." });
+            }
+
             if (
                 !fr?.categories ||
                 !en?.categories ||
@@ -29,23 +34,29 @@ export default class CreateImage extends Controller {
                     error: "Champs requis manquants : fr.categories, en.categories, date, image, published"
                 });
             }
-
-            const imageData = {
+            const ListImageId = new ObjectId(id);
+            const updateData = {
                 fr,
                 en,
-                date: new Date(date),
                 mainPicture,
                 published,
-                createdAt: new Date(),
                 updatedAt: new Date(),
             };
 
-            const created = await db.collection("images").insertOne(imageData);
+            const updatedIcon = await db.collection('images').findOneAndUpdate(
+                { _id: ListImageId },
+                { $set: updateData },
+                { returnDocument: "after" }
+            );
 
-            return res.status(201).json({ _id: created.insertedId, ...imageData });
+            if (!updatedIcon?.value) {
+                return res.status(404).json({ error: "Image not found." });
+            }
+
+            return res.status(200).json(updatedIcon.value);
         } catch (error) {
-            console.error("Erreur lors de la création d'une image :", error);
-            return res.status(500).json({ error: "Échec de la création de l'image." });
+            console.error("Erreur lors de la mise à jour de l'image :", error);
+            return res.status(500).json({ error: "Échec de la mise à jour de l'image." });
         }
     }
 }

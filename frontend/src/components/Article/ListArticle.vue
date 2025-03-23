@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
+import { ref } from "vue";
 import PageTitle from "@/components/ui/PageTitle.vue";
 import ArticleCategorie from "@/components/Article/ArticleCategorie.vue";
 import AllArticles from "@/components/Article/AllArticles.vue";
 
-const {t} = useI18n();
+const { t } = useI18n();
+const selectedCategory = ref<string | null>(null);
 
+function handleCategorySelect(category: string) {
+  selectedCategory.value = category;
+}
 </script>
 
 <template>
@@ -13,14 +18,14 @@ const {t} = useI18n();
     <div class="ListarticleHeader">
       <div class="ListarticleTitle">
         <PageTitle type="underline" class="title">
-          {{ t('articles.title') }}
+          {{ t("articles.title") }}
         </PageTitle>
       </div>
       <div class="ArticleCategorie">
-        <ArticleCategorie/>
+        <ArticleCategorie @selectCategory="handleCategorySelect" />
       </div>
     </div>
-    <AllArticles/>
+    <AllArticles :selectedCategory="selectedCategory" />
   </div>
 </template>
 

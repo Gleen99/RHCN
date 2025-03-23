@@ -9,13 +9,13 @@ export default class CreatePartnerIcon extends Controller {
 
     public async handler(req: Request, res: Response): Promise<any> {
         try {
-            const { title, mainPicture } = req.body;
+            const { mainPicture } = req.body;
 
-            if (!title || !mainPicture) {
+            if ( !mainPicture) {
                 return res.status(400).json({ error: "All content are required." });
             }
 
-            const newIcon = await db.collection('PartnerIcon').insertOne({ title, mainPicture });
+            const newIcon = await db.collection('PartnerIcon').insertOne({ mainPicture });
             return res.status(201).json(newIcon);
         } catch (error) {
             return res.status(500).json({ error: "Failed to create Partner Icon." });

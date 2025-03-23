@@ -12,7 +12,7 @@ import { IEventDB } from "@shared/crudTypes";
 import PageTitle from "@/components/ui/PageTitle.vue";
 import IEyes from "@/components/images/IEyes.vue";
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const { getEvents } = useApi();
 const router = useRouter();
 
@@ -72,7 +72,7 @@ onMounted(() => {
       <div v-for="event in events" :key="event._id" class="event-card" @click="openModal(event)">
         <img :src="event.mainPicture?.thumbnail || '/Logo.jpeg'" alt="Event Image" class="event-image" />
         <div class="event-details">
-          <h2 class="event-title">{{ event.title }}</h2>
+          <h2 class="event-title">{{ locale === 'fr' ? event.fr.title : event.en.title }}</h2>
           <div class="event-info">
             <div class="event-infosContent">
               <div class="icon"><IAgenda /></div>
@@ -124,18 +124,21 @@ onMounted(() => {
   }
   .events-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, 30%);
+    justify-content: space-between;
     gap: 1.4rem;
+    @include desktopMax {
+      grid-template-columns: repeat(auto-fill, 20%);
+    }
     @include mobile {
+      grid-template-columns: repeat(auto-fill, 100%);
       margin: 0 5rem;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-
     }
   }
 
   .event-card {
     background-color: #fff;
-    border-radius: 12px;
+    border-radius: 29px;
     overflow: hidden;
     display: flex;
     flex-direction: column;

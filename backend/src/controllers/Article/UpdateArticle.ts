@@ -11,58 +11,55 @@ export default class UpdateArticle extends Controller {
     public async handler(req: Request, res: Response): Promise<any> {
         try {
             const { id } = req.params;
-            const {
-                title,
-                slug,
-                date,
-                mainPicture,
-                author,
-                categories,
-                published,
-                content,
-            } = req.body;
+            const { fr, en, author, mainPicture } = req.body;
 
             if (!ObjectId.isValid(id)) {
-                return res.status(400).json({ error: "Invalid article ID." });
+                return res.status(400).json({ error: "ID d'article invalide." });
+            }
+
+            if (
+                !fr?.title || !en?.title ||
+                !Array.isArray(fr.categories) || fr.categories.length === 0 ||
+                !Array.isArray(en.categories) || en.categories.length === 0
+            ) {
+                return res.status(400).json({
+                    error: "Les champs 'title' et 'categories' sont requis pour FR et EN.",
+                });
             }
 
             const articleId = new ObjectId(id);
 
-            // Validation des données nécessaires
-            if (!title || !slug || !categories || !Array.isArray(content) || content.length === 0) {
-                return res.status(400).json({
-                    error: "Title, slug, categories, and content (non-empty array) are required.",
-                });
-            }
+            const slug = fr.slug || en.slug || fr.title.trim().toLowerCase().replace(/\s+/g, "-");
 
-            const updateData: any = {
-                title,
-                slug,
+            const updateData = {
+                fr: {
+                    title: fr.title,
+                    categories: fr.categories,
+                    content: Array.isArray(fr.content) ? fr.content : [],
+                    slug,
+                },
+                en: {
+                    title: en.title,
+                    categories: en.categories,
+                    content: Array.isArray(en.content) ? en.content : [],
+                    slug,
+                },
+                author: author || "RHCN",
                 mainPicture: mainPicture || null,
-                author: author || "Unknown",
-                categories: Array.isArray(categories) ? categories : [categories],
-                published: !!published,
-                content,
+                updatedAt: new Date(), // champ de mise à jour optionnel
             };
 
-            if (date) {
-                updateData.date = new Date(date);
-            }
-
-            const updatedArticle = await db.collection("articles").findOneAndUpdate(
+            const result = await db.collection("articles").findOneAndUpdate(
                 { _id: articleId },
                 { $set: updateData },
                 { returnDocument: "after" }
             );
 
-            if (!updatedArticle) {
-                return res.status(404).json({ error: "Article not found." });
-            }
+            return res.status(200).json(result?.value);
 
-            return res.status(200).json(updatedArticle.value);
         } catch (error) {
-            console.error("Error updating article:", error);
-            return res.status(500).json({ error: "Failed to update article." });
+            console.error("Erreur lors de la mise à jour de l'article :", error);
+            return res.status(500).json({ error: "Erreur serveur lors de la mise à jour de l'article." });
         }
     }
 }

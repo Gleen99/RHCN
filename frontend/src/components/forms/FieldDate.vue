@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // props
-import { computed, ref } from "vue";
+import {computed, ref, watch} from "vue";
 import moment from "moment-timezone";
 import Datepicker from "vue3-datepicker";
 import FieldLayout from "@/components/forms/FieldLayout.vue";
@@ -31,13 +31,15 @@ const datepickerRef = ref<any>(null); // Reference for the Datepicker component
 
 const value = computed<Date | undefined>({
   get(): Date | undefined {
-    return props.modelValue ? moment(props.modelValue).toDate() : undefined;
+    if (!props.modelValue) return undefined;
+    const parsed = new Date(Number(props.modelValue));
+
+    return isNaN(parsed.getTime()) ? undefined : parsed;
   },
   set(newValue: Date | undefined) {
     emit("update:modelValue", newValue ? newValue.valueOf() : null);
   },
 });
-
 // Limits
 const min = computed<Date | undefined>(() =>
     props.min ? moment(props.min).toDate() : undefined
@@ -47,15 +49,19 @@ const max = computed<Date | undefined>(() =>
 );
 
 const inputFormat = computed<string>(() => props.format || "dd/MM/yyyy");
-
 // Method to show Datepicker
 const showCalendar = () => {
-  datepickerRef.value?.showCalendar();
+  const input = datepickerRef.value?.$el?.querySelector("input");
+  if (input) {
+    input.focus(); // 💥 déclenche l’ouverture du calendrier
+  }
 };
+
 </script>
 
 
 <template>
+
   <field-layout
       :class="'FieldDate' + (nullable ? ' with-null':'')"
       :name="props.name"
@@ -74,8 +80,8 @@ const showCalendar = () => {
           :placeholder="props.placeholder || 'JJ/DD/AAAA'"
           :upper-limit="max"
           :lower-limit="min"
+          @mousedown.prevent="showCalendar"
       />
-
 
       <IAgenda
           class="calendar-icon"
@@ -96,7 +102,9 @@ const showCalendar = () => {
 		--elem-hover-color: $cwhite;
 		--elem-selected-bg-color: $cmainColor;
     }
-
+  span{
+    color: var(--color-text) !important;
+  }
     .v3dp__popout {
         width: calc(100% - 46px) !important;
         left: 23px;

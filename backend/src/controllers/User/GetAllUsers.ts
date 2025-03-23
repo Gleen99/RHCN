@@ -9,15 +9,17 @@ export default class GetAllUsers extends Controller {
 
     public async handler(req: Request, res: Response): Promise<any> {
         try {
-            const users = await db.collection('user')
-                .find({},
-                    { projection: { password: 0, refreshToken: 0 } })
+            const users = await db.collection("user")
+                .find(
+                    { status: "accepted" },
+                    { projection: { password: 0, refreshToken: 0 } }
+                )
                 .toArray();
 
             if (users.length === 0) {
                 return res.status(404).json({
                     success: false,
-                    message: "Aucun utilisateur trouvé",
+                    message: "Aucun utilisateur accepté trouvé",
                 });
             }
 

@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import { Routes } from "@/enums";
 import { useAuthStore } from "@/composition/authStore";
+import router from "@/router";
 
 // Récupérer le store d'authentification
 const authStore = useAuthStore();
@@ -16,7 +17,6 @@ const sidebarLinks = computed(() => {
     { name: Routes.faq, label: "FAQ", roles: ["admin", "editor", "contributor"] },
     { name: Routes.members, label: "Members", roles: ["admin"] },
     { name: Routes.articles, label: "Articles", roles: ["admin", "editor", "contributor"] },
-    { name: Routes.category, label: "Catégories", roles: ["admin", "editor"] },
     { name: Routes.images, label: "Images", roles: ["admin", "editor"] },
     { name: Routes.eventsdashboard, label: "Évènements", roles: ["admin", "editor"] },
     { name: Routes.partenairesIcons, label: "Partenaires-Icons", roles: ["admin", "editor"] },
@@ -25,12 +25,21 @@ const sidebarLinks = computed(() => {
   // Filtrer les liens en fonction du rôle de l'utilisateur
   return links.filter(link => link.roles.includes(userRole.value));
 });
+const today = new Date().toLocaleDateString("fr-FR", {
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
+function goHome() {
+  router.push("/");
+}
 </script>
 
 <template>
   <div class="dashboardLayout">
     <div class="sidebar">
-
       <div class="sidebar-link-content">
         <div class="header__logo">
           <img src="../../../assets/Footer.png" class="Logoimg"/>
@@ -45,8 +54,14 @@ const sidebarLinks = computed(() => {
         </router-link>
       </div>
     </div>
-
     <div class="main-content">
+      <div class="header">
+        <h1 class="dashboard-title">Dashboard de RHCN</h1>
+        <div class="dashboard-header">
+          <div @click="goHome">🌐 Allez sur le Site web</div>
+          <span class="date">{{ today }}</span>
+        </div>
+      </div>
       <router-view />
     </div>
   </div>
@@ -88,8 +103,36 @@ const sidebarLinks = computed(() => {
     color: #f1c40f;
     transition: all 0.3s ease;
   }
-}
 
+  .link:focus {
+    background-color: #34495e;
+    padding-left: 10px;
+    border-radius: 4px;
+    color: #f1c40f;
+    transition: all 0.3s ease;
+  }
+}
+.header {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  button {
+    margin-right: 20px;
+    padding: 10px 15px;
+    cursor: pointer;
+  }
+
+  .date {
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  .dashboard-header{
+    display: flex;
+    gap:23px
+  }
+}
 .main-content {
   flex: 1;
   background-color: #ecf0f1;
