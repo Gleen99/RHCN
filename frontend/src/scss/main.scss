@@ -4,6 +4,7 @@
 @import "fonts";
 @import "variables";
 @import "mixins";
+@import 'pdf-styles';
 
 :root {
     --safeAreaInsetTop: env(safe-area-inset-top);

@@ -5,7 +5,6 @@ import {ref} from "vue";
 import {useI18n} from "vue-i18n";
 import PartnerInfos from "@/components/Partners/PartnerInfos.vue";
 import MemeberInfos from "@/components/Partners/MemeberInfos.vue";
-import ListEvents from "@/components/ListEvents/ListEvents.vue";
 import Donate from "@/components/Donate/Donate.vue";
 import EmailingFront from "@/components/EmailingFront/EmailingFront.vue";
 import { onMounted } from "vue";

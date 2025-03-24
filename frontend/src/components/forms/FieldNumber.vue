@@ -41,17 +41,10 @@ const thePlaceholder = computed<string | undefined>(() => {
 
 const isValid = ref(true);
 
-// Validate the phone number format for Canada
-const validateNumber = () => {
-  const canadianPhoneRegex = /^\+1\s\d{3}\s\d{3}\s\d{4}$/; // Format: +1 123 456 7890
-  isValid.value = canadianPhoneRegex.test(value.value);
-};
-
 // Only allow numeric input
 const handleInput = (event: Event) => {
   const input = event.target as HTMLInputElement;
   input.value = input.value.replace(/[^0-9\s+]/g, "");
-  validateNumber();
   emit("update:modelValue", input.value);
 };
 

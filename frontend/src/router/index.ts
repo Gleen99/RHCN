@@ -34,6 +34,7 @@ import Blog from "@/components/Article/Blog.vue";
 
 import NotFoundPage from "@/components/NotFoundPage.vue";
 import ChangeProfile from "@/views/PrivateApp/Login/ChangeProfile.vue";
+import MemberList from "@/components/PrivateApp/Dashboard/MembersPartners/MemberList.vue";
 
 const routes: Array<RouteRecordRaw> = [
   // Pages publiques
@@ -183,6 +184,11 @@ const routes: Array<RouteRecordRaw> = [
             name: Routes.profil,
             component: Dashboard,
             meta: { requiresAuth: true, roles: ["admin", "editor", "contributor"] },
+          },          {
+            path: "member-List",
+            name: Routes.membersPartners,
+            component: MemberList,
+            meta: { requiresAuth: true, roles: ["admin"] },
           },
           {
             path: "articles",

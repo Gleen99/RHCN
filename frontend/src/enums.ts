@@ -36,6 +36,8 @@ export enum Routes {
     partenairesIcons = "partenairesIcons",
     blog = "blog",
     articleHome ="articleHome",
+    membersPartners = "membersPartners",
+    becomePartners= "becomePartners",
 }
 
 export enum AnalyticsType {

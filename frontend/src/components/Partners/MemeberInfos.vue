@@ -44,12 +44,21 @@ const submitMember = async () => {
     const response = await PostMembersPartners(member.value);
     if (response) {
       notificationMessage.value = t("partners.membersInfos.successMessage");
+      globalErrorMessage.value = "";
     } else {
       globalErrorMessage.value = t("partners.membersInfos.errorMessage");
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error("Erreur lors de l'envoi des données :", error);
-    globalErrorMessage.value = t("partners.membersInfos.errorMessage");
+
+    // 🔥 On récupère le message renvoyé par le back s'il existe
+    if (error.response?.data?.message) {
+      globalErrorMessage.value = error.response.data.message;
+    } else {
+      globalErrorMessage.value = t("partners.membersInfos.errorMessage");
+    }
+
+    notificationMessage.value = "";
   }
 };
 </script>

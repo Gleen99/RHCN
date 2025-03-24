@@ -106,8 +106,7 @@ export type UseApiResult = {
 
     // MembersPartners
     PostMembersPartners: (data: any) => Promise<IMembersPartnerDB>
-    GetMembersPartners: () => Promise<IMembersPartnerDB>
-
+    GetMembersPartners: (search: any) => Promise<{ success: boolean; data: IMembersPartnerDB[] }>
     // MembersPartners
     PostBecomePartners: (data: any) => Promise<IMembersPartnerDB>
     GetBecomePartners: () => Promise<IMembersPartnerDB>
@@ -585,11 +584,12 @@ async function PostBecomePartners(data: any): Promise<IMembersPartnerDB> {
 }
 // -----------------------------------------------------------------------------------
 //MembersPartner
-async function GetMembersPartners(): Promise<IMembersPartnerDB> {
-    const response = await axios.get(buildUrl("/member-partners"));
+async function GetMembersPartners(search: any): Promise<{ success: boolean; data: IMembersPartnerDB[] }> {
+    const response = await axios.get(buildUrl("/member-partners"), {
+        params: search ? { search } : {}
+    });
     return response.data;
 }
-
 async function PostMembersPartners(data: any): Promise<IMembersPartnerDB> {
     const response = await axios.post(buildUrl(`/member-partners`), data);
     return response.data;

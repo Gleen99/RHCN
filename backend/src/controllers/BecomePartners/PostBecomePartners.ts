@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { defaultSender, sendNotificationEmail } from "../../services/mailjet";
-import { Controller, HttpMethod } from "../../helpers/controller";
+import {AuthMode, Controller, HttpMethod} from "../../helpers/controller";
 import { db } from "../../helpers/IDatabase";
 import { ObjectId } from "mongodb";
 
@@ -8,6 +8,7 @@ import { ObjectId } from "mongodb";
 export default class PostBecomePartners extends Controller {
     public method = HttpMethod.post;
     public route = "/partners";
+    private auth = AuthMode.authenticated;
 
     public async handler(req: Request, res: Response): Promise<any> {
         try {
