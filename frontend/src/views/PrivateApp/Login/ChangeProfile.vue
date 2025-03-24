@@ -138,7 +138,7 @@ const handleSubmit = async () => {
   max-width: 420px;
   width: 100%;
   padding: 2rem;
-  background: white;
+  background: #F7F7F7;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   text-align: center;
