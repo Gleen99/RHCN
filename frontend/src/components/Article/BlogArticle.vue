@@ -104,6 +104,9 @@ onMounted(loadArticle);
     column-gap: 100px;
     column-fill: balance;
     color: $cdark-blue-gray;
+    @include mobile {
+      column-count: 1;
+    }
 
     img {
       display: block;
