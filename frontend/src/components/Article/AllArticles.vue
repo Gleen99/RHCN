@@ -91,6 +91,10 @@ function goToArticle(article: IArticleDB) {
     margin: -16rem 10rem 0 10rem;
   }
 
+  @include mobile {
+    margin: -16rem 2rem 0 2rem;
+  }
+
   .articles-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, 30%);
