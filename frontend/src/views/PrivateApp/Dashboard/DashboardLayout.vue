@@ -13,7 +13,8 @@ const sidebarLinks = computed(() => {
   const links = [
     { name: Routes.profil, label: "Accueil", roles: ["admin", "editor", "contributor"] },
     { name: Routes.membersPartners, label: "Confirmation formulaire membre ", roles: ["admin"] },
-    // { name: Routes.becomePartners, label: "Confirmation formulaire partenaires ", roles: ["admin"] },
+    { name: Routes.becomePartners, label: "Confirmation formulaire partenaires ", roles: ["admin"] },
+    { name: Routes.contactList, label: "Formulaire de contact", roles: ["admin"] },
     { name: Routes.collaborateurs, label: "Collaborateurs", roles: ["admin"] },
     { name: Routes.invitation, label: "Invitation", roles: ["admin"] },
     { name: Routes.faq, label: "FAQ", roles: ["admin", "editor", "contributor"] },

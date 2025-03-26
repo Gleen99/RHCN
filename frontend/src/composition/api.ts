@@ -16,13 +16,14 @@ import {
     IMemberDB,
     IMembersPartnerDB, IPartnerIcon, IPartnerIconDB,
     IUserDB,
-    IDonateUserDB, ICategoryResponse
+    IDonateUserDB, ICategoryResponse, IContactDB, IBecomePartnerDB,
 } from "@shared/crudTypes";
 import {PaymentData} from "@shared/baseTypes";
 export type UseApiResult = {
 
     // --- newsletter
     addUserToNewsletter: (email: string) => Promise<boolean>
+    unsubscribeNewsletter: (email: string) => Promise<boolean>
     // --- user
     loadUserByToken: () => Promise<IUserDB>
     updateCurrentUser: (data: any) => Promise<IUserDB>
@@ -33,6 +34,8 @@ export type UseApiResult = {
     BoAuth: (data: any) => Promise<IBouserDB>
     // site
     sendContactMessage: (data: any) => Promise<boolean>
+    GetContactMessages: (search: any) => Promise<{ success: boolean; data: IContactDB[] }>
+
     //UserBO
     CreateUser: (data: any) => Promise<IUserDB>
     DeleteUser: (userId: ObjectId) => Promise<IUserDB>
@@ -50,8 +53,6 @@ export type UseApiResult = {
     deleteInvitation: (invitationId: objectId) => Promise<IInvitationDB>
     acceptInvitation: (data: any) => Promise<IInvitationDB>
     editInvitation: (data: Partial<IInvitationDB>, userId: ObjectId) => Promise<IInvitationDB>
-
-
 
     //FAQ
 
@@ -108,8 +109,8 @@ export type UseApiResult = {
     PostMembersPartners: (data: any) => Promise<IMembersPartnerDB>
     GetMembersPartners: (search: any) => Promise<{ success: boolean; data: IMembersPartnerDB[] }>
     // MembersPartners
-    PostBecomePartners: (data: any) => Promise<IMembersPartnerDB>
-    GetBecomePartners: () => Promise<IMembersPartnerDB>
+    PostBecomePartners: (data: any) => Promise<IBecomePartnerDB>
+    GetBecomePartners: (search: any) => Promise<{ success: boolean; data: IBecomePartnerDB[] }>
 
     // --- analytics
     sendAnalytics: (data: AnalyticsData) => Promise<void>
@@ -141,6 +142,7 @@ export function useApi(): UseApiResult {
     return {
         // --- newsletter
         addUserToNewsletter,
+        unsubscribeNewsletter,
         // --- user
         loadUserByToken,
         updateCurrentUser,
@@ -152,6 +154,7 @@ export function useApi(): UseApiResult {
 
         //site
         sendContactMessage,
+        GetContactMessages,
 
         //User
         CreateUser,
@@ -253,7 +256,10 @@ async function addUserToNewsletter(email: string): Promise<boolean> {
     const result = await axios.post(buildUrl("/newsletter"), {email});
     return result.data.success;
 }
-
+async function unsubscribeNewsletter(email: string): Promise<boolean> {
+    const result = await axios.get(buildUrl(`/newsletter/unsubscribe?email=${encodeURIComponent(email)}`));
+    return result.data.success;
+}
 // -----------------------------------------------------------------------------------
 // USER
 
@@ -310,6 +316,13 @@ async function sendContactMessage(data: any): Promise<boolean> {
         throw err.response.data;
     }
 }
+async function GetContactMessages(search: any): Promise<{ success: boolean; data: IContactDB[] }> {
+    const response = await axios.get(buildUrl("/contact"), {
+        params: search ? { search } : {}
+    });
+    return response.data;
+}
+
 
 // -----------------------------------------------------------------------------------
 //User
@@ -573,12 +586,14 @@ async function DeletePartnerIcon(PartnerIconId: ObjectId): Promise<IPartnerIconD
 
 // -----------------------------------------------------------------------------------
 //BecomeAPartner
-async function GetBecomePartners(): Promise<IMembersPartnerDB> {
-    const response = await axios.get(buildUrl("/partners"));
+async function GetBecomePartners(search: any) : Promise<{ success: boolean; data: IBecomePartnerDB[] }>  {
+    const response = await axios.get(buildUrl("/partners"), {
+        params: search ? { search } : {}
+    });
     return response.data;
 }
 
-async function PostBecomePartners(data: any): Promise<IMembersPartnerDB> {
+async function PostBecomePartners(data: any): Promise<IBecomePartnerDB> {
     const response = await axios.post(buildUrl(`/partners`), data);
     return response.data;
 }
@@ -590,6 +605,7 @@ async function GetMembersPartners(search: any): Promise<{ success: boolean; data
     });
     return response.data;
 }
+
 async function PostMembersPartners(data: any): Promise<IMembersPartnerDB> {
     const response = await axios.post(buildUrl(`/member-partners`), data);
     return response.data;

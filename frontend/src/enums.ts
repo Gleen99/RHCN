@@ -37,7 +37,9 @@ export enum Routes {
     blog = "blog",
     articleHome ="articleHome",
     membersPartners = "membersPartners",
+    contactList = "contactList",
     becomePartners= "becomePartners",
+    unsubscribe = "unsubscribe",
 }
 
 export enum AnalyticsType {

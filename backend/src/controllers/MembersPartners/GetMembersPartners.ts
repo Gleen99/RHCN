@@ -11,22 +11,21 @@ export default class GetMembersPartners extends Controller {
         try {
             const { search = "" } = req.query;
 
-            // Construction du filtre de recherche
             const filter: any = {};
             if (search) {
-                const searchRegex = new RegExp(search as string, "i");
+                const searchRegex = new RegExp(search as string, "i")
                 filter.$or = [
-                    { firstName: searchRegex },
-                    { lastName: searchRegex },
                     { email: searchRegex },
-                    { phone: searchRegex },
-                ];
+                    { name: searchRegex },
+                    { message: searchRegex },
+                    { number: searchRegex }
+                ]
             }
 
             // Récupération de tous les membres (filtrés si nécessaire)
             const members = await db.collection("members_partners")
                 .find(filter)
-                .sort({ createdAt: -1 }) // Tri du plus récent au plus ancien
+                .sort({ createdAt: -1 })
                 .toArray();
 
             return res.status(200).json({

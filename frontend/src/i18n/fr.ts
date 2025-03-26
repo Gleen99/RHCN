@@ -260,6 +260,10 @@ export const fr = {
 			details: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla qu\n",
 			seeMore: "Plus d'infos",
 			Forms: {
+				email:{
+					placeholder: "E-mail",
+					label:"Veuillez renseigner votre e-mail",
+				},
 				name:{
 					label: "Quel est le nom de votre association ou organisation?",
 					placeholder: "Antoine"

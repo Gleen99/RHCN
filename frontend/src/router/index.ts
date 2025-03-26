@@ -32,9 +32,12 @@ import PartenairesIcons from "@/components/PrivateApp/Dashboard/Partenaires Icon
 import BlogArticle from "@/components/Article/BlogArticle.vue";
 import Blog from "@/components/Article/Blog.vue";
 
-import NotFoundPage from "@/components/NotFoundPage.vue";
+import NotFoundPage from "@/views/NotFoundPage.vue";
 import ChangeProfile from "@/views/PrivateApp/Login/ChangeProfile.vue";
 import MemberList from "@/components/PrivateApp/Dashboard/MembersPartners/MemberList.vue";
+import ContactList from "@/components/PrivateApp/Dashboard/Contact/ContactList.vue";
+import PartnersList from "@/components/PrivateApp/Dashboard/BecomePartners/PartnersList.vue";
+import Unsubscribe from "@/components/EmailingFront/unsubscribe.vue";
 
 const routes: Array<RouteRecordRaw> = [
   // Pages publiques
@@ -92,6 +95,12 @@ const routes: Array<RouteRecordRaw> = [
     name: Routes.contact,
     component: Contact,
     meta: { requiresAuth: false },
+  },
+  {
+    path: "/unsubscribe",
+    name: Routes.unsubscribe,
+    component: Unsubscribe,
+    meta: { requiresAuth: false }
   },
   {
     path: "/cookies",
@@ -184,10 +193,23 @@ const routes: Array<RouteRecordRaw> = [
             name: Routes.profil,
             component: Dashboard,
             meta: { requiresAuth: true, roles: ["admin", "editor", "contributor"] },
-          },          {
+          },
+          {
             path: "member-List",
             name: Routes.membersPartners,
             component: MemberList,
+            meta: { requiresAuth: true, roles: ["admin"] },
+          },
+          {
+            path: "partner-List",
+            name: Routes.becomePartners,
+            component: PartnersList,
+            meta: { requiresAuth: true, roles: ["admin"] },
+          },
+          {
+            path: "contact-List",
+            name: Routes.contactList,
+            component: ContactList,
             meta: { requiresAuth: true, roles: ["admin"] },
           },
           {

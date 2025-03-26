@@ -17,6 +17,7 @@ const { t } = useI18n();
 const { PostBecomePartners } = useApi();
 
 const partner = ref<IBecomePartner>({
+  email: "",
   name: "",
   reference: "",
   typeOfPartnership: "",
@@ -90,6 +91,14 @@ const handleFileUpload = (fileData: loader, uploaderName: string) => {
       </div>
       <FormPlus @submit.prevent="submitForm" error-prefix="contact" class="FormPlus">
         <div class="FormPlus__form">
+          <FieldInput
+              class="input-style"
+              name="email"
+              :label="t('partners.partnersInfos.Forms.email.label')"
+              v-model="partner.email"
+              :placeholder="t('partners.partnersInfos.Forms.email.placeholder')"
+              mandatory
+          />
           <FieldInput class="input-style" name="name" :label="t('partners.partnersInfos.Forms.name.label')"
                       v-model="partner.name" :placeholder="t('partners.partnersInfos.Forms.name.placeholder')" mandatory />
           <FieldSelect class="select-style" name="reference" :options="referenceOptions" v-model="partner.reference"

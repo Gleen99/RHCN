@@ -227,6 +227,7 @@ export interface loader {
 }
 
 export interface IBecomePartner {
+	email: string,
 	name: string,
 	reference: string,
 	typeOfPartnership: string,
