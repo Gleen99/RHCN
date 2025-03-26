@@ -91,6 +91,9 @@ onMounted(loadArticle);
       text-align: center;
       padding: 10px;
       width: 30%;
+      @include mobile {
+        width: 100%;
+      }
 
     }
   }
@@ -105,6 +108,7 @@ onMounted(loadArticle);
     column-fill: balance;
     color: $cdark-blue-gray;
     @include mobile {
+      padding-top: 30px;
       column-count: 1;
     }
 
