@@ -31,6 +31,9 @@ function goToPartner() {
 function goToMember() {
   router.push({ name: Routes.partners, query: { info: "membersInfos" } });
 }
+function goToprivacyPolicy() {
+  router.push({ name: Routes.privacyPolicy });
+}
 const socialNetworks = [
   {key: "facebook", url: t('footer.socialNetwork.facebook'), component: IFacebookYellow},
   {key: "twitter", url: t('footer.socialNetwork.twitter'), component: IXYellow},
@@ -59,7 +62,7 @@ const socialNetworks = [
 		<div class="section rs">
       <div class="infosPrivacyPolic">{{t('footer.LegalMentions')}}</div>
       <div class="infosPrivacyPolic">{{t('footer.CGV')}}</div>
-      <div class="infosPrivacyPolic">{{t('footer.PrivacyPolic')}}</div>
+      <div class="infosPrivacyPolic" @click="goToprivacyPolicy()">{{t('footer.privacyPolicy.title')}}</div>
 		</div>
     <div class="footer-buttons-infos">
       <MainButton type="standard" class="buttons-footer"  @click="openModal()">
@@ -127,6 +130,9 @@ const socialNetworks = [
     gap: 23px;
     font-family: $Arial;
     font-size: 24px;
+    .infosPrivacyPolic{
+      cursor: pointer;
+    }
   }
 
   .footer-buttons-infos {

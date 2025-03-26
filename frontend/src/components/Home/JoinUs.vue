@@ -13,7 +13,7 @@ const {t} = useI18n()
    <div class="join-us-BG">
      <div class="join-us-wrapper">
        <PageTitle type="underline" class="title">
-         {{ t('aboutUs.title') }}
+         {{ t('joinUs.title') }}
        </PageTitle>
      </div>
    </div>

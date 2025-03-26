@@ -38,6 +38,7 @@ import MemberList from "@/components/PrivateApp/Dashboard/MembersPartners/Member
 import ContactList from "@/components/PrivateApp/Dashboard/Contact/ContactList.vue";
 import PartnersList from "@/components/PrivateApp/Dashboard/BecomePartners/PartnersList.vue";
 import Unsubscribe from "@/components/EmailingFront/unsubscribe.vue";
+import PrivacyPolicy from "@/views/Privacy-policy.vue";
 
 const routes: Array<RouteRecordRaw> = [
   // Pages publiques
@@ -103,9 +104,9 @@ const routes: Array<RouteRecordRaw> = [
     meta: { requiresAuth: false }
   },
   {
-    path: "/cookies",
-    name: Routes.cookies,
-    component: LegalsPage,
+    path: "/privacyPolicy",
+    name: Routes.privacyPolicy,
+    component: PrivacyPolicy,
     meta: { requiresAuth: false },
   },
 

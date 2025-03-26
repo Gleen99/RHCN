@@ -303,8 +303,6 @@ const handlePayment = async () => {
       gap: 10px;
 
       .form-row {
-        display: flex;
-        gap: 30px;
 
         @include mobile {
           flex-direction: column;
@@ -326,9 +324,8 @@ const handlePayment = async () => {
 }
 
 .MainButton {
-  margin: 13px auto 0 auto;
+  margin: 0 auto;
   display: flex;
-  align-items: center;
   justify-content: center;
   width: fit-content;
 

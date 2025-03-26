@@ -19,7 +19,8 @@ function goToHome() {
       <h1>404</h1>
       <p>{{ t('notFound') }}</p>
       <MainButton type="dimmed" @click="goToHome()">
-        Retour à l'accueil
+        {{ t('global.buttons.returnHome') }}
+
       </MainButton>
     </div>
   </div>

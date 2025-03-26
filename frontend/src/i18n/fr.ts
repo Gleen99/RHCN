@@ -16,7 +16,8 @@ export const fr = {
 			cancel: "Annuler",
 			confirm: "Confirmer",
 			email: "Votre E-mail",
-			register: "Je m'inscris"
+			register: "Je m'inscris",
+			returnHome: "Retour à l'accueil"
 
 		}
 	},
@@ -66,14 +67,25 @@ export const fr = {
 	footer: {
 		socialNetwork: {
 			title: "Nous suivre",
-			instagram: "",
-			facebook: "",
-			twitter: "",
+			instagram: "https://www.instagram.com/rhcn1804?igsh=aXhjeGJxYnAzYmV",
+			facebook: "https://www.instagram.com/rhcn1804?igsh=aXhjeGJxYnAzYmV",
+			twitter: "https://www.linkedin.com/company/regroupement-des-ha%C3%AFtiens-de-la-capitale-nationale-rhcn/",
 		},
 		contact: "Nous contacter",
 		LegalMentions: "Mentions légales",
 		CGV: "CGV",
-		PrivacyPolic:"Politique de confidentialités",
+		privacyPolicy: {
+			title: "Politique de confidentialités",
+			content: "Le RHCN est soucieux de protéger tous les renseignements personnels collectés dans le cadre de ses services d’intervention auprès des personnes nous contactant. En communiquant avec nous, vous consentez à ce que les informations obtenues soient notées dans nos bases de données, nous permettant ainsi de mieux vous accompagner. Dès qu’une communication est effectuée avec le RHCN, des informations peuvent être recueillies, selon leur pertinence et leur nécessité.\n" +
+				"Toute personne œuvrant chez le RHCN s’engage à respecter notre politique concernant la confidentialité, notamment en assurant la confidentialité des renseignements obtenus de quelque manière que ce soit (verbal ou écrit) et de détruire l’information lorsqu’ils ne sont plus nécessaires ou qu’un délai de cinq (5) ans s’est écoulés. En cas de bris ou d’incident concernant la confidentialité, le RHCN s’engage à ce que le ou la responsable de la politique entre en contact avec les personnes concernées afin de les en aviser.\n" +
+				"Tous les renseignements qui sont recueillis par le RHCN sont pour une durée maximale de cinq (5) ans après la dernière interaction avec l’organisme. Ces informations seront anonymisées et utilisées à des fins statistiques uniquement. Si des données ont à être nominalisées, l’accord des personnes concernées sera demandé. Si vous désirez que vos informations soient détruites, rectifiées ou modifiées, merci de communiquer avec la personne responsable de votre dossier ou la ou les personnes responsables de la confidentialité des informations.\n" +
+				"Notre site web peut contenir certains liens vers d’autres sites web ou ressources Internet, notamment (mais sans s’y limiter) vers ceux qui appartiennent à nos commanditaires, partenaires ou collaborateurs. Quand vous cliquez sur l’un de ces liens, vous entrez en contact avec un autre site Web ou une autre ressource Internet qui peuvent recueillir des renseignements à votre sujet de façon volontaire ou par l’intermédiaire de témoins ou autres technologies. Nous ne sommes pas responsables des pratiques de protection de la vie privée ou du contenu de tout site dont le propriétaire-exploitant est une tierce partie. Ces autres\n" +
+				"\n" +
+				"sites pouvant recueillir et traiter les renseignements recueillis différemment, nous vous encourageons à passer en revue et lire attentivement la politique sur la protection des renseignements personnels de chaque site que vous visitez.\n" +
+				"En utilisant notre site web, vous consentez au traitement des données recueillies à votre sujet, selon la manière décrite et aux fins susmentionnées.\n" +
+				"Le consentement pour la collecte et la conservation des données peut être retiré en tout temps en contactant directement l’association. En outre, nous utilisons des témoins pour effectuer des évaluations de fréquence, d’utilisation de pages particulières et de marketing. En ce qui a trait aux évaluations susmentionnées, nous utilisons l’information enregistrée à l’aide des témoins sans qu’il y ait un lien avec vos renseignements personnels, ce qui rend le tout entièrement anonyme.\n" +
+				"Vous pouvez configurer votre navigateur Internet de sorte que vous puissiez recevoir des avis lorsque des témoins s’inscrivent, vous pouvez décider dans chaque cas si vous souhaitez accepter les témoins, ou vous pouvez refuser d’accepter tous les témoins. Toutefois, si vous refusez les témoins, vous pouvez limiter la façon dont vous pourrez utiliser notre Site. Vous pouvez supprimer les témoins qui sont déjà enregistrés sur votre disque dur en tout temps. Les détails sur la façon de procéder se trouvent dans le guide d’utilisateur de votre programme de navigateur Internet."
+		},
 	},
 	contact:{
 		title: "Contactez-nous",
@@ -358,6 +370,7 @@ export const fr = {
 		links3:"Devenir membre"
 	},
 	joinUs:{
+		title: "Nous rejoindre",
 		member:{
 			title:"Devenir membre",
 			description: "Maecenas vel lorem imperdiet, scelerisque ipsum quis, tincidunt arcu. Vestibulum ut eros ut sem tincidunt finibus. t augue iaculis vitae nullam a bibendum elit.",
