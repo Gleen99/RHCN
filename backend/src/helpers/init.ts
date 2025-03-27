@@ -42,8 +42,6 @@ export const connectToDatabase = async (): Promise<void> => {
             connectionString = `${host}${dbName}`;
         }
 
-        console.log('📡 Connexion MongoDB à :', connectionString);
-
         await mongoose.connect(connectionString, {
             ...mongoOptions,
             dbName,
@@ -51,7 +49,6 @@ export const connectToDatabase = async (): Promise<void> => {
             useUnifiedTopology: true,
         });
 
-        console.log('✅ Connexion MongoDB réussie.');
     } catch (err) {
         console.error('❌ Échec connexion MongoDB :', err);
         throw err;
