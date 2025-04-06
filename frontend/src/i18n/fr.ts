@@ -223,7 +223,11 @@ export const fr = {
 				placeholder: "Pays"
 			},
 			domain:{
-				label: "Domaine souhaité pour diriger mon don"
+				label: "Domaine souhaité pour diriger mon don",
+				field1: "Initiatives sociales",
+				field2: "Éducation",
+				field3: "Droits humains",
+				field4: "ICulture",
 			},
 
 		}

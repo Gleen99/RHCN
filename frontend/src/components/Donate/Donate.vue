@@ -7,14 +7,15 @@ import ModalDonate from "@/components/Donate/ModalDonate.vue";
 
 
 const { t } = useI18n();
-const isModalVisible = ref(false);
 
-const openModal = () => {
-  isModalVisible.value = true;
-};
+
+
 const showDonateModal = ref(false);
 const showSuccessModal = ref(false);
 
+const openModal = () => {
+  showDonateModal.value = true;
+};
 
 const handlePaymentSuccess = () => {
   showDonateModal.value = false; // Ferme le modal de don

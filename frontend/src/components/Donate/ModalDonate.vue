@@ -42,9 +42,10 @@ const contact = ref({
 });
 // Liste des options pour le champ "Domaine"
 const domaineOptions = ref([
-  { label: t('user.fields.domain.education'), value: 'education' },
-  { label: t('user.fields.domain.sport'), value: 'sport' },
-  { label: t('user.fields.domain.science'), value: 'science' }
+  { label: t('user.fields.domain.field2'), value: 'Initiatives sociales' },
+  { label: t('user.fields.domain.field2'), value: 'Éducation' },
+  { label: t('user.fields.domain.field3'), value: 'Droits humains' },
+  { label: t('user.fields.domain.field4'), value: 'ICulture' },
 ]);
 // Montant du don
 const amount = ref<number | null>(null);
