@@ -373,12 +373,16 @@ export const fr = {
 		title: "Nous rejoindre",
 		member:{
 			title:"Devenir membre",
-			description: "Maecenas vel lorem imperdiet, scelerisque ipsum quis, tincidunt arcu. Vestibulum ut eros ut sem tincidunt finibus. t augue iaculis vitae nullam a bibendum elit.",
+			description: "En devenant membre du Regroupement, vous rejoignez non seulement une communauté mais aussi toute une famille où l’entraide et le support mutuel sont notre seconde nature.\n" +
+				"Faites le grand saut dès maintenant!",
 			bottom:"Devenir membre",
 		},
 		partner:{
 			title:"Devenir partenaire",
-			description:"Maecenas vel lorem imperdiet, scelerisque ipsum quis, tincidunt arcu. Vestibulum ut eros ut sem tincidunt finibus. t augue iaculis vitae nullam a bibendum elit.",
+			description:
+				"Vous pouvez nous faire une demande formelle afin de collaborer sur certains de nos projets qui vous intéressent ou bien nous proposer de travailler avec vous sur les vôtres."
+			,
+			description2:"Ensemble, nous déterminerons quels seront les apports de chaque côté et travaillerons main dans la main à atteindre nos buts visés !",
 			bottom:"Devenir partenaire",
 		}
 	},

@@ -44,6 +44,9 @@ function goToMember() {
             </PageTitle>
             <div class="join-us-content-content">
               {{ t('joinUs.partner.description') }}
+<!--              <br>-->
+<!--              <br>-->
+<!--              {{ t('joinUs.partner.description2') }}-->
             </div>
           </div>
           <div class="join-us-content-image">
@@ -87,6 +90,7 @@ function goToMember() {
       padding: 34px;
       height: fit-content;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      flex:1;
 
       @include mobile {
         margin-bottom: 23px;
