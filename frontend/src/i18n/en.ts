@@ -220,7 +220,11 @@ export const en = {
 				placeholder: "Country"
 			},
 			domain:{
-				label: "Domain to Direct My Donation"
+				label: "Domain to Direct My Donation",
+				field1: "Social initiatives",
+				field2: "Education",
+				field3: "Human rights",
+				field4: "Culture",
 			},
 		}
 	},
@@ -265,6 +269,9 @@ export const en = {
 			text: "Fill in the main information related to your request.",
 			details: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla qu\n",
 			seeMore: "More info",
+			errorRequiredFields:"All required fields must be filled in.",
+			errorAlreadyExists:"This partner already exists.",
+			errorDatabase:"Error while saving the partner",
 			Forms: {
 				email: {
 					placeholder: "Email",
@@ -354,18 +361,19 @@ export const en = {
 		links3: "Become a Member"
 	},
 	joinUs: {
-		title: "Join us",
+	title: "Join Us",
 		member: {
-			title: "Become a Member",
-			description: "Maecenas vel lorem imperdiet, scelerisque ipsum quis, tincidunt arcu. Vestibulum ut eros ut sem tincidunt finibus. t augue iaculis vitae nullam a bibendum elit.",
-			bottom: "Become a member",
-		},
-		partner: {
-			title: "Become a Partner",
-			description: "Maecenas vel lorem imperdiet, scelerisque ipsum quis, tincidunt arcu. Vestibulum ut eros ut sem tincidunt finibus. t augue iaculis vitae nullam a bibendum elit.",
-			bottom: "Become a partner",
-		}
+		title: "Become a Member",
+			description: "By becoming a member of the Regroupement, you are not only joining a community but a whole family where mutual support and solidarity are second nature.\nTake the leap now!",
+			bottom: "Become a Member"
 	},
+	partner: {
+		title: "Become a Partner",
+			description: "You can send us a formal request to collaborate on one of our projects that interests you, or propose a partnership on one of yours.",
+			description2: "Together, we will define the contributions on both sides and work hand in hand to reach our common goals!",
+			bottom: "Become a Partner"
+	}
+},
 	partnerIcon: {
 		title: "Our Partners",
 	},

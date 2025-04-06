@@ -19,7 +19,8 @@ export default class PostMembersPartners extends Controller {
                 birthday,
                 age,
                 message,
-                confirmationPaiements
+                confirmationPaiements,
+                lang
             } = req.body;
 
             // Vérification des champs obligatoires
@@ -49,6 +50,41 @@ export default class PostMembersPartners extends Controller {
                 confirmationPaiements,
             };
 
+            const selectedLang = ['fr', 'en'].includes(lang) ? lang : 'fr';
+
+            const translations = {
+                fr: {
+                    userSubject: "Confirmation formulaire membre",
+                    userContent: `
+                        <p>Nous avons bien reçu votre formulaire d'adhésion accompagné du paiement de cotisation annuelle de 20 dollars au nom du <strong>Regroupement des Haïtiens de la Capitale-Nationale (RHCN)</strong>.</p>
+                        <p>Nous vous remercions pour votre confiance et votre soutien. Votre adhésion est désormais activée et vous recevrez très bientôt de nos nouvelles.</p>
+                        <p>Entre-temps, si vous souhaitez vous joindre à l'une de nos commissions en préparation de nos nombreux projets à venir (logistique et suivi, communication, finances ou relations publiques), n'hésitez pas à nous le faire savoir.</p>
+                        <p>Encore une fois, merci de votre confiance et bienvenue dans la grande communauté du <strong>RHCN</strong> !</p>
+                        <br/>
+                        <p>Cordialement,</p>
+                        <p><strong>Le Regroupement des Haïtiens de la Capitale-Nationale (RHCN)</strong></p>
+                    `
+                },
+                en: {
+                    userSubject: "Membership form confirmation",
+                    userContent: `
+                        <p>We have received your membership form along with the $20 annual membership fee on behalf of the <strong>Regroupement des Haïtiens de la Capitale-Nationale (RHCN)</strong>.</p>
+                        <p>Thank you for your trust and support. Your membership is now active and you will hear from us soon.</p>
+                        <p>If you'd like to join one of our committees in preparation for our many upcoming projects (logistics and follow-up, communication, finance or public relations), feel free to let us know.</p>
+                        <p>Again, thank you and welcome to the big RHCN community!</p>
+                        <br/>
+                        <p>Best regards,</p>
+                        <p><strong>The Regroupement des Haïtiens de la Capitale-Nationale (RHCN)</strong></p>
+                    `
+                }
+            };
+
+            const userEmailSubject = translations[selectedLang].userSubject;
+            const userEmailContent = generateEmailTemplate(
+                firstName,
+                translations[selectedLang].userContent,
+                selectedLang);
+
             // Enregistrement dans la base de données
             const result = await db.collection("members_partners").insertOne(newMember);
 
@@ -56,31 +92,7 @@ export default class PostMembersPartners extends Controller {
                 return res.status(500).json({success: false, message: "Erreur lors de l'enregistrement du membre."});
             }
 
-            // Contenu de l'email pour l'utilisateur
-            // Email utilisateur
-            const userEmailSubject = "Confirmation formulaire membre";
-            const userEmailContent = generateEmailTemplate(
-                firstName,
-                `
-  <p>Nous avons bien reçu votre formulaire d'adhésion accompagné du paiement de cotisation annuelle de 20 dollars au nom du <strong>Regroupement des Haïtiens de la Capitale-Nationale (RHCN)</strong>.</p>
-
-  <p>Nous vous remercions pour votre confiance et votre soutien. Votre adhésion est désormais activée et vous recevrez très bientôt de nos nouvelles.</p>
-
-  <p>Entre-temps, si vous souhaitez vous joindre à l'une de nos commissions en préparation de nos nombreux projets à venir (logistique et suivi, communication, finances ou relations publiques), n'hésitez pas à nous le faire savoir.</p>
-
-  <p>Encore une fois, merci de votre confiance et bienvenue dans la grande communauté du <strong>RHCN</strong> !</p>
-
-  <br/>
-  <p>Cordialement,</p>
-  <p><strong>Le Regroupement des Haïtiens de la Capitale-Nationale (RHCN)</strong></p>
-  `
-            );
-            await sendNotificationEmail({
-                recipientEmail: email,
-                subject: userEmailSubject,
-                htmlContent: userEmailContent,
-            });
-            // Contenu de l'email pour l'administrateur
+            // Envoi de l'email à l'administrateur
             const adminEmailSubject = "Nouvelle inscription de membre partenaire";
             const adminEmailContent = `
   Bonjour,<br><br>

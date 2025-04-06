@@ -17,7 +17,8 @@ export default class PostBecomePartners extends Controller {
                 typeOfPartnership,
                 apport,
                 expentation,
-                documentUploader
+                documentUploader,
+                lang
             } = req.body;
 
             // Vérification des champs obligatoires
@@ -43,6 +44,37 @@ export default class PostBecomePartners extends Controller {
                 createdAt: new Date()
             };
 
+            const selectedLang = ['fr', 'en'].includes(lang) ? lang : 'fr';
+
+            const translations = {
+                fr: {
+                    userSubject: "E-mail de confirmation du formulaire d’adhésion",
+                    userContent: `
+                        <p>Nous avons bien reçu votre formulaire d'adhésion accompagné du paiement de cotisation annuelle 
+                        au nom du <strong>Regroupement des Haïtiens de la Capitale-Nationale (RHCN)</strong>.</p>
+
+                        <p>Nous vous remercions pour votre confiance et votre soutien.</p>
+
+                        <p><strong>Votre adhésion est désormais activée.</strong></p>
+
+                        <p>Nous vous remercions encore et vous souhaitons officiellement la bienvenue au sein de la grande communauté du RHCN !</p>
+                    `
+                },
+                en: {
+                    userSubject: "Membership application confirmation email",
+                    userContent: `
+                        <p>We have received your membership application form along with your annual membership fee
+                        on behalf of the <strong>Regroupement des Haïtiens de la Capitale-Nationale (RHCN)</strong>.</p>
+
+                        <p>We thank you for your trust and support.</p>
+
+                        <p><strong>Your membership is now active.</strong></p>
+
+                        <p>Thank you again, and welcome to the RHCN community!</p>
+                    `
+                }
+            };
+
             // Enregistrement dans la base de données
             const result = await db.collection("partners").insertOne(newPartner);
             if (!result.acknowledged) {
@@ -50,18 +82,11 @@ export default class PostBecomePartners extends Controller {
             }
 
             // --- Email confirmation utilisateur ---
-            const userEmailSubject = "E-mail de confirmation du formulaire d’adhésion";
-            const userEmailContent = generateEmailTemplate(name, `
-        <p>Nous avons bien reçu votre formulaire d'adhésion accompagné du paiement de cotisation annuelle 
-        au nom du <strong>Regroupement des Haïtiens de la Capitale-Nationale (RHCN)</strong>.</p>
-
-        <p>Nous vous remercions pour votre confiance et votre soutien.</p>
-
-        <p><strong>Votre adhésion est désormais activée.</strong></p>
-
-        <p>Nous vous remercions encore et vous souhaitons officiellement la bienvenue au sein de la grande communauté du RHCN !</p>
-      `);
-
+            const userEmailSubject = translations[selectedLang].userSubject;
+            const userEmailContent = generateEmailTemplate(
+                name,
+                translations[selectedLang].userContent,
+                selectedLang);
             // --- Email notification admin ---
             const adminEmailSubject = "Nouvelle demande de partenariat";
             const adminEmailContent = `

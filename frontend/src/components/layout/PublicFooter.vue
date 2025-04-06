@@ -110,7 +110,6 @@ const socialNetworks = [
     font-size: 24px;
 
     .Footer-icon {
-      width: 13vw;
       display: inline-flex;
       gap: 23px;
 

@@ -2,7 +2,7 @@
 import PageTitle from "@/components/ui/PageTitle.vue";
 import { useI18n } from "vue-i18n";
 import FieldInput from "@/components/forms/FieldInput.vue";
-import { ref } from "vue";
+import {ref, watch} from "vue";
 import FormPlus from "@/components/forms/FormPlus.vue";
 import FieldSelect from "@/components/forms/FieldSelect.vue";
 import DocumentUploader from "@/components/ui/DocumentUploader.vue";
@@ -14,6 +14,7 @@ import { IBecomePartner, loader } from "@shared/crudTypes";
 import { useApi } from "@/composition/api";
 
 const { t } = useI18n();
+const { locale } = useI18n();
 const { PostBecomePartners } = useApi();
 
 const partner = ref<IBecomePartner>({
@@ -24,6 +25,7 @@ const partner = ref<IBecomePartner>({
   apport: "",
   expentation: "",
   documentUploader: [],
+  lang: locale.value,
 });
 
 const notificationMessage = ref("");
@@ -56,8 +58,26 @@ const submitForm = async () => {
   try {
     await PostBecomePartners(partner.value);
     notificationMessage.value = t("partners.partnersInfos.successMessage");
-  } catch (error) {
-    globalErrorMessage.value = t("partners.partnersInfos.errorMessage");
+  } catch (error: any) {
+    const msg = error?.response?.data?.message;
+    if (msg) {
+      // traduction personnalisée si connue
+      switch (msg) {
+        case "Tous les champs obligatoires doivent être remplis.":
+          globalErrorMessage.value = t("partners.partnersInfos.errorRequiredFields");
+          break;
+        case "Ce partenaire existe déjà.":
+          globalErrorMessage.value = t("partners.partnersInfos.errorAlreadyExists");
+          break;
+        case "Erreur lors de l'enregistrement du partenaire.":
+          globalErrorMessage.value = t("partners.partnersInfos.errorDatabase");
+          break;
+        default:
+          globalErrorMessage.value = msg;
+      }
+    } else {
+      globalErrorMessage.value = t("partners.partnersInfos.errorMessage");
+    }
   } finally {
     isSubmitting.value = false;
   }
@@ -72,6 +92,10 @@ const handleFileUpload = (fileData: loader, uploaderName: string) => {
   }
   console.log(`Fichiers ajoutés :`, partner.value.documentUploader);
 };
+watch(locale, (newLocale) => {
+  partner.value.lang = newLocale;
+  console.log("Langue envoyée au backend :", partner.value.lang);
+});
 </script>
 
 <template>

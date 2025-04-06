@@ -17,7 +17,7 @@ import FieldCheckbox from "@/components/forms/FieldCheckbox.vue";
 
 const { t } = useI18n();
 const { PostMembersPartners } = useApi();
-
+const { locale } = useI18n();
 // Initialisation des données du membre
 const member = ref<IMembersPartner>({
   firstName: "",
@@ -29,38 +29,49 @@ const member = ref<IMembersPartner>({
   age: 0,
   message: "",
   confirmationPaiements: confirmationPaiementsStatus.accepted,
+  lang: locale.value,
 });
 
 const notificationMessage = ref("");
 const globalErrorMessage = ref("");
-
+const isSubmitting = ref(false);
 // Gestionnaire pour mettre à jour la date et la stocker correctement dans le membre
 const onDateChange = (newDate: any) => {
   member.value.birthday = newDate;
 };
 
 const submitMember = async () => {
+  isSubmitting.value = true;
   try {
-    const response = await PostMembersPartners(member.value);
-    if (response) {
-      notificationMessage.value = t("partners.membersInfos.successMessage");
-      globalErrorMessage.value = "";
-    } else {
-      globalErrorMessage.value = t("partners.membersInfos.errorMessage");
-    }
+      await PostMembersPartners(member.value);
+    notificationMessage.value = t("partners.membersInfos.successMessage");
+
   } catch (error: any) {
     console.error("Erreur lors de l'envoi des données :", error);
-
-    // 🔥 On récupère le message renvoyé par le back s'il existe
-    if (error.response?.data?.message) {
-      globalErrorMessage.value = error.response.data.message;
+    const msg = error?.response?.data?.message;
+    if (msg) {
+      // traduction personnalisée si connue
+      switch (msg) {
+        case "Tous les champs obligatoires doivent être remplis.":
+          globalErrorMessage.value = t("partners.partnersInfos.errorRequiredFields");
+          break;
+        case "Ce partenaire existe déjà.":
+          globalErrorMessage.value = t("partners.partnersInfos.errorAlreadyExists");
+          break;
+        case "Erreur lors de l'enregistrement du partenaire.":
+          globalErrorMessage.value = t("partners.partnersInfos.errorDatabase");
+          break;
+        default:
+          globalErrorMessage.value = msg;
+      }
     } else {
-      globalErrorMessage.value = t("partners.membersInfos.errorMessage");
+      globalErrorMessage.value = t("partners.partnersInfos.errorMessage");
     }
-
-    notificationMessage.value = "";
+  } finally {
+    isSubmitting.value = false;
   }
 };
+
 </script>
 
 <template>

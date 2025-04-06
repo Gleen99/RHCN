@@ -217,6 +217,7 @@ export interface IMembersPartner {
 	age:number,
 	message:string,
 	confirmationPaiements: confirmationPaiementsStatus,
+	lang: string,
 }
 export  interface  IMembersPartnerDB extends IMembersPartner , DB {}
 export interface loader {
@@ -234,6 +235,7 @@ export interface IBecomePartner {
 	apport: string,
 	expentation: string,
 	documentUploader:loader[]
+	lang: string,
 }
 export interface IBecomePartnerDB extends IBecomePartner, DB {}
 

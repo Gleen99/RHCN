@@ -16,6 +16,7 @@ const { t } = useI18n();
 
 const notificationMessage = ref('');
 const globalErrorMessage = ref('');
+const { locale } = useI18n();
 
 interface ErrorMessages {
     lastname?: string;
@@ -23,6 +24,7 @@ interface ErrorMessages {
     email?: string;
     number?: string;
     message?: string;
+
 }
 
 const errors = ref<ErrorMessages>({});
@@ -34,6 +36,7 @@ const contact = ref<any>({
     email: "",
     number: "",
     message: "",
+    lang: locale.value,
 });
 
 function isValidEmail(email: string) {

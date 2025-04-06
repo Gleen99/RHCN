@@ -3,6 +3,16 @@ import IFacebook from '../images/IFacebook.vue';
 import IInstagram from '../images/IInstagram.vue';
 import ILinkedlin from '../images/ILinkedlin.vue';
 import ITwitter from '../images/ITwitter.vue';
+import {useI18n} from "vue-i18n";
+const {t} = useI18n();
+
+const socialNetworks = [
+  {key: "facebook", url: t('footer.socialNetwork.facebook'), component: IFacebook},
+  {key: "twitter", url: t('footer.socialNetwork.twitter'), component: ITwitter},
+  {key: "instagram", url: t('footer.socialNetwork.instagram'), component: ILinkedlin},
+  {key: "linkedin", url: t('footer.socialNetwork.linkedin'), component: IInstagram}
+];
+
 </script>
 
 <template>
@@ -19,11 +29,7 @@ import ITwitter from '../images/ITwitter.vue';
     <div class="RSLink">
       <div class="title">Retrouvez-nous sur les réseaux sociaux :</div>
       <div class="Icon">
-        <ITwitter class="toggle-icon" />
-        <ILinkedlin class="toggle-icon" />
-        <IInstagram class="toggle-icon" />
-        <IFacebook class="toggle-icon" />
-
+        <a v-for="network  in socialNetworks" :key="network.key" :href="network.url" class="toggle-icon"><component :is="network.component"/></a>
       </div>
     </div>
   </div>
@@ -58,6 +64,10 @@ import ITwitter from '../images/ITwitter.vue';
       flex-shrink: 0;
       cursor: pointer;
       transition: transform 0.3s;
+       svg {
+        width: 100%;
+        height: 100%;
+      }
 
       &:hover {
         transform: scale(1.1);

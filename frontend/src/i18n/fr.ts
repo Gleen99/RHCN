@@ -275,6 +275,9 @@ export const fr = {
 			text: "Renseignez les informations principales relatives à votre demande.",
 			details: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla qu\n",
 			seeMore: "Plus d'infos",
+			errorRequiredFields:"Tous les champs obligatoires doivent être remplis.",
+			errorAlreadyExists:"Ce partenaire existe déjà.",
+			errorDatabase:"Erreur lors de l'enregistrement du partenaire.",
 			Forms: {
 				email:{
 					placeholder: "E-mail",

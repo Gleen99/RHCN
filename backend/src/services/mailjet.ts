@@ -50,7 +50,28 @@ export const sendNotificationEmail = async (options: EmailOptions): Promise<void
 };
 
 // Fonction pour générer un email avec un header et un footer design
-export const generateEmailTemplate = (name: string, message: string): string => {
+export const generateEmailTemplate = (name: string, message: string, lang: 'fr' | 'en' = 'fr'): string => {
+  const translations = {
+    fr: {
+      greeting: "Bonjour",
+      questions: "Si vous avez des questions, n'hésitez pas à nous contacter.",
+      team: "L'équipe RHCN",
+      rights: "© 2024 Mon Entreprise. Tous droits réservés.",
+      unsubscribe: "Se désinscrire",
+      privacy: "Politique de confidentialité",
+    },
+    en: {
+      greeting: "Hello",
+      questions: "If you have any questions, feel free to contact us.",
+      team: "The RHCN Team",
+      rights: "© 2024 My Company. All rights reserved.",
+      unsubscribe: "Unsubscribe",
+      privacy: "Privacy Policy",
+    }
+  };
+
+  const t = translations[lang];
+
   return `
   <!DOCTYPE html>
   <html>
@@ -129,34 +150,28 @@ export const generateEmailTemplate = (name: string, message: string): string => 
     </style>
   </head>
   <body>
-
     <div class="container">
       <div class="header">
          <img class="logo" src="${_frontUrl}/Logo.jpeg" alt="rhcn"/>
       </div>
 
       <div class="content">
-        <p>Bonjour <span class="important">${name}</span>,</p>
+        <p>${t.greeting} <span class="important">${name}</span>,</p>
         <p>${message}</p>
-        <p>Si vous avez des questions, n'hésitez pas à nous contacter.
-        <br/>
-        <span class="important">L'équipe RHCN</span></p>
-        
+        <p>${t.questions}<br/><span class="important">${t.team}</span></p>
       </div>
 
       <div class="footer">
-        <p>© 2024 Mon Entreprise. Tous droits réservés.</p>
+        <p>${t.rights}</p>
         <div class="social-icons">
           <a href="https://facebook.com"><img src="https://img.icons8.com/ios-filled/50/ffffff/facebook.png" alt="Facebook"></a>
           <a href="https://twitter.com"><img src="https://img.icons8.com/ios-filled/50/ffffff/twitter.png" alt="Twitter"></a>
           <a href="https://linkedin.com"><img src="https://img.icons8.com/ios-filled/50/ffffff/linkedin.png" alt="LinkedIn"></a>
         </div>
-        <p><a href="#">Se désinscrire</a> | <a href="#">Politique de confidentialité</a></p>
+        <p><a href="#">${t.unsubscribe}</a> | <a href="#">${t.privacy}</a></p>
       </div>
     </div>
-
   </body>
   </html>
   `;
 };
-
